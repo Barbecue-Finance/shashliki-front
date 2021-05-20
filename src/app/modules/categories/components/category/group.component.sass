@@ -3,6 +3,7 @@
 $stripe-length: 300px
 
 .category-container
+  position: relative
   box-sizing: border-box
   overflow-y: hidden
   overflow-x: hidden
@@ -248,6 +249,20 @@ $stripe-length: 300px
 
         .money-amount
           font-weight: 100
+
+
+.report-layer
+  position: absolute
+  top: 0
+  left: 0
+  width: 500px
+  height: 100%
+  transition: 1s
+  background-image: url("/assets/images/bg.jpeg")
+  background-size: cover
+
+.hide-top
+  top: -110%
 
 
 

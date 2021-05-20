@@ -10,6 +10,8 @@ import {Router} from "@angular/router";
 })
 export class GroupComponent implements OnInit {
 
+  isHidden = true
+
   group: IGroup
 
   constructor(
@@ -80,4 +82,12 @@ export class GroupComponent implements OnInit {
   // calcExpenses(): number {
 
   // }
+
+  openReport(): void {
+    this.isHidden = false
+  }
+
+  hideReport(): void {
+    this.isHidden = true
+  }
 }

@@ -1,11 +1,11 @@
 <div class="container">
-  <app-header></app-header>
+  <app-header (HideReport)="hideReport()"></app-header>
 
   <div class="category-container">
     <div class="left-side">
       <app-calendar></app-calendar>
       <div class="report-btn-wrapper">
-        <div class="report-btn">
+        <div class="report-btn" (click)="openReport()">
           <p>Отчёт</p>
         </div>
       </div>
@@ -66,6 +66,11 @@
 
 
       </div>
+    </div>
+
+
+    <div class="report-layer" [class.hide-top]="isHidden">
+      <!--      <app-report></app-report>-->
     </div>
   </div>
 </div>
