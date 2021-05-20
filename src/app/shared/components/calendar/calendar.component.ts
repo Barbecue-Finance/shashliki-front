@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, Output, EventEmitter} from '@angular/core';
 import {CalendarService} from "../../services/calendar.service";
 
 @Component({
@@ -7,6 +7,8 @@ import {CalendarService} from "../../services/calendar.service";
   styleUrls: ['./calendar.component.sass']
 })
 export class CalendarComponent implements OnInit {
+
+  @Output() changeDate = new EventEmitter<void>();
 
   // @ts-ignore
   private _calendarDOM: HTMLElement;
@@ -56,6 +58,7 @@ export class CalendarComponent implements OnInit {
       let dom = document.querySelector('#calendar')
       // @ts-ignore
       dom.innerHTML = this.moveMonth(elem)
+      this.changeDate.next()
     }
   }
 
@@ -80,8 +83,8 @@ export class CalendarComponent implements OnInit {
 
     if (!isNaN(value) && value !== 0) {
       this.selectNewActiveDate(elem)
+      this.changeDate.next()
     }
-
   }
 
   selectNewActiveDate(elem: HTMLTableDataCellElement): void {

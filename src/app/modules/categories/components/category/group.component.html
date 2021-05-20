@@ -3,7 +3,7 @@
 
   <div class="category-container">
     <div class="left-side">
-      <app-calendar></app-calendar>
+      <app-calendar (changeDate)="loadCalendarString()"></app-calendar>
       <div class="report-btn-wrapper">
         <div class="report-btn" (click)="openReport()">
           <p>Отчёт</p>
@@ -13,7 +13,8 @@
     <div class="right-side">
       <div class="inner-right-side">
         <div class="date">
-          <p>20.05.2021</p>
+          <p>{{ calendar }}</p>
+          <!--          <p>20.05.2021</p>-->
         </div>
         <div class="title">
           <p>{{ this.group.title }}</p>
@@ -70,7 +71,7 @@
 
 
     <div class="report-layer" [class.hide-top]="isHidden">
-      <!--      <app-report></app-report>-->
+      <app-report [openReport]="openedReport.asObservable()" [closeReport]="closedReport.asObservable()"></app-report>
     </div>
   </div>
 </div>

@@ -1,7 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {IGroup} from "../../../../shared/interfaces/group.interface";
 import {GroupService} from "../../services/group.service";
 import {Router} from "@angular/router";
+import {Observable, Subject, Subscription} from "rxjs";
+import {CalendarService} from "../../../../shared/services/calendar.service";
 
 @Component({
   selector: 'app-category',
@@ -10,12 +12,18 @@ import {Router} from "@angular/router";
 })
 export class GroupComponent implements OnInit {
 
+  private calendarString: string
+
   isHidden = true
 
   group: IGroup
 
+  openedReport: Subject<void> = new Subject<void>()
+  closedReport: Subject<void> = new Subject<void>()
+
   constructor(
     private _groupsService: GroupService,
+    private _calendarService: CalendarService,
     private _router: Router
   ) {
     this.group = {
@@ -23,6 +31,7 @@ export class GroupComponent implements OnInit {
       title: '',
       users: []
     }
+    this.calendarString = ''
   }
 
 
@@ -61,33 +70,24 @@ export class GroupComponent implements OnInit {
     return `${this.group.users.length} ${word}`
   }
 
-  //TODO finish generation
-
-  // getExpensesString(): string {
-  //   let sum = calcExpenses();
-  //   let res = ''
-  //
-  //   //,00
-  //   if (sum !== Math.round(sum)) {
-  //     sum *= 100
-  //     Math.round(sum)
-  //
-  //     sum = ~~sum
-  //
-  //     res.concat((sum % 100) + '')
-  //     sum /= 100
-  //   }
-  // }
-
-  // calcExpenses(): number {
-
-  // }
-
   openReport(): void {
     this.isHidden = false
+    this.openedReport.next()
   }
 
   hideReport(): void {
     this.isHidden = true
+    this.closedReport.next()
+  }
+
+  get calendar(): string {
+    return this.calendarString
+  }
+  set calendar(newString) {
+    this.calendarString = newString
+  }
+
+  loadCalendarString(): void {
+    this.calendarString = this._calendarService.generatePointDate()
   }
 }

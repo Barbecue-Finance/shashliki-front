@@ -84,6 +84,22 @@ export class CalendarService {
   constructor() {
   }
 
+  get calendar(): ICalendar {
+    return this._calendar
+  }
+
+  get todayDate(): number {
+    return this._calendar.date
+  }
+
+  get todayMonth(): number {
+    return this._calendar.month
+  }
+
+  get todayYear(): number {
+    return this._calendar.year
+  }
+
   /**
    * This function will return calendar detail.
    *
@@ -587,6 +603,11 @@ export class CalendarService {
       return this.drawCalendar()
     }
 
+    return ''
+  }
+
+  generatePointDate(): string {
+    console.dir(this._calendar)
     return ''
   }
 }

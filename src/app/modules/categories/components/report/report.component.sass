@@ -1,20 +1,35 @@
 @import 'variables'
 
 .report-container
-  margin-top: 2rem
-  width: 400px
+  //margin-top: 2rem
+  width: 100%
   height: 100%
   display: flex
   flex-direction: row
   flex-wrap: wrap
   justify-content: space-evenly
   align-items: stretch
+  position: relative
+
+  .shader
+    background-color: rgba(0, 0, 0, .2)
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+
+  .selected-month
+    opacity: 1 !important
 
   .month-wrapper
     display: flex
     flex-direction: column
     justify-content: space-evenly
+    padding: .5rem
     align-items: center
+    opacity: .5
+    cursor: pointer
 
     .square
       width: 80px
@@ -24,13 +39,14 @@
 
       .expenses-part
         height: 50%
-        color: $expenses
+        background-color: $expenses
 
       .incomes-part
         height: 50%
-        color: $incomes
+        background-color: $incomes
 
     .month-title
       font-size: 28px
       font-weight: 100
       font-family: Roboto, sans-serif
+      color: $frame-white
