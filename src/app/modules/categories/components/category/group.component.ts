@@ -59,6 +59,8 @@ export class GroupComponent implements OnInit {
     return `${this.group.users.length} ${word}`
   }
 
+  //TODO finish generation
+
   // getExpensesString(): string {
   //   let sum = calcExpenses();
   //   let res = ''
