@@ -1,16 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import { IGroup } from "../../../../shared/interfaces/group.interface";
-import { GroupService } from "../../services/group.service";
-import { Router } from "@angular/router";
-import { PurseService } from 'src/app/shared/services/purse.service';
-import { IncomeOutcome } from 'src/app/shared/interfaces/income-outcome.interface';
-import { MoneyOperationService } from 'src/app/shared/services/money-operation.service';
-import { IncomeOperationCategoryService } from 'src/app/shared/services/income-operation-category.service';
-import { Purse } from 'src/app/shared/interfaces/purse.interface';
-import { OutComeOperationCategory } from 'src/app/shared/interfaces/operation-categories/outcome-operation-category.interface';
-import { IncomeOperationCategory } from 'src/app/shared/interfaces/operation-categories/income-operation-category.interface';
-import { CalendarService } from 'src/app/shared/services/calendar.service';
-import { Subject } from 'rxjs';
+import {Component, OnInit} from '@angular/core';
+import {IGroup} from "../../../../shared/interfaces/group.interface";
+import {GroupService} from "../../services/group.service";
+import {Router} from "@angular/router";
+import {PurseService} from 'src/app/shared/services/purse.service';
+import {IncomeOutcome} from 'src/app/shared/interfaces/income-outcome.interface';
+import {MoneyOperationService} from 'src/app/shared/services/money-operation.service';
+import {IncomeOperationCategoryService} from 'src/app/shared/services/income-operation-category.service';
+import {Purse} from 'src/app/shared/interfaces/purse.interface';
+import {OutComeOperationCategory} from 'src/app/shared/interfaces/operation-categories/outcome-operation-category.interface';
+import {IncomeOperationCategory} from 'src/app/shared/interfaces/operation-categories/income-operation-category.interface';
+import {CalendarService} from 'src/app/shared/services/calendar.service';
+import {Subject} from 'rxjs';
 
 @Component({
   selector: 'app-category',
@@ -18,7 +18,7 @@ import { Subject } from 'rxjs';
   styleUrls: ['./group.component.sass']
 })
 export class GroupComponent implements OnInit {
-  
+
   private calendarString: string
 
   isHidden = true
@@ -28,7 +28,7 @@ export class GroupComponent implements OnInit {
   openedReport: Subject<void> = new Subject<void>()
   closedReport: Subject<void> = new Subject<void>()
 
-  incomeOutcome: IncomeOutcome = { incoming: [], outComing: [] }
+  incomeOutcome: IncomeOutcome = {incoming: [], outComing: []}
   purse: Purse = {
     id: 0,
     amount: 0,
@@ -40,7 +40,7 @@ export class GroupComponent implements OnInit {
   finalOutcome: number = 0
   finalIncome: number = 0
   finalAmount: number = 0
-  
+
   constructor(
     private _groupsService: GroupService,
     private _purseService: PurseService,
@@ -68,12 +68,10 @@ export class GroupComponent implements OnInit {
         this.group = group
         this._purseService.getByGroup(this.group.id).subscribe(p => {
 
-          console.log(p)
-
           this.purse = p
           this.incomeCategories = p.incomeOperationCategories
           this.outComeCategories = p.outComeOperationCategories
-          
+
           this.finalAmount = p.amount
           this._moneyOperationService.getByPurse(p.id).subscribe(io => {
             this.incomeOutcome = io
@@ -82,6 +80,8 @@ export class GroupComponent implements OnInit {
           })
         })
       })
+
+    this.loadCalendarString()
   }
 
   getMembersString(): string {
@@ -109,18 +109,14 @@ export class GroupComponent implements OnInit {
   }
 
   getTotalIncomeByCategory(id: number): number {
-    console.log(`getTotalIncomeByCategory(${id})`);
-    let income = this.incomeOutcome.incoming.length > 0 ? this.incomeOutcome.incoming.filter(i => i.incomeOperationCategoryId == id).map(c => c.amount).reduce((total, current) => total + current, 0) : 0
-    return income
+    return this.incomeOutcome.incoming.length > 0 ? this.incomeOutcome.incoming.filter(i => i.incomeOperationCategoryId == id).map(c => c.amount).reduce((total, current) => total + current, 0) : 0
   }
 
   getTotalExpenseByCategory(id: number): number {
-    console.log(`getTotalExpenseByCategory(${id})`);
-    
-    let outcome = this.incomeOutcome.outComing.length > 0 ? this.incomeOutcome.outComing.filter(i => i.outComeOperationCategoryId == id).map(c => c.amount).reduce((total, current) => total + current, 0) : 0
-    return outcome
-  }  
-  
+
+    return this.incomeOutcome.outComing.length > 0 ? this.incomeOutcome.outComing.filter(i => i.outComeOperationCategoryId == id).map(c => c.amount).reduce((total, current) => total + current, 0) : 0
+  }
+
   openReport(): void {
     this.isHidden = false
     this.openedReport.next()
@@ -134,11 +130,13 @@ export class GroupComponent implements OnInit {
   get calendar(): string {
     return this.calendarString
   }
+
   set calendar(newString) {
     this.calendarString = newString
   }
 
   loadCalendarString(): void {
     this.calendarString = this._calendarService.generatePointDate()
+    console.log(this.calendarString)
   }
 }

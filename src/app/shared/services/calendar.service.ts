@@ -161,7 +161,6 @@ export class CalendarService {
     this._calendar.firstDayFullName = this.dayNameRu.full[idx];
 
     idx = this.monthNameEn.mmm.indexOf(dateString[1]);
-    console.log(dateString[1])
     this._calendar.monthIndex = idx;
     this._calendar.monthName = dateString[1];
     this._calendar.monthFullName = this.monthNameRu.full[idx];
@@ -232,11 +231,9 @@ export class CalendarService {
     let status: boolean;
 
     //get calendar HTML
-    console.log(this.options.type)
     switch (this.options.type) {
       case "day":
         //get calendar detail
-        console.log('Over loadCalendar', this.options.year)
         status = this.loadCalendar(this.options.year, this.options.month, this.options.date);
 
         //get calendar html
@@ -339,7 +336,6 @@ export class CalendarService {
    */
   drawCalendarMonth(): HTMLDivElement {
 
-    console.log('here')
 
     //get table
     let table: HTMLTableElement = this.createMonthTable();
@@ -372,8 +368,6 @@ export class CalendarService {
     //month span
     elem = document.createElement("span");
     elem.setAttribute("class", "calendar-span-month-year");
-    console.log('Month:', this._calendar.monthFullName)
-    console.log('Year:', this._calendar.year)
     if (this.options.monthFormat === "mmm") {
       elem.innerHTML = this._calendar.monthName.concat(' ', this._calendar.year + ' ');
     } else if (this.options.monthFormat === "full") {
@@ -410,7 +404,6 @@ export class CalendarService {
     container.appendChild(div);
 
     //return container
-    console.log(container)
     return container;
   }
 
@@ -607,8 +600,22 @@ export class CalendarService {
   }
 
   generatePointDate(): string {
-    console.dir(this._calendar)
-    return ''
+    let str: string
+
+    str = this._calendar.date < 10 ? `0${this._calendar.date}.` : this._calendar.date + '.'
+
+
+    if (this._calendar.month + 1 < 10) {
+      str.concat('0')
+    }
+    str.concat((this._calendar.month + 1) + '')
+
+    str.concat('.')
+
+    str.concat(this._calendar.year + '')
+
+    console.log(str)
+    return str
   }
 }
 
