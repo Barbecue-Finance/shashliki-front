@@ -9,6 +9,8 @@ import { IncomeOperationCategoryService } from 'src/app/shared/services/income-o
 import { Purse } from 'src/app/shared/interfaces/purse.interface';
 import { OutComeOperationCategory } from 'src/app/shared/interfaces/operation-categories/outcome-operation-category.interface';
 import { IncomeOperationCategory } from 'src/app/shared/interfaces/operation-categories/income-operation-category.interface';
+import { CalendarService } from 'src/app/shared/services/calendar.service';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-category',
@@ -16,8 +18,15 @@ import { IncomeOperationCategory } from 'src/app/shared/interfaces/operation-cat
   styleUrls: ['./group.component.sass']
 })
 export class GroupComponent implements OnInit {
+  
+  private calendarString: string
+
+  isHidden = true
 
   group: IGroup
+
+  openedReport: Subject<void> = new Subject<void>()
+  closedReport: Subject<void> = new Subject<void>()
 
   incomeOutcome: IncomeOutcome = { incoming: [], outComing: [] }
   purse: Purse = {
@@ -31,11 +40,12 @@ export class GroupComponent implements OnInit {
   finalOutcome: number = 0
   finalIncome: number = 0
   finalAmount: number = 0
-
+  
   constructor(
     private _groupsService: GroupService,
     private _purseService: PurseService,
     private _moneyOperationService: MoneyOperationService,
+    private _calendarService: CalendarService,
     private _operationCategoryService: IncomeOperationCategoryService,
     private _router: Router
   ) {
@@ -44,6 +54,7 @@ export class GroupComponent implements OnInit {
       title: '',
       users: []
     }
+    this.calendarString = ''
   }
 
 
@@ -108,5 +119,26 @@ export class GroupComponent implements OnInit {
     
     let outcome = this.incomeOutcome.outComing.length > 0 ? this.incomeOutcome.outComing.filter(i => i.outComeOperationCategoryId == id).map(c => c.amount).reduce((total, current) => total + current, 0) : 0
     return outcome
+  }  
+  
+  openReport(): void {
+    this.isHidden = false
+    this.openedReport.next()
+  }
+
+  hideReport(): void {
+    this.isHidden = true
+    this.closedReport.next()
+  }
+
+  get calendar(): string {
+    return this.calendarString
+  }
+  set calendar(newString) {
+    this.calendarString = newString
+  }
+
+  loadCalendarString(): void {
+    this.calendarString = this._calendarService.generatePointDate()
   }
 }
