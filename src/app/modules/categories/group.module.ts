@@ -8,6 +8,8 @@ import {GroupComponent} from './components/group/group.component';
 import {ReportComponent} from './components/report/report.component';
 import { PurseService } from 'src/app/shared/services/purse.service';
 import { MoneyOperationService } from 'src/app/shared/services/money-operation.service';
+import { IncomeOperationCategoryService } from 'src/app/shared/services/income-operation-category.service';
+import { OutComeOperationCategoryService } from 'src/app/shared/services/outcome-operation-category.service';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,9 @@ import { MoneyOperationService } from 'src/app/shared/services/money-operation.s
   providers: [
     GroupService, 
     PurseService,
-    MoneyOperationService
+    MoneyOperationService,
+    IncomeOperationCategoryService,
+    OutComeOperationCategoryService,
   ]
 })
 export class GroupModule {
