@@ -1,0 +1,56 @@
+@import "variables"
+
+.container
+  width: 100%
+  position: absolute
+  top: 0
+  left: 0
+  height: $header-height
+  border-bottom: 2px solid $frame-white
+  display: flex
+  justify-content: space-between
+  align-items: center
+  padding-left: 1rem
+  z-index: 15
+
+  div
+    height: 100%
+
+  .back
+    cursor: pointer
+    width: 50px
+    min-height: 40px
+    height: 8vh
+    background-image: url('/assets/icons/back-icon.svg')
+    transform: rotateZ(90deg)
+    background-repeat: no-repeat
+    background-size: contain
+    transition: 400ms
+
+    &:hover
+      transform: rotateZ(0)
+
+  .right
+    width: 55%
+    display: flex
+    align-items: center
+    justify-content: space-evenly
+
+    p
+      font-size: 36px
+      font-weight: lighter
+      margin: 0
+      color: $unhovered-white
+      transition: 0.5s
+
+    .categories, .profile
+      display: flex
+      justify-content: center
+      align-items: center
+
+      &:hover
+        cursor: pointer
+
+        p
+          color: $frame-white
+          text-decoration: underline

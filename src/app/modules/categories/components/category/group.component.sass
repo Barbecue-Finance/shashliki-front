@@ -1,0 +1,255 @@
+@import "variables"
+
+$stripe-length: 300px
+
+.category-container
+  box-sizing: border-box
+  overflow-y: hidden
+  overflow-x: hidden
+  padding: 0 0 2rem 2rem
+  width: 100vw
+  margin-top: $header-height
+  height: $body-height
+  display: flex
+  justify-content: space-between
+  align-items: flex-start
+  flex-wrap: wrap
+  white-space: normal
+
+  p
+    font-family: 'Roboto', sans-serif
+    margin: 0
+
+  .left-side
+    margin-top: 2rem
+    width: 400px
+    height: 100%
+
+    .report-btn-wrapper
+      width: 100%
+      min-height: 64px
+      display: flex
+      justify-content: center
+      align-items: center
+
+      .report-btn
+        margin-top: 1.5rem
+        width: 70%
+        border: $white-outline
+        display: flex
+        justify-content: center
+        align-items: center
+        border-radius: 55px
+        background-color: rgba(255, 255, 255, .1)
+        backdrop-filter: blur(55px)
+
+        p
+          margin: 0
+          font-family: 'Roboto', sans-serif
+          font-weight: 300
+          font-size: 38px
+          letter-spacing: 3px
+          color: $frame-white
+          text-align: center
+
+
+  .right-side
+    width: 55%
+    height: 100%
+    overflow-y: scroll
+    display: flex
+    justify-content: flex-end
+
+    .inner-right-side
+      margin-top: 2rem
+      padding-right: 2rem
+      width: 90%
+      display: flex
+      flex-direction: column
+      justify-content: flex-start
+      align-items: flex-end
+
+      .date
+        display: flex
+        align-items: center
+        justify-content: center
+
+        p
+          margin: 0
+          font-size: 28px
+          font-family: 'Roboto', sans-serif
+          font-weight: 100
+          color: $unhovered-white
+
+      .title
+        margin-top: 2rem
+        display: flex
+        align-items: center
+        justify-content: center
+
+        p
+          margin: 0
+          font-size: 36px
+          font-family: 'Roboto', sans-serif
+          font-weight: 300
+          color: $frame-white
+
+      .members
+        display: flex
+        justify-content: center
+        align-items: center
+
+        p
+          margin: 0
+          font-family: 'Roboto', sans-serif
+          font-weight: 300
+          color: $unhovered-white
+          text-decoration: underline
+          cursor: pointer
+
+          &:hover
+            color: $frame-white
+
+
+      .expenses, .incomes
+        margin-top: 1.5rem
+        width: 100%
+        display: flex
+        flex-direction: column
+        justify-content: flex-start
+        align-items: flex-end
+
+        .info-container
+          display: flex
+          flex-direction: row
+          justify-content: flex-end
+          align-items: center
+          padding: .5em
+          border-bottom: $white-outline
+          width: $stripe-length
+          margin-bottom: 1em
+
+          .icon-plus
+            margin-right: .5em
+            cursor: pointer
+            height: 24px
+            width: 24px
+            background-image: url('/assets/icons/add-icon.svg')
+            background-repeat: no-repeat
+            background-size: cover
+            transition: .3s
+
+            &:hover
+              transform: rotateZ(180deg)
+
+          .word
+            font-size: 24px
+            font-weight: 100
+            color: $frame-white
+            margin-right: .5em
+
+          .number
+            font-size: 24px
+            font-weight: 100
+
+
+        .icons-container
+          margin-left: 1em
+          display: flex
+          flex-direction: row
+          justify-content: flex-end
+          align-items: center
+          flex-wrap: wrap
+
+          .icon
+            display: flex
+            flex-direction: column
+            justify-content: center
+            align-items: center
+            min-height: 110px
+            width: 80px
+            cursor: pointer
+            //border: 0 solid $expenses
+
+            transition: .5s
+            border-radius: 14px
+
+            &:hover
+              backdrop-filter: blur(55px)
+            //border: 1px solid $expenses
+
+            .circle
+              border-radius: 50%
+              width: 65px
+              height: 65px
+              display: flex
+              justify-content: center
+              align-items: center
+
+              .letters
+                font-size: 24px
+                font-weight: 100
+
+        .category, .money-amount
+          font-size: 18px
+          font-weight: 100
+
+        .category
+          color: $frame-white
+
+
+      .expenses
+        .icon:hover
+          background-color: $expenses-shadow
+
+        .number
+          color: $expenses
+
+        .circle
+          border: 2px solid $expenses
+
+        .letters
+          color: $expenses
+
+        .money-amount
+          color: $expenses
+
+      .incomes
+        .icon:hover
+          background-color: $incomes-shadow
+
+        .number
+          color: $incomes
+
+        .circle
+          border: 2px solid $incomes
+
+        .letters
+          color: $incomes
+
+        .money-amount
+          color: $incomes
+
+      .sum
+        display: flex
+        flex-direction: row
+        justify-content: flex-end
+        align-items: center
+        padding: .5em
+        border-top: $white-outline
+        width: $stripe-length
+        margin-top: 1em
+        font-size: 24px
+        color: $frame-white
+
+        .so
+          font-weight: 300
+          margin-right: .5em
+
+        .money-amount
+          font-weight: 100
+
+
+
+
+

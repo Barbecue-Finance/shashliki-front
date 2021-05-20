@@ -1,0 +1,70 @@
+<div class="container">
+  <app-header></app-header>
+
+  <div class="category-container">
+    <div class="left-side">
+      <app-calendar></app-calendar>
+      <div class="report-btn-wrapper">
+        <div class="report-btn">
+          <p>Отчёт</p>
+        </div>
+      </div>
+    </div>
+    <div class="right-side">
+      <div class="inner-right-side">
+        <div class="date">
+          <p>20.05.2021</p>
+        </div>
+        <div class="title">
+          <p>{{ this.group.title }}</p>
+        </div>
+        <div class="members">
+          <p>{{ getMembersString() }}</p>
+        </div>
+        <div class="expenses">
+          <div class="info-container">
+            <div class="icon-plus"></div>
+            <p class="word">Расходы</p>
+            <p class="number">23 000,99</p>
+<!--            <p class="number">{{ getExpensesString() }}</p>-->
+          </div>
+          <div class="icons-container">
+            <div class="icon">
+              <div class="circle">
+                <p class="letters">Пи</p>
+              </div>
+              <p class="category">Пицца</p>
+              <p class="money-amount">2 400,00</p>
+            </div>
+          </div>
+        </div>
+        <div class="incomes">
+          <div class="info-container">
+            <div class="icon-plus"></div>
+            <p class="word">Доходы</p>
+            <p class="number">23 000,00</p>
+<!--            <p class="number">{{ getIncomesString() }}</p>-->
+          </div>
+          <div class="icons-container">
+            <div class="icon">
+              <div class="circle">
+                <p class="letters">Ма</p>
+              </div>
+              <p class="category">Майнинг</p>
+              <p class="money-amount">28 000,00</p>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="sum">
+          <p class="so">Итого:</p>
+          <p class="money-amount">23 000,00</p>
+<!--          <p class="money-amount">{{ getSumString() }}</p>-->
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,68 @@
+#calendar {
+  width: 100%;
+  padding: 20px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+}
+
+#calendar table {
+  width: 100%;
+  margin-top: 40px;
+  border-spacing: 5px;
+}
+
+#calendar table tr:nth-child(1) td {
+  cursor: default;
+  background-color: #fff;
+  color: #111;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+#calendar table td {
+  color: #FFFFFF;
+  text-align: center;
+  padding: 5px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+#calendar .calendar-prev-next-btn {
+  background-color: #fff;
+  color: #111;
+  width: 44px;
+  height: 38px;
+  /*right: 4px;*/
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+#calendar .prev-btn {
+  left: 4px;
+}
+
+#calendar .next-btn {
+  right: 4px;
+}
+
+#calendar .calendar-span-month-year {
+  color: #FFFFFF;
+  font-size: 1.5em;
+  font-weight: 500;
+}
+
+#calendar .calendar-target-date {
+  background-color: #fff;
+  color: #111;
+  border-radius: 2px;
+}
