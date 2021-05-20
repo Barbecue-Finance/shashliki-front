@@ -1,9 +1,10 @@
-import {HttpClient} from '@angular/common/http';
-import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {MatSnackBar} from '@angular/material/snack-bar';
-import {Router} from '@angular/router';
-import {AccountService} from 'src/app/shared/services/account.service';
+import { HttpClient } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import { AccountService } from 'src/app/shared/services/account.service';
+import { Md5 } from 'ts-md5/dist/md5';
 
 @Component({
   selector: 'app-auth',
@@ -41,8 +42,8 @@ export class AuthComponent implements OnInit {
       return
     }
 
-
-    const values = {...this.authFormGroup.value}
+    const values = { ...this.authFormGroup.value }
+    values.password = new Md5().appendStr(values.password).end()
     this.isFormSent = true
 
     this._accountService.login(values)
@@ -54,9 +55,9 @@ export class AuthComponent implements OnInit {
       }, error => {
         this.isFormSent = false
         if (error.error?.error) {
-          this.matSnackBar.open(error.error?.error, '', {duration: 3000})
+          this.matSnackBar.open(error.error?.error, '', { duration: 3000 })
         } else {
-          this.matSnackBar.open('Ошибка на сервере', '', {duration: 3000})
+          this.matSnackBar.open('Ошибка на сервере', '', { duration: 3000 })
           console.log('Error:', error)
         }
       })
