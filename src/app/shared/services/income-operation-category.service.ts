@@ -15,7 +15,7 @@ export class IncomeOperationCategoryService extends BasicCRUD<IncomeOperationCat
   constructor(
     httpClient: HttpClient
   ) {
-    super('OperationCategory', httpClient);
+    super('IncomeOperationCategory', httpClient);
   }
 
   getByPurse(id: number): Observable<IncomeOperationCategory[]> {

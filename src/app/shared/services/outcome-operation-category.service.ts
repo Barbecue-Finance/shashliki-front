@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../environments/environment';
 import { OutComeOperationCategory } from '../interfaces/operation-categories/outcome-operation-category.interface';
 import { BasicCRUD } from './basic-crud.service';
 
@@ -15,7 +15,7 @@ export class OutComeOperationCategoryService extends BasicCRUD<OutComeOperationC
   constructor(
     httpClient: HttpClient
   ) {
-    super('OperationCategory', httpClient);
+    super('OutComeOperationCategory', httpClient);
   }
 
   getByPurse(id: number): Observable<OutComeOperationCategory[]> {
