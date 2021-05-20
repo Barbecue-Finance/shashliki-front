@@ -3,11 +3,13 @@ import {NgModule} from "@angular/core";
 import {CommonModule} from "@angular/common";
 import {HeaderComponent} from "../components/header/header.component";
 import {CalendarComponent} from "../components/calendar/calendar.component";
+import { MoneyPipe } from "../pipes/money.pipe";
 
 @NgModule({
   declarations: [
     HeaderComponent,
-    CalendarComponent
+    CalendarComponent,
+    MoneyPipe
   ],
 
   imports: [CommonModule],
@@ -15,7 +17,8 @@ import {CalendarComponent} from "../components/calendar/calendar.component";
   exports: [
     CommonModule,
     HeaderComponent,
-    CalendarComponent
+    CalendarComponent,
+    MoneyPipe
   ]
 })
 

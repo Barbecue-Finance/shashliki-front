@@ -13,8 +13,6 @@ export class AllGroupsComponent implements OnInit {
 
   groups: IGroup[];
 
-  iter: number[] = [15];
-
   constructor(
     private _router: Router,
     private _groupsService: GroupService,

@@ -25,7 +25,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
     AppComponent,
     AuthComponent,
     LoginInputComponent,
-    PasswordInputComponent,
+    PasswordInputComponent
   ],
   imports: [
     HttpClientModule,
