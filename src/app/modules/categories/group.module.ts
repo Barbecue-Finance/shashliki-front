@@ -1,12 +1,13 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {AllGroupsComponent} from './components/all-categories/all-groups.component';
+import {AllGroupsComponent} from './components/all-groups/all-groups.component';
 import {SharedModule} from "../../shared/modules/shared.module";
 import {RouterModule} from "@angular/router";
 import {GroupService} from "./services/group.service";
-import {AppModule} from "../../app.module";
-import {GroupComponent} from './components/category/group.component';
+import {GroupComponent} from './components/group/group.component';
 import {ReportComponent} from './components/report/report.component';
+import { PurseService } from 'src/app/shared/services/purse.service';
+import { MoneyOperationService } from 'src/app/shared/services/money-operation.service';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,9 @@ import {ReportComponent} from './components/report/report.component';
     SharedModule
   ],
   providers: [
-    GroupService
+    GroupService, 
+    PurseService,
+    MoneyOperationService
   ]
 })
 export class GroupModule {

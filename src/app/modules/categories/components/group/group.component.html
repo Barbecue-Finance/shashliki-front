@@ -26,17 +26,15 @@
           <div class="info-container">
             <div class="icon-plus"></div>
             <p class="word">Расходы</p>
-            <p class="number">23 000,99</p>
-            <!--            TODO compete methods-->
-            <!--            <p class="number">{{ getExpensesString() }}</p>-->
+            <p class="number">{{ finalOutcome | money}}</p>
           </div>
           <div class="icons-container">
-            <div class="icon">
+            <div class="icon" *ngFor="let category of this.outComeCategories">
               <div class="circle">
-                <p class="letters">Пи</p>
+                <p class="letters">{{ category.title.substring(0, 2) }}</p>
               </div>
-              <p class="category">Пицца</p>
-              <p class="money-amount">2 400,00</p>
+              <p class="category">{{ category.title }}</p>
+              <p class="money-amount">{{ getTotalExpenseByCategory(category.id) }}</p>
             </div>
           </div>
         </div>
@@ -44,28 +42,22 @@
           <div class="info-container">
             <div class="icon-plus"></div>
             <p class="word">Доходы</p>
-            <p class="number">23 000,00</p>
-            <!--            <p class="number">{{ getIncomesString() }}</p>-->
+            <p class="number">{{ finalIncome | money }}</p>
           </div>
           <div class="icons-container">
-            <div class="icon">
+            <div class="icon" *ngFor="let category of this.incomeCategories">
               <div class="circle">
-                <p class="letters">Ма</p>
+                <p class="letters">{{ category.title.substring(0, 2) }}</p>
               </div>
-              <p class="category">Майнинг</p>
-              <p class="money-amount">28 000,00</p>
+              <p class="category">{{ category.title }}</p>
+              <p class="money-amount">{{ getTotalIncomeByCategory(category.id) | money }}</p>
             </div>
           </div>
         </div>
-
-
         <div class="sum">
           <p class="so">Итого:</p>
-          <p class="money-amount">23 000,00</p>
-          <!--          <p class="money-amount">{{ getSumString() }}</p>-->
+          <p class="money-amount">{{finalAmount | money}}</p>
         </div>
-
-
       </div>
     </div>
 
