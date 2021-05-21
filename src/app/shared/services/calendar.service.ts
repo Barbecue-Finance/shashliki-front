@@ -464,7 +464,7 @@ export class CalendarService {
         td.setAttribute("class", "calendar-target-date");
       }
       if (this.daysOfInterest.includes(count)) {
-        td.setAttribute("class", !td.hasAttribute("class")?" starred" : td.getAttribute("class") + " starred");
+        td.setAttribute("class", !td.hasAttribute("class") ? "starred" : td.getAttribute("class") + " starred");
         let starElement = document.createElement("span");
         td.appendChild(starElement)
         if (this.options.date === count && this.options.month === this._calendar.monthIndex && this.options.highlightTargetDate) {
@@ -623,7 +623,7 @@ export class CalendarService {
   }
 
   newActiveDate(target: HTMLTableDataCellElement): string {
-    let date = +target.innerHTML
+    let date = +target.innerText
     if (date !== 0) {
       this.options.date = date
 
