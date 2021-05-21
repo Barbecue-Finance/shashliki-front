@@ -1,20 +1,25 @@
 <div class="info-category-container">
-  <div  class="hide-info-category">
+  <div class="hide-info-category">
     <div class="hide-info-inner" (click)="hideInfoCategory()"></div>
   </div>
-  <div class="category">
-    <div class="icon">
-      <div class="circle">
-        <p class="letters">{{ letters }}</p>
+  <div class="content-wrapper">
+
+    <div class="category-info">
+      <div class="icon" [class.expenses-info]="isExpense()" [class.incomes-info]="isIncome()">
+        <div class="circle">
+          <p class="letters">{{ letters }}</p>
+        </div>
+        <p class="category-text">{{ title }}</p>
+        <p class="money-amount">{{ moneyAmountStr }}</p>
       </div>
-      <p class="category">{{ title }}</p>
-      <p class="money-amount">{{ moneyAmountStr }}</p>
     </div>
-  </div>
-  <div class="number-wrapper">
-    <div class="number">
-      <div class="number-text"></div>
-      <div class="username"></div>
+
+    <div class="number-wrapper">
+      <div class="number">
+        <div class="number-text"  [class.expenses-info]="isExpense()" [class.incomes-info]="isIncome()"></div>
+        <div class="username"></div>
+      </div>
     </div>
+
   </div>
 </div>

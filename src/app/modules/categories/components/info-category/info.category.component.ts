@@ -113,4 +113,14 @@ export class InfoCategoryComponent implements OnInit {
 
     this.InfoCategoryHidden.emit()
   }
+
+  isExpense(): boolean {
+    console.log(this._categoryService.openedCategoryType == OperationCategories.OutcomeOperation)
+    return this._categoryService.openedCategoryType == OperationCategories.OutcomeOperation
+  }
+
+  isIncome(): boolean {
+    console.log(this._categoryService.openedCategoryType == OperationCategories.IncomeOperation)
+    return this._categoryService.openedCategoryType == OperationCategories.IncomeOperation
+  }
 }
