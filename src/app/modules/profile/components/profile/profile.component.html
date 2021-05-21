@@ -3,15 +3,18 @@
   <form [formGroup]="authFormGroup" (submit)="save()" (keyup.enter)="save()" *ngIf="isLoaded">
     <div class="control-row">
       <h1 class="title">Имя пользователя</h1>
-      <app-data-edit [phone]="true" formControlName="username" [validators]="validators"></app-data-edit>
+      <app-data-edit [placeholder]="'Имя пользователя'" [phone]="true" formControlName="username"
+                     [validators]="validators"></app-data-edit>
     </div>
     <div class="control-row">
       <h1 class="title">Логин</h1>
-      <app-data-edit [phone]="true" formControlName="login" [validators]="validators"></app-data-edit>
+      <app-data-edit [placeholder]="'Логин'" [phone]="true" formControlName="login"
+                     [validators]="validators"></app-data-edit>
     </div>
     <div class="control-row">
       <h1 class="title">Пароль</h1>
-      <app-data-edit [phone]="true" formControlName="password" [validators]="validators"></app-data-edit>
+      <app-data-edit [placeholder]="'Пароль'" [phone]="true" formControlName="password"
+                     [validators]="validators"></app-data-edit>
       <small class="error"
              *ngIf="authFormGroup.get('password')?.errors?.required && authFormGroup.get('password')?.touched">Это
         обязательное поле</small>

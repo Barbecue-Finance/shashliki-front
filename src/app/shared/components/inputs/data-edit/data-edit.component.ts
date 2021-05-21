@@ -15,6 +15,7 @@ import {ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR, Validat
 })
 export class DataEditComponent implements OnInit, ControlValueAccessor {
 
+  @Input('placeholder') placeholder: string = ''
   @Input('phone') isShowingPhone: boolean = false
   @Input('validators') validators: ValidatorFn[] = []
   value: string = ''

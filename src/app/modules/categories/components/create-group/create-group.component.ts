@@ -6,7 +6,7 @@ import {Router} from '@angular/router';
 import {UserService} from "../../../../shared/services/user.service";
 
 @Component({
-  selector: 'app-profile',
+  selector: 'app-create-group',
   templateUrl: './create-group.component.html',
   styleUrls: ['./create-group.component.sass']
 })

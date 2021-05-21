@@ -37,4 +37,7 @@ export class AllGroupsComponent implements OnInit {
     this._router.navigate(['/groups', groupId + ''])
   }
 
+  createGroupMenu() {
+    this._router.navigate(['/groups', 'create'])
+  }
 }

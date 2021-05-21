@@ -1,20 +1,9 @@
 <div class="create-group-container">
   <form [formGroup]="authFormGroup" (submit)="save()" (keyup.enter)="save()">
     <div class="control-row">
-      <h1 class="title">Имя пользователя</h1>
-      <app-data-edit [phone]="true" formControlName="username" [validators]="validators"></app-data-edit>
+      <h1 class="title">Название группы</h1>
+      <app-data-edit [placeholder]="'Название'" [phone]="true" formControlName="username" [validators]="validators"></app-data-edit>
     </div>
-    <div class="control-row">
-      <h1 class="title">Логин</h1>
-      <app-data-edit [phone]="true" formControlName="login" [validators]="validators"></app-data-edit>
-    </div>
-    <div class="control-row">
-      <h1 class="title">Пароль</h1>
-      <app-data-edit [phone]="true" formControlName="password" [validators]="validators"></app-data-edit>
-      <small class="error"
-             *ngIf="authFormGroup.get('password')?.errors?.required && authFormGroup.get('password')?.touched">Это
-        обязательное поле</small>
-    </div>
-    <button class="save-changes-btn" type="submit" [disabled]="authFormGroup.invalid || isFormSent">Сохранить</button>
+    <button class="save-changes-btn" type="submit" [disabled]="authFormGroup.invalid || isFormSent">Создать</button>
   </form>
 </div>
