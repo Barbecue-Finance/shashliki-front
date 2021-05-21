@@ -81,6 +81,7 @@ export class GroupComponent implements OnInit {
         })
       })
 
+    this._calendarService.loadCalendar(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
     this.loadCalendarString()
   }
 
