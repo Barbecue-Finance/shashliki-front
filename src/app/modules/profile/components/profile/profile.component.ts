@@ -34,6 +34,9 @@ export class ProfileComponent implements OnInit {
         'password': new FormControl('', this.validators),
       })
 
+      // TODO: Fill form with 'u.' data
+      // Note: '.password' is never present, unless entered in UI
+
       this.isLoaded = true
     });
   }
