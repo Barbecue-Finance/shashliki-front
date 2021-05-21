@@ -37,30 +37,27 @@ export class ReportComponent implements OnInit {
 
   selectActiveMonth(): void {
     this._activeMonthId = this._calendarService.todayMonth
-    console.log(this._activeMonthId)
+    this.highlightSelectedMonth()
+  }
 
-    let elems = document.querySelectorAll('.month-wrapper')
+  highlightSelectedMonth(): void {
+    let monthWrappers = document.querySelectorAll('.month-wrapper')
 
-    for (let i = 0; i < 12; ++i) {
-      if (i === this._activeMonthId) {
-        elems[i].classList.add(this._selectedMonthClass)
-        break
-      }
+    for (let i = 0; i < monthWrappers.length; i++) {
+      monthWrappers[i].classList.remove(this._selectedMonthClass)
     }
+
+    monthWrappers[this._activeMonthId].classList.add(this._selectedMonthClass)
   }
 
   hide(): void {
-    this.removeActiveMonth()
-
     this.HideEvent.emit()
   }
 
-  removeActiveMonth(): void {
-    document.querySelectorAll('.month-wrapper')[this._activeMonthId]
-      .classList.remove(this._selectedMonthClass)
-  }
-
-  changeMonth(monthId: number): void {
-    this.activeMonthChanged.emit(monthId)
+  changeMonth(month: number) {
+    console.log(`changeMonth(${month})`)
+    this._activeMonthId = month - 1
+    this.highlightSelectedMonth()
+    this.activeMonthChanged.emit(new Date(this._calendarService.todayYear, month - 1, 1))
   }
 }
