@@ -602,20 +602,9 @@ export class CalendarService {
   generatePointDate(): string {
     let str: string
 
-    str = this._calendar.date < 10 ? `0${this._calendar.date}.` : this._calendar.date + '.'
+    let date = new Date(this._calendar.year, this._calendar.month, this._calendar.date);
 
-
-    if (this._calendar.month + 1 < 10) {
-      str.concat('0')
-    }
-    str.concat((this._calendar.month + 1) + '')
-
-    str.concat('.')
-
-    str.concat(this._calendar.year + '')
-
-    console.log(str)
-    return str
+    return `${date.getDate() >= 10 ? date.getDate() : '0' + date.getDate()}.${date.getMonth() >= 10 ? date.getMonth() : '0' + date.getMonth()}.${date.getFullYear()}`
   }
 }
 
