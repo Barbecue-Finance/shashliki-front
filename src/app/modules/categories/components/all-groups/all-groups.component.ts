@@ -16,7 +16,7 @@ export class AllGroupsComponent implements OnInit {
   constructor(
     private _router: Router,
     private _groupsService: GroupService,
-    private _accountService: UserService
+    private _userService: UserService
   ) {
     this.groups = [];
   }
@@ -26,7 +26,7 @@ export class AllGroupsComponent implements OnInit {
   }
 
   loadGroups(): void {
-    this._groupsService.loadGroups(this._accountService.id)
+    this._groupsService.loadGroups(this._userService.id)
       .subscribe((groups: IGroup[]) => {
         this.groups = groups
       })
