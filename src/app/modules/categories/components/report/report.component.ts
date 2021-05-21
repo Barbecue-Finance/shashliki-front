@@ -16,9 +16,13 @@ export class ReportComponent implements OnInit {
   @Input() closeReport: Observable<void>
   // @ts-ignore
   @Input() openReport: Observable<void>
+
+  // @ts-ignore
+  @Input() incomeExpenses: { income: number, outcome: number }[]
+
   @Output() HideEvent = new EventEmitter<void>();
 
-  @Output() activeMonthChanged = new EventEmitter<number>();
+  @Output() activeMonthChanged = new EventEmitter<Date>();
 
   private _activeMonthId: number
   private _selectedMonthClass: string
@@ -37,30 +41,41 @@ export class ReportComponent implements OnInit {
 
   selectActiveMonth(): void {
     this._activeMonthId = this._calendarService.todayMonth
-    console.log(this._activeMonthId)
+    this.highlightSelectedMonth()
+  }
 
-    let elems = document.querySelectorAll('.month-wrapper')
+  highlightSelectedMonth(): void {
+    let monthWrappers = document.querySelectorAll('.month-wrapper')
 
-    for (let i = 0; i < 12; ++i) {
-      if (i === this._activeMonthId) {
-        elems[i].classList.add(this._selectedMonthClass)
-        break
-      }
+    for (let i = 0; i < monthWrappers.length; i++) {
+      monthWrappers[i].classList.remove(this._selectedMonthClass)
+      let income = this.incomeExpenses[i].income
+      let expense = this.incomeExpenses[i].outcome
+      let total = income + expense
+
+      // This is some weird magic to convert to percents with `preciseness` digits after ','
+
+      let preciseness = 3
+
+      // @ts-ignore
+      monthWrappers[i].childNodes[0].childNodes[0].style['height'] =
+        (~~(expense / total * Math.pow(10, preciseness + 2))) / Math.pow(10, preciseness) + '%'
+      // @ts-ignore
+      monthWrappers[i].childNodes[0].childNodes[1].style['height'] =
+        (~~(income / total * Math.pow(10, preciseness + 2))) / Math.pow(10, preciseness) + '%'
     }
+
+    monthWrappers[this._activeMonthId].classList.add(this._selectedMonthClass)
   }
 
   hide(): void {
-    this.removeActiveMonth()
-
     this.HideEvent.emit()
   }
 
-  removeActiveMonth(): void {
-    document.querySelectorAll('.month-wrapper')[this._activeMonthId]
-      .classList.remove(this._selectedMonthClass)
-  }
-
-  changeMonth(monthId: number): void {
-    this.activeMonthChanged.emit(monthId)
+  changeMonth(month: number) {
+    // console.log(`changeMonth(${month})`)
+    this._activeMonthId = month - 1
+    this.highlightSelectedMonth()
+    this.activeMonthChanged.emit(new Date(this._calendarService.todayYear, month - 1, 1))
   }
 }

@@ -1,4 +1,9 @@
 export enum APIControllers {
-  Group = 'group',
-  User = 'user'
+  Group = 'Group',
+  IncomeOperationCategory = 'IncomeOperationCategory',
+  Invite = 'Invite',
+  MoneyOperation = 'MoneyOperation',
+  OutComeOperationCategory = 'OutComeOperationCategory',
+  Purse = 'Purse',
+  User = 'User',
 }

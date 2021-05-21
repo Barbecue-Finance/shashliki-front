@@ -4,18 +4,17 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { OutComeOperationCategory } from '../interfaces/operation-categories/outcome-operation-category.interface';
 import { BasicCRUD } from './basic-crud.service';
+import {APIControllers} from "../enums/APIControllers";
 
 @Injectable({
   providedIn: 'root'
 })
 export class OutComeOperationCategoryService extends BasicCRUD<OutComeOperationCategory> {
 
-  postfix: string = 'OutComeOperationCategory'
-
   constructor(
     httpClient: HttpClient
   ) {
-    super('OutComeOperationCategory', httpClient);
+    super(APIControllers.OutComeOperationCategory, httpClient);
   }
 
   getByPurse(id: number): Observable<OutComeOperationCategory[]> {

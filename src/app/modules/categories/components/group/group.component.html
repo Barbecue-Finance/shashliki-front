@@ -13,11 +13,10 @@
     <div class="right-side">
       <div class="inner-right-side">
         <div class="date">
-          <p>{{ calendar }}</p>
-          <!--          <p>20.05.2021</p>-->
+          <p>{{ displayData.date }}</p>
         </div>
         <div class="title">
-          <p>{{ this.group.title }}</p>
+          <p>{{ group.title }}</p>
         </div>
         <div class="members">
           <p>{{ getMembersString() }}</p>
@@ -26,15 +25,15 @@
           <div class="info-container">
             <div class="icon-plus"></div>
             <p class="word">Расходы</p>
-            <p class="number">{{ finalOutcome | money}}</p>
+            <p class="number">{{ displayData.totalOutCome | money}}</p>
           </div>
           <div class="icons-container">
-            <div class="icon" *ngFor="let category of this.outComeCategories">
+            <div class="icon" *ngFor="let categoryItem of displayData.outcomeCategories">
               <div class="circle">
-                <p class="letters">{{ category.title.substring(0, 2) }}</p>
+                <p class="letters">{{ categoryItem.category.title.substring(0, 2) }}</p>
               </div>
-              <p class="category">{{ category.title }}</p>
-              <p class="money-amount">{{ getTotalExpenseByCategory(category.id) }}</p>
+              <p class="category">{{ categoryItem.category.title }}</p>
+              <p class="money-amount">{{ categoryItem.amount | money}}</p>
             </div>
           </div>
         </div>
@@ -42,28 +41,31 @@
           <div class="info-container">
             <div class="icon-plus"></div>
             <p class="word">Доходы</p>
-            <p class="number">{{ finalIncome | money }}</p>
+            <p class="number">{{ displayData.totalIncome | money }}</p>
           </div>
           <div class="icons-container">
-            <div class="icon" *ngFor="let category of this.incomeCategories">
+            <div class="icon" *ngFor="let categoryItem of displayData.incomeCategories">
               <div class="circle">
-                <p class="letters">{{ category.title.substring(0, 2) }}</p>
+                <p class="letters">{{ categoryItem.category.title.substring(0, 2) }}</p>
               </div>
-              <p class="category">{{ category.title }}</p>
-              <p class="money-amount">{{ getTotalIncomeByCategory(category.id) | money }}</p>
+              <p class="category">{{ categoryItem.category.title }}</p>
+              <p class="money-amount">{{ categoryItem.amount | money }}</p>
             </div>
           </div>
         </div>
         <div class="sum">
           <p class="so">Итого:</p>
-          <p class="money-amount">{{finalAmount | money}}</p>
+          <p class="money-amount">{{displayData.totalAmount | money}}</p>
         </div>
       </div>
     </div>
 
-
     <div class="report-layer" [class.hide-top]="isHidden">
-      <app-report [openReport]="openedReport.asObservable()" [closeReport]="closedReport.asObservable()"></app-report>
+      <app-report
+        [openReport]="openedReport.asObservable()"
+        (activeMonthChanged)="fillForMonth($event)"
+        [closeReport]="closedReport.asObservable()"
+        [incomeExpenses]="displayData.incomeExpensePerMonth"></app-report>
     </div>
   </div>
 </div>

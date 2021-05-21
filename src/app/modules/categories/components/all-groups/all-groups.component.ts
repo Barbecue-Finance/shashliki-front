@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {IGroup} from "../../../../shared/interfaces/group.interface";
 import {GroupService} from "../../services/group.service";
-import {AccountService} from "../../../../shared/services/account.service";
+import {UserService} from "../../../../shared/services/user.service";
 import {Router} from "@angular/router";
 
 @Component({
@@ -16,7 +16,7 @@ export class AllGroupsComponent implements OnInit {
   constructor(
     private _router: Router,
     private _groupsService: GroupService,
-    private _accountService: AccountService
+    private _userService: UserService
   ) {
     this.groups = [];
   }
@@ -26,7 +26,7 @@ export class AllGroupsComponent implements OnInit {
   }
 
   loadGroups(): void {
-    this._groupsService.loadGroups(this._accountService.id)
+    this._groupsService.getByUser(this._userService.id)
       .subscribe((groups: IGroup[]) => {
         this.groups = groups
       })

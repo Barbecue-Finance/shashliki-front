@@ -7,11 +7,13 @@ import {environment} from 'src/environments/environment';
 import {loginDTO} from "../interfaces/dto/login-dto.interface";
 import {IService} from "../interfaces/service.interface";
 import {APIControllers} from "../enums/APIControllers";
+import {IUser} from "../interfaces/user.interface";
+import {Purse} from "../interfaces/purse.interface";
 
 @Injectable({
   providedIn: 'root'
 })
-export class AccountService implements IService {
+export class UserService implements IService {
 
   postfix = APIControllers.User;
 
@@ -60,6 +62,27 @@ export class AccountService implements IService {
           }
         })
       );
+  }
+
+  update(element: IUser): Observable<any> {
+    return this._httpClient.post(`${environment.apiUrl}/${this.postfix}/Update`, element)
+  }
+
+
+  getById(id: number): Observable<IUser> {
+    return this._httpClient.get<IUser>(`${environment.apiUrl}/${this.postfix}/GetById`, {
+      params: {
+        id: id.toString()
+      }
+    })
+  }
+
+  getByGroup(id: number): Observable<IUser[]> {
+    return this._httpClient.get<IUser[]>(`${environment.apiUrl}/${this.postfix}/GetByGroup`, {
+      params: {
+        id: id.toString()
+      }
+    })
   }
 
   killToken(): void {

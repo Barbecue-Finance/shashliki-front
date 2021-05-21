@@ -2,6 +2,6 @@ export interface MoneyOperation {
     id: number,
     amount: number,
     comment: string,
-    dateTime: Date,
+    dateTime: string,
     purseId: number
 }

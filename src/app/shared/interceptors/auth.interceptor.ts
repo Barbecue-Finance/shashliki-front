@@ -3,7 +3,7 @@ import {Injectable} from "@angular/core";
 import {Router} from "@angular/router";
 import {Observable, throwError} from "rxjs";
 import {catchError} from "rxjs/operators";
-import {AccountService} from "../services/account.service";
+import {UserService} from "../services/user.service";
 
 @Injectable({
   providedIn: 'root'
@@ -11,16 +11,16 @@ import {AccountService} from "../services/account.service";
 export class AuthInterceptor implements HttpInterceptor {
 
   constructor(
-    private _accountService: AccountService,
+    private _userService: UserService,
     private _router: Router
   ) {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (this._accountService.isLoggedIn()) {
+    if (this._userService.isLoggedIn()) {
       req = req.clone({
         setHeaders: {
-          'auth-token': this._accountService.token
+          'auth-token': this._userService.token
         }
       })
     }
@@ -29,8 +29,8 @@ export class AuthInterceptor implements HttpInterceptor {
         catchError((error: HttpErrorResponse) => {
           console.log(error)
           if (error.status == 401) {
-            // this._accountService.logout()
-            this._accountService.killToken()
+            // this._userService.logout()
+            this._userService.killToken()
             this._router.navigate(['/auth'])
           }
           return throwError(error)
