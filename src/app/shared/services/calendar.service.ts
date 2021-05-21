@@ -464,12 +464,14 @@ export class CalendarService {
         td.setAttribute("class", "calendar-target-date");
       }
       if (this.daysOfInterest.includes(count)) {
-        td.setAttribute("class", td.getAttribute("class") + " starred");
+        td.setAttribute("class", !td.hasAttribute("class")?" starred" : td.getAttribute("class") + " starred");
         let starElement = document.createElement("span");
         td.appendChild(starElement)
-        starElement.setAttribute('class', 'star');
         if (this.options.date === count && this.options.month === this._calendar.monthIndex && this.options.highlightTargetDate) {
-          starElement.setAttribute("class", starElement.getAttribute("class") + " inverted");
+          starElement.setAttribute("class", "star inverted");
+        } else {
+
+          starElement.setAttribute('class', 'star');
         }
       }
       tr.appendChild(td);
@@ -495,12 +497,15 @@ export class CalendarService {
           td.setAttribute("class", "calendar-target-date");
         }
         if (this.daysOfInterest.includes(count)) {
-          td.setAttribute("class", td.getAttribute("class") + " starred");
+          td.setAttribute("class", !td.hasAttribute("class")?" starred" : td.getAttribute("class") + " starred");
           let starElement = document.createElement("span");
           td.appendChild(starElement)
-          starElement.setAttribute('class', 'star');
+
           if (this.options.date === count && this.options.month === this._calendar.monthIndex && this.options.highlightTargetDate) {
-            starElement.setAttribute("class", starElement.getAttribute("class") + " inverted");
+            starElement.setAttribute("class", "star inverted");
+          } else {
+
+            starElement.setAttribute('class', 'star');
           }
         }
         count = count + 1;
