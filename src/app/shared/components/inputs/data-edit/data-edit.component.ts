@@ -15,6 +15,7 @@ import {ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR, Validat
 })
 export class DataEditComponent implements OnInit, ControlValueAccessor {
 
+  @Input('valueData') valueData: string = ''
   @Input('placeholder') placeholder: string = ''
   @Input('phone') isShowingPhone: boolean = false
   @Input('validators') validators: ValidatorFn[] = []
@@ -45,7 +46,7 @@ export class DataEditComponent implements OnInit, ControlValueAccessor {
 
   ngOnInit(): void {
     this.inputForm = new FormGroup({
-      'input': new FormControl('', this.validators)
+      'input': new FormControl(this.valueData, this.validators)
     })
   }
 

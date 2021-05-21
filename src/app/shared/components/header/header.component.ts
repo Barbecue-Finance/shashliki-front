@@ -1,5 +1,6 @@
 import {Component, OnInit, Output, EventEmitter} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
+import {GroupService} from "../../../modules/categories/services/group.service";
 
 @Component({
   selector: 'app-header',
@@ -10,15 +11,28 @@ export class HeaderComponent implements OnInit {
 
   @Output() HideReport = new EventEmitter<void>();
 
-  canBack = false;
+  canBack = false
+  showBackBtn = false
 
   constructor(
     private _router: Router,
-    private _route: ActivatedRoute
+    private _route: ActivatedRoute,
+    private _groupService: GroupService
   ) {
   }
 
   ngOnInit(): void {
+    if (this._router.url.includes('/create')) {
+      this.showBackBtn = true
+    }
+    if (this._router.url.includes('/profile')) {
+      this.showBackBtn = true
+    }
+    if (this._router.url.includes('/info-category')) {
+      this.showBackBtn = true
+    }
+
+
     this.canBack = this._route.outlet.includes('/report')
   }
 
@@ -33,6 +47,12 @@ export class HeaderComponent implements OnInit {
       this.HideReport.emit()
     } else if (this._router.url.includes('/profile')) {
       this._router.navigate(['/groups'])
+    } else if (this._router.url.includes('/info-category')) {
+      if (this._groupService.isAnyGroupOpened()) {
+        this._router.navigate(['/groups', this._groupService.openedGroupId])
+      } else {
+        this._router.navigate(['/groups'])
+      }
     }
   }
 

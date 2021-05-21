@@ -13,9 +13,13 @@ import {Md5} from "ts-md5";
 })
 export class ProfileComponent implements OnInit {
 
+  username: string = ''
+  login: string = ''
+  password: string = ''
+
   isLoaded = false
 
-  authFormGroup: FormGroup = new FormGroup({})
+  formGroup: FormGroup = new FormGroup({})
   validators = [Validators.required]
   isFormSent: boolean = false
 
@@ -26,27 +30,32 @@ export class ProfileComponent implements OnInit {
   ) {
   }
 
+
   ngOnInit(): void {
     this._userService.getById(this._userService.id).subscribe(u => {
-      this.authFormGroup = new FormGroup({
+      // TODO: Fill form with 'u.' data
+      // Note: '.password' is never present, unless entered in UI
+      this.username = u.username
+      this.login = u.login
+      this.password = ''
+
+      this.formGroup = new FormGroup({
         'username': new FormControl('', this.validators),
         'login': new FormControl('', this.validators),
         'password': new FormControl('', this.validators),
       })
 
-      // TODO: Fill form with 'u.' data
-      // Note: '.password' is never present, unless entered in UI
 
       this.isLoaded = true
     });
   }
 
   save(): void {
-    if (this.authFormGroup.invalid) {
+    if (this.formGroup.invalid) {
       return
     }
 
-    const values = {...this.authFormGroup.value}
+    const values = {...this.formGroup.value}
     values.id = this._userService.id
 
     values.password = new Md5().appendStr(values.password).end()

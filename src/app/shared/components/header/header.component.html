@@ -1,12 +1,7 @@
-
-
-
-
-
-
-
 <div class="container">
-  <div class="back" (click)="back()"></div>
+  <div class="back-wrapper">
+    <div class="back" (click)="back()" *ngIf="showBackBtn"></div>
+  </div>
   <div class="right">
     <div class="categories" (click)="goToGroups()">
       <p>Группы</p>
