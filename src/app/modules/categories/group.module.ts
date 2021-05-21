@@ -6,16 +6,18 @@ import {RouterModule} from "@angular/router";
 import {GroupService} from "./services/group.service";
 import {GroupComponent} from './components/group/group.component';
 import {ReportComponent} from './components/report/report.component';
-import { PurseService } from 'src/app/shared/services/purse.service';
-import { MoneyOperationService } from 'src/app/shared/services/money-operation.service';
-import { IncomeOperationCategoryService } from 'src/app/shared/services/income-operation-category.service';
-import { OutComeOperationCategoryService } from 'src/app/shared/services/outcome-operation-category.service';
+import {PurseService} from 'src/app/shared/services/purse.service';
+import {MoneyOperationService} from 'src/app/shared/services/money-operation.service';
+import {IncomeOperationCategoryService} from 'src/app/shared/services/income-operation-category.service';
+import {OutComeOperationCategoryService} from 'src/app/shared/services/outcome-operation-category.service';
+import {CreateGroupComponent} from "./components/create-group/create-group.component";
 
 @NgModule({
   declarations: [
     AllGroupsComponent,
     GroupComponent,
     ReportComponent,
+    CreateGroupComponent
   ],
   imports: [
     CommonModule,
@@ -30,7 +32,7 @@ import { OutComeOperationCategoryService } from 'src/app/shared/services/outcome
     SharedModule
   ],
   providers: [
-    GroupService, 
+    GroupService,
     PurseService,
     MoneyOperationService,
     IncomeOperationCategoryService,

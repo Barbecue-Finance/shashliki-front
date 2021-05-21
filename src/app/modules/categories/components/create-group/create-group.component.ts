@@ -10,7 +10,7 @@ import {AccountService} from 'src/app/shared/services/account.service';
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.sass']
 })
-export class ProfileComponent implements OnInit {
+export class CreateGroupComponent implements OnInit {
 
   authFormGroup: FormGroup = new FormGroup({})
   validators = [Validators.required]
@@ -45,7 +45,7 @@ export class ProfileComponent implements OnInit {
     const values = {...this.authFormGroup.value}
     this.isFormSent = true
 
-    //TODO User proper method from api
+    //TODO use save method from API
     this._accountService.login(values)
       .subscribe(() => {
         this.isFormSent = false

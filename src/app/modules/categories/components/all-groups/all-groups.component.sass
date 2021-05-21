@@ -1,6 +1,6 @@
 @import "variables"
 
-.container
+.all-groups-container
   box-sizing: border-box
   width: 100vw
   height: 100vh
@@ -18,7 +18,26 @@
     display: flex
     justify-content: center
     align-items: flex-start
+    position: relative
 
+
+    .add-group
+      position: absolute
+      top: 33px
+      left: 3rem
+      width: 60px
+      height: 60px
+      background-image: url('/assets/icons/add-icon.svg')
+      background-size: cover
+      border-radius: 50%
+      //border: 1px solid $frame-white
+      background-color: transparent
+      cursor: pointer
+      transition: 1s
+
+      &:hover
+        transform: rotateZ(180deg)
+        background-color: rgba(255, 255, 255, .2)
 
     .group-wrapper
       margin-top: 2rem

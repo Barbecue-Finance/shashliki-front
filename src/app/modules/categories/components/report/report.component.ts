@@ -18,6 +18,8 @@ export class ReportComponent implements OnInit {
   @Input() openReport: Observable<void>
   @Output() HideEvent = new EventEmitter<void>();
 
+  @Output() activeMonthChanged = new EventEmitter<number>();
+
   private _activeMonthId: number
   private _selectedMonthClass: string
 
@@ -56,5 +58,9 @@ export class ReportComponent implements OnInit {
   removeActiveMonth(): void {
     document.querySelectorAll('.month-wrapper')[this._activeMonthId]
       .classList.remove(this._selectedMonthClass)
+  }
+
+  changeMonth(monthId: number): void {
+    this.activeMonthChanged.emit(monthId)
   }
 }

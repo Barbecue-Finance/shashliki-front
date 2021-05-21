@@ -29,6 +29,8 @@ export class HeaderComponent implements OnInit {
   back(): void {
     if (this._router.url.includes('/groups/')) {
       this.HideReport.emit()
+    } else if (this._router.url.includes('/profile')) {
+      this._router.navigate(['/groups'])
     }
   }
 

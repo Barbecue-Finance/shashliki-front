@@ -12,7 +12,7 @@ import {ReactiveFormsModule} from "@angular/forms";
     HeaderComponent,
     CalendarComponent,
     MoneyPipe,
-    DataEditComponent
+    DataEditComponent,
   ],
 
   imports: [
@@ -25,7 +25,7 @@ import {ReactiveFormsModule} from "@angular/forms";
     CalendarComponent,
     MoneyPipe,
     DataEditComponent,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ]
 })
 
