@@ -1,6 +1,6 @@
 import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
 import {IncomeOperationCategory} from "../../../../shared/interfaces/operation-categories/income-operation-category.interface";
-import {OutСomeOperationCategory} from "../../../../shared/interfaces/operation-categories/outcome-operation-category.interface";
+import {OutComeOperationCategory} from "../../../../shared/interfaces/operation-categories/outcome-operation-category.interface";
 import {Router} from "@angular/router";
 import {CategoryService} from "../../services/category.service";
 import {OperationCategory} from "../../../../shared/interfaces/operation-categories/operation-category.interface";
@@ -11,6 +11,7 @@ import {MoneyOperationService} from "../../../../shared/services/money-operation
 import {IncomeOutcome} from "../../../../shared/interfaces/income-outcome.interface";
 import {MoneyOperation} from "../../../../shared/interfaces/money-operations/money-operation.interface";
 import {Observable} from "rxjs";
+import {OutComeMoneyOperation} from "../../../../shared/interfaces/money-operations/outcome-money-operation.interface";
 
 @Component({
   selector: 'app-info-category',
@@ -26,7 +27,7 @@ export class InfoCategoryComponent implements OnInit {
 
   @Input() title: string = ''
   @Input() letters: string = ''
-  @Input() moneyAmountStr: string = ''
+  @Input() money: number = 0
 
   @Output() InfoCategoryHidden = new EventEmitter<void>()
 
@@ -83,7 +84,7 @@ export class InfoCategoryComponent implements OnInit {
         })
     } else {
       this._outcomeService.getById(this._categoryService.openedCategoryId)
-        .subscribe((response: OutСomeOperationCategory) => {
+        .subscribe((response) => {
           this.activeCategory = response
         })
     }

@@ -7,7 +7,7 @@ import {IncomeOutcome} from 'src/app/shared/interfaces/income-outcome.interface'
 import {MoneyOperationService} from 'src/app/shared/services/money-operation.service';
 import {IncomeOperationCategoryService} from 'src/app/shared/services/income-operation-category.service';
 import {Purse} from 'src/app/shared/interfaces/purse.interface';
-import {OutСomeOperationCategory} from 'src/app/shared/interfaces/operation-categories/outcome-operation-category.interface';
+import {OutComeOperationCategory} from 'src/app/shared/interfaces/operation-categories/outcome-operation-category.interface';
 import {IncomeOperationCategory} from 'src/app/shared/interfaces/operation-categories/income-operation-category.interface';
 import {CalendarService} from 'src/app/shared/services/calendar.service';
 import {Subject} from 'rxjs';
@@ -48,7 +48,7 @@ export class GroupComponent implements OnInit {
     totalOutCome: number,
     totalAmount: number
     incomeCategories: { category: IncomeOperationCategory, amount: number }[],
-    outcomeCategories: { category: OutСomeOperationCategory, amount: number }[],
+    outcomeCategories: { category: OutComeOperationCategory, amount: number }[],
     date: string,
     incomeExpensePerMonth: { income: number, outcome: number }[]
   } = {
@@ -62,12 +62,12 @@ export class GroupComponent implements OnInit {
   }
 
   allIncomeCategories: IncomeOperationCategory[] = []
-  allOutComeCategories: OutСomeOperationCategory[] = []
+  allOutComeCategories: OutComeOperationCategory[] = []
 
-  dataForInfoCategory: { title: string, letters: string, moneyAmountStr: string } = {
+  dataForInfoCategory: { title: string, letters: string, money: number } = {
     title: '',
     letters: '',
-    moneyAmountStr: ''
+    money: 0
   }
 
   constructor(
@@ -353,33 +353,32 @@ export class GroupComponent implements OnInit {
     return nDate
   }
 
-  showInfoCategoryIncome(selectedCategory: any) {
-
+  showInfoCategoryIncome(selectedCategory: { category: IncomeOperationCategory, amount: number }) {
     this.isHiddenInfoCategory = false
 
     this.dataForInfoCategory = {
       title: selectedCategory.category.title,
       letters: selectedCategory.category.title.substring(0, 2),
-      moneyAmountStr: this._moneyPipe.transform(selectedCategory.category.amount)
+      money: selectedCategory.amount
     }
 
-    this._categoryService.openedCategoryId = selectedCategory.id
+    this._categoryService.openedCategoryId = selectedCategory.category.id
     this._categoryService.openedCategoryType = OperationCategories.IncomeOperation
 
     this.openedInfoCategory.next()
   }
 
-  showInfoCategoryOutcome(selectedCategory: any) {
+  showInfoCategoryOutcome(selectedCategory: { category: OutComeOperationCategory, amount: number }) {
 
     this.isHiddenInfoCategory = false
 
     this.dataForInfoCategory = {
       title: selectedCategory.category.title,
       letters: selectedCategory.category.title.substring(0, 2),
-      moneyAmountStr: this._moneyPipe.transform(selectedCategory.category.amount)
+      money: selectedCategory.amount
     }
 
-    this._categoryService.openedCategoryId = selectedCategory.id
+    this._categoryService.openedCategoryId = selectedCategory.category.id
     this._categoryService.openedCategoryType = OperationCategories.OutcomeOperation
 
     this.openedInfoCategory.next()
