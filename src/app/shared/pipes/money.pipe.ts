@@ -8,10 +8,9 @@ export class MoneyPipe implements PipeTransform {
   transform(value: number, ...args: unknown[]): string {
     // value: 123.57
 
-    let isNegative = false
-    if (value < 0) {
+    let isNegative = value < 0
+    if (isNegative) {
       value *= -1
-      isNegative = true
     }
 
     if (value === 0) {
