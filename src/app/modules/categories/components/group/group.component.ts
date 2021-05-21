@@ -7,10 +7,13 @@ import {IncomeOutcome} from 'src/app/shared/interfaces/income-outcome.interface'
 import {MoneyOperationService} from 'src/app/shared/services/money-operation.service';
 import {IncomeOperationCategoryService} from 'src/app/shared/services/income-operation-category.service';
 import {Purse} from 'src/app/shared/interfaces/purse.interface';
-import {OutComeOperationCategory} from 'src/app/shared/interfaces/operation-categories/outcome-operation-category.interface';
+import {OutcomeOperationCategory} from 'src/app/shared/interfaces/operation-categories/outcome-operation-category.interface';
 import {IncomeOperationCategory} from 'src/app/shared/interfaces/operation-categories/income-operation-category.interface';
 import {CalendarService} from 'src/app/shared/services/calendar.service';
 import {Subject} from 'rxjs';
+import {CategoryService} from "../../services/category.service";
+import {MoneyPipe} from "../../../../shared/pipes/money.pipe";
+import {OperationCategories} from "../../../../shared/enums/OperationCategory.enum";
 
 @Component({
   selector: 'app-category',
@@ -21,12 +24,16 @@ export class GroupComponent implements OnInit {
 
   private calendarString: string
 
-  isHidden = true
+  isHiddenReport = true
+  isHiddenInfoCategory = true
 
   group: IGroup
 
   openedReport: Subject<void> = new Subject<void>()
   closedReport: Subject<void> = new Subject<void>()
+
+  openedInfoCategory: Subject<void> = new Subject<void>()
+  closedInfoCategory: Subject<void> = new Subject<void>()
 
   incomeOutcome: IncomeOutcome = {incoming: [], outComing: []}
   purse: Purse = {
@@ -41,7 +48,7 @@ export class GroupComponent implements OnInit {
     totalOutCome: number,
     totalAmount: number
     incomeCategories: { category: IncomeOperationCategory, amount: number }[],
-    outcomeCategories: { category: OutComeOperationCategory, amount: number }[],
+    outcomeCategories: { category: OutcomeOperationCategory, amount: number }[],
     date: string,
     incomeExpensePerMonth: { income: number, outcome: number }[]
   } = {
@@ -55,16 +62,24 @@ export class GroupComponent implements OnInit {
   }
 
   allIncomeCategories: IncomeOperationCategory[] = []
-  allOutComeCategories: OutComeOperationCategory[] = []
+  allOutComeCategories: OutcomeOperationCategory[] = []
+
+  dataForInfoCategory: { title: string, letters: string, moneyAmountStr: string } = {
+    title: '',
+    letters: '',
+    moneyAmountStr: ''
+  }
 
   constructor(
     private _groupsService: GroupService,
     private _purseService: PurseService,
     private _moneyOperationService: MoneyOperationService,
     private _calendarService: CalendarService,
+    private _categoryService: CategoryService,
     private _operationCategoryService: IncomeOperationCategoryService,
     private _router: Router,
-    private _route: ActivatedRoute
+    private _route: ActivatedRoute,
+    private _moneyPipe: MoneyPipe
   ) {
     this.group = {
       id: 0,
@@ -278,12 +293,12 @@ export class GroupComponent implements OnInit {
   }
 
   openReport(): void {
-    this.isHidden = false
+    this.isHiddenReport = false
     this.openedReport.next()
   }
 
   hideReport(): void {
-    this.isHidden = true
+    this.isHiddenReport = true
     this.closedReport.next()
   }
 
@@ -336,5 +351,41 @@ export class GroupComponent implements OnInit {
     let nDate = new Date(date)
     nDate.setMonth(nDate.getMonth() + 1)
     return nDate
+  }
+
+  showInfoCategoryIncome(selectedCategory: any) {
+
+    this.isHiddenInfoCategory = false
+
+    this.dataForInfoCategory = {
+      title: selectedCategory.category.title,
+      letters: selectedCategory.category.title.substring(0, 2),
+      moneyAmountStr: this._moneyPipe.transform(selectedCategory.category.amount)
+    }
+
+    this._categoryService.openedCategoryId = selectedCategory.id
+    this._categoryService.openedCategoryType = OperationCategories.IncomeOperation
+
+    this.openedInfoCategory.next()
+  }
+
+  showInfoCategoryOutcome(selectedCategory: any) {
+
+    this.isHiddenInfoCategory = false
+
+    this.dataForInfoCategory = {
+      title: selectedCategory.category.title,
+      letters: selectedCategory.category.title.substring(0, 2),
+      moneyAmountStr: this._moneyPipe.transform(selectedCategory.category.amount)
+    }
+
+    this._categoryService.openedCategoryId = selectedCategory.id
+    this._categoryService.openedCategoryType = OperationCategories.OutcomeOperation
+
+    this.openedInfoCategory.next()
+  }
+
+  closeInfoCategory() {
+    this.isHiddenInfoCategory = true
   }
 }

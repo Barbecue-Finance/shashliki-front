@@ -28,7 +28,8 @@
             <p class="number">{{ displayData.totalOutCome | money}}</p>
           </div>
           <div class="icons-container">
-            <div class="icon" *ngFor="let categoryItem of displayData.outcomeCategories">
+            <div class="icon" *ngFor="let categoryItem of displayData.outcomeCategories"
+                 (click)="showInfoCategoryOutcome(categoryItem)">
               <div class="circle">
                 <p class="letters">{{ categoryItem.category.title.substring(0, 2) }}</p>
               </div>
@@ -44,7 +45,8 @@
             <p class="number">{{ displayData.totalIncome | money }}</p>
           </div>
           <div class="icons-container">
-            <div class="icon" *ngFor="let categoryItem of displayData.incomeCategories">
+            <div class="icon" *ngFor="let categoryItem of displayData.incomeCategories"
+                 (click)="showInfoCategoryIncome(categoryItem)">
               <div class="circle">
                 <p class="letters">{{ categoryItem.category.title.substring(0, 2) }}</p>
               </div>
@@ -60,12 +62,21 @@
       </div>
     </div>
 
-    <div class="report-layer" [class.hide-top]="isHidden">
+    <div class="report-layer" [class.hide-top]="isHiddenReport">
       <app-report
         [openReport]="openedReport.asObservable()"
         (activeMonthChanged)="fillForMonth($event)"
         [closeReport]="closedReport.asObservable()"
         [incomeExpenses]="displayData.incomeExpensePerMonth"></app-report>
+    </div>
+
+    <div class="info-category-layer" [class.hide-right]="isHiddenInfoCategory">
+<!--      <app-info-category [openedInfoCategory]="openedInfoCategory.asObservable()"-->
+<!--                         [closedInfoCategory]="closedInfoCategory.asObservable()"-->
+<!--                         (InfoCategoryHidden)="closeInfoCategory()"-->
+<!--                         [title]="dataForInfoCategory.title"-->
+<!--                         [moneyAmountStr]="dataForInfoCategory.moneyAmountStr"-->
+<!--                         [letters]="dataForInfoCategory.letters"></app-info-category>-->
     </div>
   </div>
 </div>

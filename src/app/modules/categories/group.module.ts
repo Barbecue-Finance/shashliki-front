@@ -11,13 +11,17 @@ import {MoneyOperationService} from 'src/app/shared/services/money-operation.ser
 import {IncomeOperationCategoryService} from 'src/app/shared/services/income-operation-category.service';
 import {OutComeOperationCategoryService} from 'src/app/shared/services/outcome-operation-category.service';
 import {CreateGroupComponent} from "./components/create-group/create-group.component";
+import {InfoCategoryComponent} from "./components/info-category/info.category.component";
+import {CategoryService} from "./services/category.service";
+import {MoneyPipe} from "../../shared/pipes/money.pipe";
 
 @NgModule({
   declarations: [
     AllGroupsComponent,
     GroupComponent,
     ReportComponent,
-    CreateGroupComponent
+    CreateGroupComponent,
+    InfoCategoryComponent
   ],
   imports: [
     CommonModule,
@@ -25,7 +29,11 @@ import {CreateGroupComponent} from "./components/create-group/create-group.compo
       {
         path: '', component: AllGroupsComponent
       },
-      {path: 'create', component: CreateGroupComponent},
+      {
+        path: 'create', component: CreateGroupComponent, children: [
+          {path: 'info-category', component: InfoCategoryComponent}
+        ]
+      },
       {
         path: ':id', component: GroupComponent, children: [
           {path: 'report', component: ReportComponent}
@@ -36,10 +44,12 @@ import {CreateGroupComponent} from "./components/create-group/create-group.compo
   ],
   providers: [
     GroupService,
+    CategoryService,
     PurseService,
     MoneyOperationService,
     IncomeOperationCategoryService,
     OutComeOperationCategoryService,
+    MoneyPipe
   ]
 })
 export class GroupModule {
