@@ -15,8 +15,7 @@ import {OutComeOperationCategoryService} from 'src/app/shared/services/outcome-o
   declarations: [
     AllGroupsComponent,
     GroupComponent,
-    ReportComponent,
-    CreateGroupComponent
+    ReportComponent
   ],
   imports: [
     CommonModule,

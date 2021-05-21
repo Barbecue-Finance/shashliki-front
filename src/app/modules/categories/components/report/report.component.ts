@@ -22,7 +22,7 @@ export class ReportComponent implements OnInit {
 
   @Output() HideEvent = new EventEmitter<void>();
 
-  @Output() activeMonthChanged = new EventEmitter<number>();
+  @Output() activeMonthChanged = new EventEmitter<Date>();
 
   private _activeMonthId: number
   private _selectedMonthClass: string
