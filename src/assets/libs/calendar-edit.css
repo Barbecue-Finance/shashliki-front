@@ -66,3 +66,21 @@
   color: #111;
   border-radius: 2px;
 }
+
+#calendar .starred {
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  align-items: center;
+}
+
+#calendar .star {
+  width: 10px;
+  height: 10px;
+  background-image: url('/assets/icons/star.svg')
+}
+
+#calendar .inverted {
+  filter: invert(100%);
+  -webkit-filter: invert(100%);
+}

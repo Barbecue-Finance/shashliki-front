@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {IGroup} from "../../../../shared/interfaces/group.interface";
 import {GroupService} from "../../services/group.service";
 import {Router} from "@angular/router";
@@ -11,6 +11,7 @@ import {OutComeOperationCategory} from 'src/app/shared/interfaces/operation-cate
 import {IncomeOperationCategory} from 'src/app/shared/interfaces/operation-categories/income-operation-category.interface';
 import {CalendarService} from 'src/app/shared/services/calendar.service';
 import {Subject} from 'rxjs';
+import {CalendarComponent} from "../../../../shared/components/calendar/calendar.component";
 
 @Component({
   selector: 'app-category',
@@ -91,17 +92,48 @@ export class GroupComponent implements OnInit {
           this._moneyOperationService.getByPurse(p.id).subscribe(io => {
             this.incomeOutcome = io
             this.fillForDay(new Date())
+
+            this.fillDaysOfInterest(new Date());
+            this._calendarService.loadCalendar(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
+            this._calendarService.dateChanged.subscribe(date => this.fillForDay(date));
           })
         })
       })
-
-    this._calendarService.loadCalendar(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
-    this._calendarService.dateChanged.subscribe(date => this.fillForDay(date));
     this.loadCalendarString()
+  }
+
+  getMonthDays(year: number, month: number): number {
+    let isLeapYear = ((year % 4 === 0 && year % 100 !== 0) || year % 400 === 0);
+
+    return [31, (isLeapYear ? 29 : 28), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month];
+  }
+
+  fillDaysOfInterest(date: Date): void {
+    let daysOfInterest: number[] = []
+
+    let monthDays = this.getMonthDays(date.getFullYear(), date.getMonth());
+    for (let i = 0; i < monthDays; i++) {
+      let start = new Date(new Date().getFullYear(), date.getMonth(), i);
+      let end = new Date(new Date().getFullYear(), date.getMonth(), i + 1);
+      let totalIncomesInADay = this.allIncomeCategories
+        .map(c => this.getTotalIncomeByCategory(c.id, start, end))
+        .reduce((total, current) => total + current, 0);
+      let totalOutComesInADay = this.allOutComeCategories
+        .map(c => this.getTotalExpenseByCategory(c.id, start, end))
+        .reduce((total, current) => total + current, 0);
+
+      if (totalIncomesInADay + totalOutComesInADay !== 0) {
+        daysOfInterest.push(i)
+      }
+    }
+    console.log(`fillDaysOfInterest(): daysOfInterest: ${daysOfInterest}`)
+    this._calendarService.daysOfInterest = daysOfInterest
+    this._calendarService.redraw();
   }
 
   fillForMonth(date: Date) {
     this.fillForRange(this.truncateTime(date), this.truncateTime(this.addMonth(date)))
+
   }
 
   fillForDay(day: Date) {

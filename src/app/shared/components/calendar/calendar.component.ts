@@ -21,6 +21,11 @@ export class CalendarComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.redraw()
+    this._calendarService.redrawRequested.subscribe(() => this.redraw());
+  }
+
+  redraw(): void {
     let temp = this._calendarService.init({
       prevNextButton: 'show',
       highlightTargetDate: true,
