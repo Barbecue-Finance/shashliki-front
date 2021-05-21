@@ -25,7 +25,7 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
 
-    if (this._accountService.isLoggedIn()) {
+    if (!this._accountService.isLoggedIn()) {
       this._accountService.logout()
     }
 
