@@ -26,7 +26,7 @@ export class AllGroupsComponent implements OnInit {
   }
 
   loadGroups(): void {
-    this._groupsService.loadGroups(this._userService.id)
+    this._groupsService.getByUser(this._userService.id)
       .subscribe((groups: IGroup[]) => {
         this.groups = groups
       })

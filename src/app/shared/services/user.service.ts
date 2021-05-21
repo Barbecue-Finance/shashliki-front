@@ -64,7 +64,6 @@ export class UserService implements IService {
       );
   }
 
-
   update(element: IUser): Observable<any> {
     return this._httpClient.post(`${environment.apiUrl}/${this.postfix}/Update`, element)
   }
@@ -72,6 +71,14 @@ export class UserService implements IService {
 
   getById(id: number): Observable<IUser> {
     return this._httpClient.get<IUser>(`${environment.apiUrl}/${this.postfix}/GetById`, {
+      params: {
+        id: id.toString()
+      }
+    })
+  }
+
+  getByGroup(id: number): Observable<IUser[]> {
+    return this._httpClient.get<IUser[]>(`${environment.apiUrl}/${this.postfix}/GetByGroup`, {
       params: {
         id: id.toString()
       }

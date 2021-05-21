@@ -15,9 +15,9 @@ export class GroupService extends BasicCRUD<IGroup> {
   private readonly key = 'openedGroupId'
 
   constructor(
-    private _http: HttpClient
+    private _httpClient: HttpClient
   ) {
-    super(APIControllers.Group, _http)
+    super(APIControllers.Group, _httpClient)
 
     this._openedGroupId = 0
   }
@@ -40,11 +40,11 @@ export class GroupService extends BasicCRUD<IGroup> {
     return !!this.openedGroupId && !!localStorage.getItem(this.key)
   }
 
-  loadGroups(userId: number): Observable<any> {
-    return this._http.get(`${environment.apiUrl}/${this.postfix}/getbyuser`, {
+  getByUser(id: number): Observable<any> {
+    return this._httpClient.get(`${environment.apiUrl}/${this.postfix}/getbyuser`, {
       withCredentials: true,
       params: {
-        id: userId + ''
+        id: id.toString()
       }
     })
   }
