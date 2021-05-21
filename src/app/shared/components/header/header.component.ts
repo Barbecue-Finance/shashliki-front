@@ -32,4 +32,7 @@ export class HeaderComponent implements OnInit {
     }
   }
 
+  openProfile() {
+    this._router.navigate(['/profile'])
+  }
 }

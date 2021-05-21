@@ -7,7 +7,7 @@ import {AuthComponent} from './components/auth/auth.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MaterialSharedModule} from './shared/modules/material-shared.module';
 import {LoginInputComponent} from './shared/components/inputs/login-input/login-input.component';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {FormsModule} from '@angular/forms';
 import {PasswordInputComponent} from './shared/components/inputs/password-input/password-input.component';
 import {SharedModule} from './shared/modules/shared.module';
 import {AuthInterceptor} from './shared/interceptors/auth.interceptor';
@@ -25,7 +25,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
     AppComponent,
     AuthComponent,
     LoginInputComponent,
-    PasswordInputComponent
+    PasswordInputComponent,
   ],
   imports: [
     HttpClientModule,
@@ -34,7 +34,6 @@ const INTERCEPTOR_PROVIDER: Provider = {
     BrowserAnimationsModule,
     MaterialSharedModule,
     FormsModule,
-    ReactiveFormsModule,
     SharedModule
   ],
   providers: [INTERCEPTOR_PROVIDER],
