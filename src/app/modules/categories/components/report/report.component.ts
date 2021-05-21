@@ -16,6 +16,10 @@ export class ReportComponent implements OnInit {
   @Input() closeReport: Observable<void>
   // @ts-ignore
   @Input() openReport: Observable<void>
+
+  // @ts-ignore
+  @Input() incomeExpenses: { income: number, outcome: number }[]
+
   @Output() HideEvent = new EventEmitter<void>();
 
   @Output() activeMonthChanged = new EventEmitter<number>();
@@ -45,6 +49,20 @@ export class ReportComponent implements OnInit {
 
     for (let i = 0; i < monthWrappers.length; i++) {
       monthWrappers[i].classList.remove(this._selectedMonthClass)
+      let income = this.incomeExpenses[i].income
+      let expense = this.incomeExpenses[i].outcome
+      let total = income + expense
+
+      // This is some weird magic to convert to percents with `preciseness` digits after ','
+
+      let preciseness = 3
+
+      // @ts-ignore
+      monthWrappers[i].childNodes[0].childNodes[0].style['height'] =
+        (~~(expense / total * Math.pow(10, preciseness + 2))) / Math.pow(10, preciseness) + '%'
+      // @ts-ignore
+      monthWrappers[i].childNodes[0].childNodes[1].style['height'] =
+        (~~(income / total * Math.pow(10, preciseness + 2))) / Math.pow(10, preciseness) + '%'
     }
 
     monthWrappers[this._activeMonthId].classList.add(this._selectedMonthClass)
@@ -55,7 +73,7 @@ export class ReportComponent implements OnInit {
   }
 
   changeMonth(month: number) {
-    console.log(`changeMonth(${month})`)
+    // console.log(`changeMonth(${month})`)
     this._activeMonthId = month - 1
     this.highlightSelectedMonth()
     this.activeMonthChanged.emit(new Date(this._calendarService.todayYear, month - 1, 1))

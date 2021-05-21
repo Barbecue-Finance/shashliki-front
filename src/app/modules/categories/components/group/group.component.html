@@ -61,8 +61,11 @@
     </div>
 
     <div class="report-layer" [class.hide-top]="isHidden">
-      <app-report [openReport]="openedReport.asObservable()" (activeMonthChanged)="fillForMonth($event)"
-                  [closeReport]="closedReport.asObservable()"></app-report>
+      <app-report
+        [openReport]="openedReport.asObservable()"
+        (activeMonthChanged)="fillForMonth($event)"
+        [closeReport]="closedReport.asObservable()"
+        [incomeExpenses]="displayData.incomeExpensePerMonth"></app-report>
     </div>
   </div>
 </div>

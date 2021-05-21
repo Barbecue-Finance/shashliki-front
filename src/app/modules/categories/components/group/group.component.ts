@@ -11,8 +11,6 @@ import {OutComeOperationCategory} from 'src/app/shared/interfaces/operation-cate
 import {IncomeOperationCategory} from 'src/app/shared/interfaces/operation-categories/income-operation-category.interface';
 import {CalendarService} from 'src/app/shared/services/calendar.service';
 import {Subject} from 'rxjs';
-import {IncomeMoneyOperation} from "../../../../shared/interfaces/money-operations/income-money-operation.interface";
-import {OutComeMoneyOperation} from "../../../../shared/interfaces/money-operations/outcome-money-operation.interface";
 
 @Component({
   selector: 'app-category',
@@ -45,6 +43,7 @@ export class GroupComponent implements OnInit {
     incomeCategories: { category: IncomeOperationCategory, amount: number }[],
     outcomeCategories: { category: OutComeOperationCategory, amount: number }[],
     date: string,
+    incomeExpensePerMonth: { income: number, outcome: number }[]
   } = {
     totalIncome: 0,
     totalOutCome: 0,
@@ -52,6 +51,7 @@ export class GroupComponent implements OnInit {
     incomeCategories: [],
     outcomeCategories: [],
     date: '',
+    incomeExpensePerMonth: []
   }
 
   allIncomeCategories: IncomeOperationCategory[] = []
@@ -90,8 +90,6 @@ export class GroupComponent implements OnInit {
 
           this._moneyOperationService.getByPurse(p.id).subscribe(io => {
             this.incomeOutcome = io
-            console.table(this.incomeOutcome.incoming)
-            console.table(this.incomeOutcome.outComing)
             this.fillForDay(new Date())
           })
         })
@@ -109,6 +107,7 @@ export class GroupComponent implements OnInit {
     this.fillForRange(this.truncateTime(day), this.truncateTime(this.addDay(day)))
   }
 
+  // This is some weird function to covert C# DateTime format into JS Date
   parseNetDate(cSDate: string): Date {
     // cSDate is '2017-01-24T14:14:55.807'
     let datestr = cSDate.toString();
@@ -125,24 +124,45 @@ export class GroupComponent implements OnInit {
     return date;
   }
 
+  // function to fill displayData for specific time range
   fillForRange(startDate: Date, endDate: Date) {
-
     console.log(`fillForRange(${this.dateToString(startDate)} - ${this.dateToString(endDate)})`)
 
+    // select only suitable incomes
     let usefulIncomes = this.incomeOutcome.incoming
       .filter(o => this.parseNetDate(o.dateTime) >= startDate && this.parseNetDate(o.dateTime) <= endDate)
 
+    // select only suitable outcomes
     let usefulOutcomes = this.incomeOutcome.outComing
       .filter(o => this.parseNetDate(o.dateTime) >= startDate && this.parseNetDate(o.dateTime) <= endDate)
 
+    // calculate total income
     let totalIncome =
       usefulIncomes
         .map(o => o.amount)
         .reduce((total, current) => total + current, 0)
+
+    // calculate total outcome
     let totalOutCome =
       usefulOutcomes
         .map(o => o.amount)
         .reduce((total, current) => total + current, 0)
+
+    let incomeExpensePerMonth: { income: number, outcome: number }[] = []
+
+    // fill incomes and comes grouped by monthes (passed to report)
+    for (let i = 0; i < 12; i++) {
+      let start = new Date(new Date().getFullYear(), i, 0);
+      let end = new Date(new Date().getFullYear(), i + 1, 0);
+      incomeExpensePerMonth.push({
+        income: this.allIncomeCategories
+          .map(c => this.getTotalIncomeByCategory(c.id, start, end))
+          .reduce((total, current) => total + current, 0),
+        outcome: this.allOutComeCategories
+          .map(c => this.getTotalExpenseByCategory(c.id, start, end))
+          .reduce((total, current) => total + current, 0)
+      });
+    }
 
     this.displayData = {
       date: `${this.dateToString(this.addMonth(startDate))} - ${this.dateToString(this.addMonth(endDate))}`,
@@ -167,6 +187,7 @@ export class GroupComponent implements OnInit {
             amount: this.getTotalExpenseByCategory(c.id, startDate, endDate)
           })
         ),
+      incomeExpensePerMonth: incomeExpensePerMonth
     }
   }
 
@@ -194,6 +215,7 @@ export class GroupComponent implements OnInit {
     return `${this.group.users.length} ${word}`
   }
 
+  // return total income for IncomeCategoryId and time range
   getTotalIncomeByCategory(id: number, startDate: Date, endDate: Date): number {
     return this.incomeOutcome.incoming.length > 0 ?
       this.incomeOutcome.incoming
@@ -203,6 +225,7 @@ export class GroupComponent implements OnInit {
       : 0
   }
 
+  // return total income for OutComeCategoryId and time range
   getTotalExpenseByCategory(id: number, startDate: Date, endDate: Date): number {
     return this.incomeOutcome.outComing.length > 0 ?
       this.incomeOutcome.outComing
@@ -235,66 +258,41 @@ export class GroupComponent implements OnInit {
     console.log(this.calendarString)
   }
 
-  // hasOperationsAtDate(date: Date) {
-  //   return (this.incomeOutcome.incoming.findIndex(o =>
-  //     o.dateTime > date &&
-  //     o.dateTime < this.addDay(date)
-  //     ) != -1) ||
-  //     (this.incomeOutcome.outComing.findIndex(o =>
-  //       o.dateTime > date &&
-  //       o.dateTime < this.addDay(date)
-  //     ) != -1)
-  // }
+  // function returns true if there is any income or outcome on selected date, otherwise false
+  hasOperationsAtDate(date: Date): boolean {
+    return (this.incomeOutcome.incoming.findIndex(o =>
+      this.parseNetDate(o.dateTime) > date &&
+      this.parseNetDate(o.dateTime) < this.addDay(date)
+      ) != -1) ||
+      (this.incomeOutcome.outComing.findIndex(o =>
+        this.parseNetDate(o.dateTime) > date &&
+        this.parseNetDate(o.dateTime) < this.addDay(date)
+      ) != -1)
+  }
 
+  // pretty date string
   dateToString(date: Date): string {
     return `${date.getDate() >= 10 ? date.getDate() : '0' + date.getDate()}.${date.getMonth() >= 10 ? date.getMonth() : '0' + date.getMonth()}.${date.getFullYear()}`
   }
 
+  // truncates date time (05.05.2021 17:30:54 -> 05.05.2021 00:00:00)
   truncateTime(date: Date): Date {
     let nDate = new Date(date)
     nDate.setHours(0, 0, 0)
     return nDate
   }
 
+  // adds a single day to date (05.05.2021 -> 06.05.2021)
   addDay(date: Date): Date {
     let nDate = new Date(date)
     nDate.setDate(nDate.getDate() + 1)
     return nDate
   }
 
+  // adds a single month to date (05.05.2021 -> 05.06.2021)
   addMonth(date: Date): Date {
     let nDate = new Date(date)
     nDate.setMonth(nDate.getMonth() + 1)
     return nDate
-  }
-
-  compareDates(date1: Date, date2: Date): number {
-    return this.compareYear(date1, date2)
-  }
-
-  compareYear(date1: Date, date2: Date): number {
-    let result = this.compare(date1.getFullYear(), date2.getFullYear())
-    if (result == 0) {
-      return this.compareMonth(date1, date2);
-    }
-    return result
-  }
-
-  compareMonth(date1: Date, date2: Date): number {
-    let result = this.compare(date1.getMonth(), date2.getMonth())
-    if (result == 0) {
-      return this.compareDate(date1, date2);
-    }
-    return result
-  }
-
-  compareDate(date1: Date, date2: Date): number {
-    return this.compare(date1.getDate(), date2.getDate())
-  }
-
-  compare(n1: number, n2: number): number {
-    if (n1 < n2) return -1
-    else if (n1 > n2) return 1
-    else return 0
   }
 }
