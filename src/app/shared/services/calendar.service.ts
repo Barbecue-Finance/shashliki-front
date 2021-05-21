@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {EventEmitter, Injectable, Output} from '@angular/core';
 import {ICalendar} from "../interfaces/calendar.interface";
 import {CalendarOptions} from "../interfaces/calendar-options";
 import {IToday} from "../interfaces/today.interface";
@@ -80,6 +80,8 @@ export class CalendarService {
     dd: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
     ddd: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
   }
+
+  dateChanged = new EventEmitter<Date>()
 
   constructor() {
   }
@@ -592,6 +594,8 @@ export class CalendarService {
       this.options.date = date
 
       target.classList.remove('calendar-target-date')
+
+      this.dateChanged.emit(new Date(this.options.year, this.options.month, this.options.date))
 
       return this.drawCalendar()
     }

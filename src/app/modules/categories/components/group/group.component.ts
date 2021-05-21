@@ -96,6 +96,7 @@ export class GroupComponent implements OnInit {
       })
 
     this._calendarService.loadCalendar(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
+    this._calendarService.dateChanged.subscribe(date => this.fillForDay(date));
     this.loadCalendarString()
   }
 
@@ -107,7 +108,7 @@ export class GroupComponent implements OnInit {
     this.fillForRange(this.truncateTime(day), this.truncateTime(this.addDay(day)))
   }
 
-  // This is some weird function to covert C# DateTime format into JS Date
+  // This is some weird function to convert C# DateTime format into JS Date
   parseNetDate(cSDate: string): Date {
     // cSDate is '2017-01-24T14:14:55.807'
     let datestr = cSDate.toString();
