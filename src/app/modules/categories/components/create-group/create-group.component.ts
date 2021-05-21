@@ -3,12 +3,12 @@ import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {Router} from '@angular/router';
-import {AccountService} from 'src/app/shared/services/account.service';
+import {UserService} from "../../../../shared/services/user.service";
 
 @Component({
   selector: 'app-profile',
-  templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.sass']
+  templateUrl: './create-group.component.html',
+  styleUrls: ['./create-group.component.sass']
 })
 export class CreateGroupComponent implements OnInit {
 
@@ -19,7 +19,7 @@ export class CreateGroupComponent implements OnInit {
   constructor(
     private _router: Router,
     readonly matSnackBar: MatSnackBar,
-    private _accountService: AccountService
+    private _accountService: UserService
   ) {
   }
 
