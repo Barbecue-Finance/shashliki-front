@@ -15,7 +15,8 @@ import {GroupComponent} from "../categories/components/group/group.component";
   imports: [
     CommonModule,
     RouterModule.forChild([
-      {path: '', component: ProfileComponent},
+      { path: '', redirectTo: 'profile' },
+      { path: 'profile', component: ProfileComponent },
     ]),
     SharedModule
   ]
