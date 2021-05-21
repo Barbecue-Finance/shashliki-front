@@ -12,8 +12,8 @@ import {RouterModule} from "@angular/router";
   imports: [
     CommonModule,
     RouterModule.forChild([
-      { path: '', redirectTo: 'profile' },
-      { path: 'profile', component: ProfileComponent },
+      {path: '', redirectTo: 'profile'},
+      {path: 'profile', component: ProfileComponent},
     ]),
     SharedModule
   ]
