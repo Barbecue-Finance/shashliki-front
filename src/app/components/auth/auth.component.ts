@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { AccountService } from 'src/app/shared/services/account.service';
+import { UserService } from 'src/app/shared/services/user.service';
 import { Md5 } from 'ts-md5/dist/md5';
 
 @Component({
@@ -20,14 +20,14 @@ export class AuthComponent implements OnInit {
   constructor(
     private _router: Router,
     readonly matSnackBar: MatSnackBar,
-    private _accountService: AccountService
+    private _userService: UserService
   ) {
   }
 
   ngOnInit(): void {
 
-    if (this._accountService.isLoggedIn()) {
-      this._accountService.logout()
+    if (this._userService.isLoggedIn()) {
+      this._userService.logout()
     }
 
     this.authFormGroup = new FormGroup({
@@ -46,7 +46,7 @@ export class AuthComponent implements OnInit {
     values.password = new Md5().appendStr(values.password).end()
     this.isFormSent = true
 
-    this._accountService.login(values)
+    this._userService.login(values)
       .subscribe(() => {
         this.isFormSent = false
 

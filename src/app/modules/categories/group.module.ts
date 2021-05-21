@@ -10,7 +10,6 @@ import {PurseService} from 'src/app/shared/services/purse.service';
 import {MoneyOperationService} from 'src/app/shared/services/money-operation.service';
 import {IncomeOperationCategoryService} from 'src/app/shared/services/income-operation-category.service';
 import {OutComeOperationCategoryService} from 'src/app/shared/services/outcome-operation-category.service';
-import {CreateGroupComponent} from "./components/create-group/create-group.component";
 
 @NgModule({
   declarations: [
@@ -23,7 +22,8 @@ import {CreateGroupComponent} from "./components/create-group/create-group.compo
     CommonModule,
     RouterModule.forChild([
       {
-        path: '', component: AllGroupsComponent, children: [
+        path: '', component: AllGroupsComponent,
+        children: [
           {path: 'report', component: ReportComponent}
         ]
       },

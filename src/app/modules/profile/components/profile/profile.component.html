@@ -1,6 +1,6 @@
 <app-header></app-header>
 <div class="profile-container">
-  <form [formGroup]="authFormGroup" (submit)="save()" (keyup.enter)="save()">
+  <form [formGroup]="authFormGroup" (submit)="save()" (keyup.enter)="save()" *ngIf="isLoaded">
     <div class="control-row">
       <h1 class="title">Имя пользователя</h1>
       <app-data-edit [phone]="true" formControlName="username" [validators]="validators"></app-data-edit>
@@ -18,4 +18,5 @@
     </div>
     <button class="save-changes-btn" type="submit" [disabled]="authFormGroup.invalid || isFormSent">Сохранить</button>
   </form>
+  <h1 *ngIf="!isLoaded" style="color:white; font-weight: 500">Loading</h1>
 </div>

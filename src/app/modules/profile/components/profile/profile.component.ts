@@ -3,7 +3,8 @@ import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {Router} from '@angular/router';
-import {AccountService} from 'src/app/shared/services/account.service';
+import {UserService} from 'src/app/shared/services/user.service';
+import {Md5} from "ts-md5";
 
 @Component({
   selector: 'app-profile',
@@ -12,6 +13,8 @@ import {AccountService} from 'src/app/shared/services/account.service';
 })
 export class ProfileComponent implements OnInit {
 
+  isLoaded = false
+
   authFormGroup: FormGroup = new FormGroup({})
   validators = [Validators.required]
   isFormSent: boolean = false
@@ -19,21 +22,20 @@ export class ProfileComponent implements OnInit {
   constructor(
     private _router: Router,
     readonly matSnackBar: MatSnackBar,
-    private _accountService: AccountService
+    private _userService: UserService
   ) {
   }
 
   ngOnInit(): void {
+    this._userService.getById(this._userService.id).subscribe(u => {
+      this.authFormGroup = new FormGroup({
+        'username': new FormControl('', this.validators),
+        'login': new FormControl('', this.validators),
+        'password': new FormControl('', this.validators),
+      })
 
-    if (!this._accountService.isLoggedIn()) {
-      this._accountService.logout()
-    }
-
-    this.authFormGroup = new FormGroup({
-      'username': new FormControl('', this.validators),
-      'login': new FormControl('', this.validators),
-      'password': new FormControl(''),
-    })
+      this.isLoaded = true
+    });
   }
 
   save(): void {
@@ -41,17 +43,16 @@ export class ProfileComponent implements OnInit {
       return
     }
 
-
     const values = {...this.authFormGroup.value}
+    values.id = this._userService.id
+
+    values.password = new Md5().appendStr(values.password).end()
     this.isFormSent = true
 
-    //TODO User proper method from api
-    this._accountService.login(values)
+    this._userService.update(values)
       .subscribe(() => {
         this.isFormSent = false
-
         this._router.navigate(['/groups'])
-
       }, error => {
         this.isFormSent = false
         if (error.error?.error) {
