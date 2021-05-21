@@ -9,7 +9,7 @@ import {BasicCRUD} from "../../../shared/services/basic-crud.service";
 export class CategoryService {
 
   private _openedCategoryId: number
-  private _opnedCategoryType: string
+  private _openedCategoryType: string
   private readonly keyId = 'openedCategoryId'
   private readonly keyType = 'openedCategoryType'
 
@@ -17,7 +17,7 @@ export class CategoryService {
     private _httpClient: HttpClient
   ) {
     this._openedCategoryId = 0
-    this._opnedCategoryType = ''
+    this._openedCategoryType = ''
   }
 
   get openedCategoryId(): number {
@@ -34,15 +34,15 @@ export class CategoryService {
   }
 
   get openedCategoryType(): string {
-    if (!this._opnedCategoryType) {
+    if (!this._openedCategoryType) {
       // @ts-ignore
-      this._opnedCategoryType = +localStorage.getItem(this.keyType)
+      this._openedCategoryType = +localStorage.getItem(this.keyType)
     }
-    return this._opnedCategoryType
+    return this._openedCategoryType
   }
 
   set openedCategoryType(type: string) {
-    this._opnedCategoryType = type
+    this._openedCategoryType = type
     localStorage.setItem(this.keyType, type)
   }
 

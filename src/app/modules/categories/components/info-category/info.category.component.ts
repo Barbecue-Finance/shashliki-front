@@ -12,6 +12,7 @@ import {IncomeOutcome} from "../../../../shared/interfaces/income-outcome.interf
 import {MoneyOperation} from "../../../../shared/interfaces/money-operations/money-operation.interface";
 import {Observable} from "rxjs";
 import {OutComeMoneyOperation} from "../../../../shared/interfaces/money-operations/outcome-money-operation.interface";
+import {IncomeMoneyOperation} from "../../../../shared/interfaces/money-operations/income-money-operation.interface";
 
 @Component({
   selector: 'app-info-category',
@@ -22,22 +23,28 @@ export class InfoCategoryComponent implements OnInit {
 
   // @ts-ignore
   @Input() openedInfoCategory: Observable<any>
+
   // @ts-ignore
   @Input() closedInfoCategory: Observable<any>
 
-  @Input() title: string = ''
-  @Input() letters: string = ''
   @Input() money: number = 0
 
   @Output() InfoCategoryHidden = new EventEmitter<void>()
 
-  activeCategory: OperationCategory = {
-    id: 0,
-    purseId: 0,
-    title: ''
+  @Input() activeIncomeCategory: { category: IncomeOperationCategory, amount: number } = {
+    category: {id: 0, purseId: 0, title: ''},
+    amount: 0
   }
 
-  operations: MoneyOperation[] = []
+  @Input() activeOutComeCategory: { category: OutComeOperationCategory, amount: number } = {
+    category: {id: 0, purseId: 0, title: ''},
+    amount: 0
+  }
+
+  incomeOperations: IncomeMoneyOperation[] = []
+  outcomeOperations: OutComeMoneyOperation[] = []
+
+  incomeOutcome: IncomeOutcome = {incoming: [], outComing: []}
 
   constructor(
     private _router: Router,
@@ -49,64 +56,19 @@ export class InfoCategoryComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this._categoryService.isAnyCategoryOpened()) {
-      this.openedInfoCategory.subscribe(() => {
-        this.loadActiveCategory()
-
-        this.loadRelativeMoneyOperations()
-
-        this.loadLetters()
-        this.loadTitle()
-        this.loadMoneyAmount()
-      })
-
-      this.closedInfoCategory.subscribe(() => this.hideInfoCategory())
-    }
+    this.openedInfoCategory.subscribe(() => {
+        this.load()
+      }
+    )
+    this.closedInfoCategory.subscribe(() => this.hideInfoCategory())
   }
 
-  private loadLetters(): void {
-    this.letters = this.activeCategory.title.substring(0, 2)
-  }
+  filterMoneyOperations(): void {
+    this.incomeOperations = this.incomeOutcome.incoming.filter(i => i.incomeOperationCategoryId == this.activeIncomeCategory.category.id)
+    this.outcomeOperations = this.incomeOutcome.outComing.filter(i => i.outComeOperationCategoryId == this.activeOutComeCategory.category.id)
 
-  private loadTitle(): void {
-    this.title = this.activeCategory.title
-  }
-
-  private loadMoneyAmount() {
-    //  categoryItem.amount | money
-  }
-
-  private loadActiveCategory() {
-    if (this._categoryService.openedCategoryType == OperationCategories.IncomeOperation) {
-      this._incomeService.getById(this._categoryService.openedCategoryId)
-        .subscribe((response: IncomeOperationCategory) => {
-          this.activeCategory = response
-        })
-    } else {
-      this._outcomeService.getById(this._categoryService.openedCategoryId)
-        .subscribe((response) => {
-          this.activeCategory = response
-        })
-    }
-  }
-
-  private loadRelativeMoneyOperations() {
-    this._moneyService.getByPurse(this.activeCategory.purseId)
-      .subscribe((response: IncomeOutcome) => {
-        this.filterMoneyOperations(response)
-      })
-  }
-
-  private filterMoneyOperations(operations: IncomeOutcome) {
-    if (this._categoryService.openedCategoryType == OperationCategories.IncomeOperation) {
-
-      this.operations = operations.incoming.filter(i => i.incomeOperationCategoryId == this.activeCategory.id)
-
-    } else if (this._categoryService.openedCategoryType == OperationCategories.OutcomeOperation) {
-
-      this.operations = operations.outComing.filter(i => i.outComeOperationCategoryId == this.activeCategory.id)
-
-    }
+    console.table(this.incomeOperations)
+    console.table(this.outcomeOperations)
   }
 
   hideInfoCategory() {
@@ -116,10 +78,36 @@ export class InfoCategoryComponent implements OnInit {
   }
 
   isExpense(): boolean {
+    // console.log(this._categoryService.openedCategoryType == OperationCategories.OutcomeOperation)
     return this._categoryService.openedCategoryType == OperationCategories.OutcomeOperation
   }
 
   isIncome(): boolean {
+    // console.log(this._categoryService.openedCategoryType == OperationCategories.IncomeOperation)
     return this._categoryService.openedCategoryType == OperationCategories.IncomeOperation
+  }
+
+  private load() {
+    if (this._categoryService.isAnyCategoryOpened()) {
+      if (this.isIncome()) {
+        console.log('Income category')
+        console.log(this.activeIncomeCategory)
+        this._moneyService
+          .getByPurse(this.activeIncomeCategory.category.purseId)
+          .subscribe(io => {
+            this.incomeOutcome = io
+            this.filterMoneyOperations()
+          });
+      } else {
+        console.log('Expense category')
+        console.log(this.activeOutComeCategory)
+        this._moneyService
+          .getByPurse(this.activeOutComeCategory.category.purseId)
+          .subscribe(io => {
+            this.incomeOutcome = io
+            this.filterMoneyOperations()
+          });
+      }
+    }
   }
 }

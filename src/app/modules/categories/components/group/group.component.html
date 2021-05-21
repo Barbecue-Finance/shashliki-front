@@ -19,7 +19,7 @@
           <p>{{ group.title }}</p>
         </div>
         <div class="members">
-          <p>{{ getMembersString() }}</p>
+          <p (click)="membersClicked()">{{ getMembersString() }}</p>
         </div>
         <div class="expenses">
           <div class="info-container">
@@ -71,12 +71,12 @@
     </div>
 
     <div class="info-category-layer" [class.hide-right]="isHiddenInfoCategory">
-      <app-info-category [openedInfoCategory]="openedInfoCategory.asObservable()"
-                         [closedInfoCategory]="closedInfoCategory.asObservable()"
-                         (InfoCategoryHidden)="closeInfoCategory()"
-                         [title]="dataForInfoCategory.title"
-                         [money]="dataForInfoCategory.money"
-                         [letters]="dataForInfoCategory.letters"></app-info-category>
+      <app-info-category
+        [openedInfoCategory]="openedInfoCategory.asObservable()"
+        [closedInfoCategory]="closedInfoCategory.asObservable()"
+        (InfoCategoryHidden)="closeInfoCategory()"
+        [activeIncomeCategory]="selectedIncomeCategory"
+        [activeOutComeCategory]="selectedOutComeCategory"></app-info-category>
     </div>
   </div>
 </div>
