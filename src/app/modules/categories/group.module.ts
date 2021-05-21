@@ -26,14 +26,8 @@ import {MoneyPipe} from "../../shared/pipes/money.pipe";
   imports: [
     CommonModule,
     RouterModule.forChild([
-      {
-        path: '', component: AllGroupsComponent
-      },
-      {
-        path: 'create', component: CreateGroupComponent, children: [
-          {path: 'info-category', component: InfoCategoryComponent}
-        ]
-      },
+      {path: '', component: AllGroupsComponent},
+      {path: 'create', component: CreateGroupComponent},
       {
         path: ':id', component: GroupComponent, children: [
           {path: 'report', component: ReportComponent}

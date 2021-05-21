@@ -1,6 +1,6 @@
 import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
 import {IncomeOperationCategory} from "../../../../shared/interfaces/operation-categories/income-operation-category.interface";
-import {OutcomeOperationCategory} from "../../../../shared/interfaces/operation-categories/outcome-operation-category.interface";
+import {OutСomeOperationCategory} from "../../../../shared/interfaces/operation-categories/outcome-operation-category.interface";
 import {Router} from "@angular/router";
 import {CategoryService} from "../../services/category.service";
 import {OperationCategory} from "../../../../shared/interfaces/operation-categories/operation-category.interface";
@@ -48,17 +48,19 @@ export class InfoCategoryComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (!this._categoryService.isAnyCategoryOpened()) {
-      this._router.navigate(['/groups'])
+    if (this._categoryService.isAnyCategoryOpened()) {
+      this.openedInfoCategory.subscribe(() => {
+        this.loadActiveCategory()
+
+        this.loadRelativeMoneyOperations()
+
+        this.loadLetters()
+        this.loadTitle()
+        this.loadMoneyAmount()
+      })
+
+      this.closedInfoCategory.subscribe(() => this.hideInfoCategory())
     }
-
-    this.loadActiveCategory()
-
-    this.loadRelativeMoneyOperations()
-
-    this.loadLetters()
-    this.loadTitle()
-    this.loadMoneyAmount()
   }
 
   private loadLetters(): void {
@@ -81,7 +83,7 @@ export class InfoCategoryComponent implements OnInit {
         })
     } else {
       this._outcomeService.getById(this._categoryService.openedCategoryId)
-        .subscribe((response: OutcomeOperationCategory) => {
+        .subscribe((response: OutСomeOperationCategory) => {
           this.activeCategory = response
         })
     }
@@ -99,10 +101,16 @@ export class InfoCategoryComponent implements OnInit {
 
       this.operations = operations.incoming.filter(i => i.incomeOperationCategoryId == this.activeCategory.id)
 
-    } else {
+    } else if (this._categoryService.openedCategoryType == OperationCategories.OutcomeOperation) {
 
       this.operations = operations.outComing.filter(i => i.outComeOperationCategoryId == this.activeCategory.id)
 
     }
+  }
+
+  hideInfoCategory() {
+    this._categoryService.killActiveCategory()
+
+    this.InfoCategoryHidden.emit()
   }
 }

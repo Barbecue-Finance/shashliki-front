@@ -49,4 +49,9 @@ export class CategoryService {
   isAnyCategoryOpened(): boolean {
     return !!this._openedCategoryId && !!localStorage.getItem(this.keyId)
   }
+
+  killActiveCategory() {
+    this.openedCategoryId = 0
+    this.openedCategoryType = ''
+  }
 }

@@ -7,7 +7,7 @@ import {IncomeOutcome} from 'src/app/shared/interfaces/income-outcome.interface'
 import {MoneyOperationService} from 'src/app/shared/services/money-operation.service';
 import {IncomeOperationCategoryService} from 'src/app/shared/services/income-operation-category.service';
 import {Purse} from 'src/app/shared/interfaces/purse.interface';
-import {OutcomeOperationCategory} from 'src/app/shared/interfaces/operation-categories/outcome-operation-category.interface';
+import {OutСomeOperationCategory} from 'src/app/shared/interfaces/operation-categories/outcome-operation-category.interface';
 import {IncomeOperationCategory} from 'src/app/shared/interfaces/operation-categories/income-operation-category.interface';
 import {CalendarService} from 'src/app/shared/services/calendar.service';
 import {Subject} from 'rxjs';
@@ -48,7 +48,7 @@ export class GroupComponent implements OnInit {
     totalOutCome: number,
     totalAmount: number
     incomeCategories: { category: IncomeOperationCategory, amount: number }[],
-    outcomeCategories: { category: OutcomeOperationCategory, amount: number }[],
+    outcomeCategories: { category: OutСomeOperationCategory, amount: number }[],
     date: string,
     incomeExpensePerMonth: { income: number, outcome: number }[]
   } = {
@@ -62,7 +62,7 @@ export class GroupComponent implements OnInit {
   }
 
   allIncomeCategories: IncomeOperationCategory[] = []
-  allOutComeCategories: OutcomeOperationCategory[] = []
+  allOutComeCategories: OutСomeOperationCategory[] = []
 
   dataForInfoCategory: { title: string, letters: string, moneyAmountStr: string } = {
     title: '',
