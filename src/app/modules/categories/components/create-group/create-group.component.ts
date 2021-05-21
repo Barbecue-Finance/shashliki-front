@@ -44,6 +44,7 @@ export class CreateGroupComponent implements OnInit {
     this._groupService.create(values).subscribe(() => {
       this.isFormSent = false
       this.matSnackBar.open('Успешно', '', {duration: 3000})
+      this._router.navigate(['/groups'])
     }, error => {
       this.isFormSent = false
       if (error.error?.error) {

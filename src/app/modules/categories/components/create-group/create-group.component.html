@@ -3,7 +3,7 @@
   <form [formGroup]="formGroup" (submit)="save()" (keyup.enter)="save()">
     <div class="control-row">
       <h1 class="title">Название группы</h1>
-      <app-data-edit [placeholder]="'Название'" [phone]="true" formControlName="username" [validators]="validators"></app-data-edit>
+      <app-data-edit [placeholder]="'Название'" [phone]="true" formControlName="title" [validators]="validators"></app-data-edit>
     </div>
     <button class="save-changes-btn" type="submit" [disabled]="formGroup.invalid || isFormSent">Создать</button>
   </form>

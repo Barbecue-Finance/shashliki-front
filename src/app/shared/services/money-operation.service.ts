@@ -41,8 +41,8 @@ export class MoneyOperationService {
     return this._httpClient.post(`${environment.apiUrl}/${this.postfix}/CreateIncome`, operation)
   }
 
-  createOutCome(operation: IncomeMoneyOperation): Observable<any> {
-    return this._httpClient.post(`${environment.apiUrl}/${this.postfix}/CreateIncome`, operation)
+  createOutCome(operation: OutComeMoneyOperation): Observable<any> {
+    return this._httpClient.post(`${environment.apiUrl}/${this.postfix}/CreateOutCome`, operation)
   }
 
   createTransfer(operation: TransferOperation): Observable<any> {

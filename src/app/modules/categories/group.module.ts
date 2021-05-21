@@ -14,6 +14,9 @@ import {CreateGroupComponent} from "./components/create-group/create-group.compo
 import {InfoCategoryComponent} from "./components/info-category/info.category.component";
 import {CategoryService} from "./services/category.service";
 import {MoneyPipe} from "../../shared/pipes/money.pipe";
+import {CreateOperationComponent} from "./components/create-operation/create-operation.component";
+import {MaterialSharedModule} from "../../shared/modules/material-shared.module";
+
 
 @NgModule({
   declarations: [
@@ -21,20 +24,24 @@ import {MoneyPipe} from "../../shared/pipes/money.pipe";
     GroupComponent,
     ReportComponent,
     CreateGroupComponent,
-    InfoCategoryComponent
+    InfoCategoryComponent,
+    CreateOperationComponent
   ],
   imports: [
     CommonModule,
     RouterModule.forChild([
       {path: '', component: AllGroupsComponent},
       {path: 'create', component: CreateGroupComponent},
+      {path: 'create-operation', component: CreateOperationComponent},
       {
         path: ':id', component: GroupComponent, children: [
           {path: 'report', component: ReportComponent}
         ]
       }
     ]),
-    SharedModule
+    SharedModule,
+    MaterialSharedModule
+
   ],
   providers: [
     GroupService,

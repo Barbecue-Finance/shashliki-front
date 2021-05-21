@@ -1,5 +1,6 @@
-import { MoneyOperation } from "./money-operation.interface";
+import {MoneyOperation} from "./money-operation.interface";
 
-export interface OutComeMoneyOperation extends MoneyOperation{
-    outComeOperationCategoryId: number
+export interface OutComeMoneyOperation extends MoneyOperation {
+  outComeOperationCategoryId: number,
+  operationCategoryTitle: string
 }

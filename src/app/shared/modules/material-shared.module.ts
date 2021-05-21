@@ -5,6 +5,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 
 
 const MODULES = [
@@ -12,7 +13,8 @@ const MODULES = [
   MatFormFieldModule,
   MatIconModule,
   MatCheckboxModule,
-  MatSnackBarModule
+  MatSnackBarModule,
+  MatSlideToggleModule
 ];
 
 @NgModule({

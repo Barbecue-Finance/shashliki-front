@@ -47,7 +47,8 @@ export class HeaderComponent implements OnInit {
       this.HideReport.emit()
     } else if (this._router.url.includes('/profile')) {
       this._router.navigate(['/groups'])
-    } else if (this._router.url.includes('/info-category')) {
+    } else if (this._router.url.includes('/create-operation')) {
+      console.log(this._groupService.openedGroupId)
       if (this._groupService.isAnyGroupOpened()) {
         this._router.navigate(['/groups', this._groupService.openedGroupId])
       } else {

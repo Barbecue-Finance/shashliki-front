@@ -388,4 +388,8 @@ export class GroupComponent implements OnInit {
   closeInfoCategory() {
     this.isHiddenInfoCategory = true
   }
+
+  openCreateOperationPage(): void {
+    this._router.navigate(['/groups', 'create-operation'])
+  }
 }

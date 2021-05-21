@@ -1,0 +1,38 @@
+@import "variables"
+
+.create-operation-container
+  width: 100%
+  max-width: 350px
+  height: 436px
+  margin: 20vh auto 0
+
+  .operation-slider
+    margin-top: 2rem
+    width: 100%
+    height: 100px
+    display: flex
+    justify-content: center
+    align-items: center
+    font-size: 16px
+    span
+      margin-right: .5rem
+      color: $incomes
+    mat-slide-toggle
+      color: $expenses
+
+
+  h1
+    font-family: roboto, sans-serif
+    font-weight: 100
+    font-size: 36px
+    color: $frame-white
+
+  button
+    cursor: pointer
+    border: $white-outline
+    margin-top: 2rem
+    margin-left: calc(50% - 105px)
+    width: 60%
+    height: 50px
+    background-color: transparent
+    color: $frame-white

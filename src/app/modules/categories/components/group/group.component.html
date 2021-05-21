@@ -23,7 +23,7 @@
         </div>
         <div class="expenses">
           <div class="info-container">
-            <div class="icon-plus"></div>
+            <div class="icon-plus" (click)="openCreateOperationPage()"></div>
             <p class="word">Расходы</p>
             <p class="number">{{ displayData.totalOutCome | money}}</p>
           </div>
@@ -40,7 +40,7 @@
         </div>
         <div class="incomes">
           <div class="info-container">
-            <div class="icon-plus"></div>
+            <div class="icon-plus" (click)="openCreateOperationPage()"></div>
             <p class="word">Доходы</p>
             <p class="number">{{ displayData.totalIncome | money }}</p>
           </div>
