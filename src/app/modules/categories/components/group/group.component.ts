@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {IGroup} from "../../../../shared/interfaces/group.interface";
 import {GroupService} from "../../services/group.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {PurseService} from 'src/app/shared/services/purse.service';
 import {IncomeOutcome} from 'src/app/shared/interfaces/income-outcome.interface';
 import {MoneyOperationService} from 'src/app/shared/services/money-operation.service';
@@ -11,7 +11,6 @@ import {OutComeOperationCategory} from 'src/app/shared/interfaces/operation-cate
 import {IncomeOperationCategory} from 'src/app/shared/interfaces/operation-categories/income-operation-category.interface';
 import {CalendarService} from 'src/app/shared/services/calendar.service';
 import {Subject} from 'rxjs';
-import {CalendarComponent} from "../../../../shared/components/calendar/calendar.component";
 
 @Component({
   selector: 'app-category',
@@ -64,7 +63,8 @@ export class GroupComponent implements OnInit {
     private _moneyOperationService: MoneyOperationService,
     private _calendarService: CalendarService,
     private _operationCategoryService: IncomeOperationCategoryService,
-    private _router: Router
+    private _router: Router,
+    private _route: ActivatedRoute
   ) {
     this.group = {
       id: 0,
@@ -76,6 +76,15 @@ export class GroupComponent implements OnInit {
 
 
   ngOnInit(): void {
+    let isValid = true
+    this._route.params.subscribe(params => {
+      isValid = !isNaN(+params['id'])
+      if (!isValid) {
+        this._router.navigate(['/groups'])
+      }
+    })
+
+
     if (!this._groupsService.isAnyGroupOpened()) {
       this._router.navigate(['/groups'])
     }

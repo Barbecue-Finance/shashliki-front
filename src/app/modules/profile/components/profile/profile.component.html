@@ -6,11 +6,17 @@
       <app-data-edit [placeholder]="'Имя пользователя'" [phone]="true" formControlName="username"
                      [validators]="validators"></app-data-edit>
     </div>
+    <small class="error"
+           *ngIf="authFormGroup.get('username')?.errors?.required && authFormGroup.get('username')?.touched">Это
+      обязательное поле</small>
     <div class="control-row">
       <h1 class="title">Логин</h1>
       <app-data-edit [placeholder]="'Логин'" [phone]="true" formControlName="login"
                      [validators]="validators"></app-data-edit>
     </div>
+    <small class="error"
+           *ngIf="authFormGroup.get('login')?.errors?.required && authFormGroup.get('login')?.touched">Это
+      обязательное поле</small>
     <div class="control-row">
       <h1 class="title">Пароль</h1>
       <app-data-edit [placeholder]="'Пароль'" [phone]="true" formControlName="password"
