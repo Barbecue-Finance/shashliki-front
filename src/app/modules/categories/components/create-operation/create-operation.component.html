@@ -9,11 +9,11 @@
     <div class="operation-slider">
       <h1 class="title">Типо операции</h1>
       <span>Доход</span>
-      <mat-slide-toggle (change)="isChecked = !isChecked">Трата</mat-slide-toggle>
+      <mat-slide-toggle [checked]="isChecked" (change)="handleToggle($event)">Трата</mat-slide-toggle>
     </div>
     <div class="control-row">
       <h1 class="sum" style="margin-bottom: 0">Сумма</h1>
-      <app-data-edit [(ngModel)]="isChecked" [placeholder]="'Сумма'" [phone]="true" formControlName="sum"
+      <app-data-edit [placeholder]="'Сумма'" [phone]="true" formControlName="sum"
                      [validators]="validators"></app-data-edit>
     </div>
     <button class="save-changes-btn" type="submit" [disabled]="formGroup.invalid || isFormSent">Создать</button>

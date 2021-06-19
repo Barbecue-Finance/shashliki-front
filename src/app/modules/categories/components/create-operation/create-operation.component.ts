@@ -1,5 +1,5 @@
 import {HttpClient} from '@angular/common/http';
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {Router} from '@angular/router';
@@ -10,6 +10,7 @@ import {MoneyOperationService} from "../../../../shared/services/money-operation
 import {PurseService} from "../../../../shared/services/purse.service";
 import {OutComeMoneyOperation} from "../../../../shared/interfaces/money-operations/outcome-money-operation.interface";
 import {IncomeMoneyOperation} from "../../../../shared/interfaces/money-operations/income-money-operation.interface";
+import {MatSlideToggleChange} from "@angular/material/slide-toggle";
 
 
 @Component({
@@ -23,8 +24,8 @@ export class CreateOperationComponent implements OnInit {
   validators = [Validators.required]
   isFormSent: boolean = false
 
-  isChecked = false
-
+  // TODO
+  @Input() isChecked = false
 
   constructor(
     private _router: Router,
@@ -56,6 +57,7 @@ export class CreateOperationComponent implements OnInit {
       .subscribe((purse) => {
 
         if (this.isChecked) {
+          console.log("sending outcome")
           let myOperation: OutComeMoneyOperation = {
             amount: +values.sum,
             comment: '',
@@ -82,6 +84,7 @@ export class CreateOperationComponent implements OnInit {
           });
 
         } else {
+          console.log("sending income")
           let myOperation: IncomeMoneyOperation = {
             amount: +values.sum,
             comment: '',
@@ -111,4 +114,7 @@ export class CreateOperationComponent implements OnInit {
       })
   }
 
+  handleToggle($event: MatSlideToggleChange) {
+    this.isChecked = $event.checked
+  }
 }

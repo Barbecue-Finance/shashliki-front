@@ -7,17 +7,31 @@
     <div class="category-info">
       <div class="icon" [class.expenses-info]="isExpense()" [class.incomes-info]="isIncome()">
         <div class="circle">
-          <p class="letters">{{ letters }}</p>
+          <p class="letters">
+            {{ (isIncome() ? activeIncomeCategory.category.title : activeOutComeCategory.category.title).substring(0, 2) }}
+          </p>
         </div>
-        <p class="category-text">{{ title }}</p>
-        <p class="money-amount">{{ moneyAmountStr }}</p>
+        <p
+          class="category-text">{{ (isIncome() ? activeIncomeCategory.category.title : activeOutComeCategory.category.title) }}</p>
+        <p
+          class="money-amount">{{ (isIncome() ? activeIncomeCategory.amount : activeOutComeCategory.amount) | money }}</p>
       </div>
     </div>
 
-    <div class="number-wrapper">
-      <div class="number">
-        <div class="number-text"  [class.expenses-info]="isExpense()" [class.incomes-info]="isIncome()"></div>
-        <div class="username"></div>
+    <div class="number-wrapper" *ngIf="isIncome()">
+      <div class="number" *ngFor="let operation of incomeOperations">
+        <div class="number-text"
+             [class.expenses-info]="isExpense()"
+             [class.incomes-info]="isIncome()">{{operation.amount}}</div>
+        <div class="username">{{operation.userUsername}}</div>
+      </div>
+    </div>
+
+    <div class="number-wrapper" *ngIf="!isIncome()">
+      <div class="number" *ngFor="let operation of outcomeOperations">
+        <div class="number-text" [class.expenses-info]="isExpense()"
+             [class.incomes-info]="isIncome()">{{operation.amount}}</div>
+        <div class="username">{{operation.userUsername}}</div>
       </div>
     </div>
 

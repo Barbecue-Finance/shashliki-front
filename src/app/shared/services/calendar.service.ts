@@ -458,23 +458,20 @@ export class CalendarService {
       td = document.createElement("td");
       td.innerHTML = count + '';
       if (this._calendar.today.date === count && this._calendar.today.monthIndex === this._calendar.monthIndex && this.options.highlightToday) {
-        if (this.daysOfInterest.includes(count)) {
-          td.setAttribute("class", "calendar-today-date starred");
-          let starElement = document.createElement("span");
-          td.appendChild(starElement)
-          starElement.setAttribute('class', 'star');
-        } else {
-          td.setAttribute("class", "calendar-today-date");
-        }
+        td.setAttribute("class", "calendar-today-date");
       }
       if (this.options.date === count && this.options.month === this._calendar.monthIndex && this.options.highlightTargetDate) {
-        if (this.daysOfInterest.includes(count)) {
-          td.setAttribute("class", "calendar-target-date starred");
-          let starElement = document.createElement("span");
-          td.appendChild(starElement)
-          starElement.setAttribute('class', 'star inverted');
+        td.setAttribute("class", "calendar-target-date");
+      }
+      if (this.daysOfInterest.includes(count)) {
+        td.setAttribute("class", !td.hasAttribute("class") ? "starred" : td.getAttribute("class") + " starred");
+        let starElement = document.createElement("span");
+        td.appendChild(starElement)
+        if (this.options.date === count && this.options.month === this._calendar.monthIndex && this.options.highlightTargetDate) {
+          starElement.setAttribute("class", "star inverted");
         } else {
-          td.setAttribute("class", "calendar-target-date");
+
+          starElement.setAttribute('class', 'star');
         }
       }
       tr.appendChild(td);
@@ -494,23 +491,21 @@ export class CalendarService {
         td = document.createElement('td');
         td.innerHTML = count + '';
         if (this._calendar.today.date === count && this._calendar.today.monthIndex === this._calendar.monthIndex && this.options.highlightToday) {
-          if (this.daysOfInterest.includes(count)) {
-            td.setAttribute("class", "calendar-today-date starred");
-            let starElement = document.createElement("span");
-            td.appendChild(starElement)
-            starElement.setAttribute('class', 'star');
-          } else {
-            td.setAttribute("class", "calendar-today-date");
-          }
+          td.setAttribute("class", "calendar-today-date");
         }
         if (this.options.date === count && this.options.month === this._calendar.monthIndex && this.options.highlightTargetDate) {
-          if (this.daysOfInterest.includes(count)) {
-            td.setAttribute("class", "calendar-target-date starred ");
-            let starElement = document.createElement("span");
-            td.appendChild(starElement)
-            starElement.setAttribute('class', 'star inverted');
+          td.setAttribute("class", "calendar-target-date");
+        }
+        if (this.daysOfInterest.includes(count)) {
+          td.setAttribute("class", !td.hasAttribute("class")?" starred" : td.getAttribute("class") + " starred");
+          let starElement = document.createElement("span");
+          td.appendChild(starElement)
+
+          if (this.options.date === count && this.options.month === this._calendar.monthIndex && this.options.highlightTargetDate) {
+            starElement.setAttribute("class", "star inverted");
           } else {
-            td.setAttribute("class", "calendar-target-date");
+
+            starElement.setAttribute('class', 'star');
           }
         }
         count = count + 1;
@@ -628,7 +623,7 @@ export class CalendarService {
   }
 
   newActiveDate(target: HTMLTableDataCellElement): string {
-    let date = +target.innerHTML
+    let date = +target.innerText
     if (date !== 0) {
       this.options.date = date
 

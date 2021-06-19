@@ -7,13 +7,15 @@ import {IncomeOutcome} from 'src/app/shared/interfaces/income-outcome.interface'
 import {MoneyOperationService} from 'src/app/shared/services/money-operation.service';
 import {IncomeOperationCategoryService} from 'src/app/shared/services/income-operation-category.service';
 import {Purse} from 'src/app/shared/interfaces/purse.interface';
-import {OutСomeOperationCategory} from 'src/app/shared/interfaces/operation-categories/outcome-operation-category.interface';
+import {OutComeOperationCategory} from 'src/app/shared/interfaces/operation-categories/outcome-operation-category.interface';
 import {IncomeOperationCategory} from 'src/app/shared/interfaces/operation-categories/income-operation-category.interface';
 import {CalendarService} from 'src/app/shared/services/calendar.service';
 import {Subject} from 'rxjs';
 import {CategoryService} from "../../services/category.service";
 import {MoneyPipe} from "../../../../shared/pipes/money.pipe";
 import {OperationCategories} from "../../../../shared/enums/OperationCategory.enum";
+import {UserService} from "../../../../shared/services/user.service";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-category',
@@ -35,6 +37,16 @@ export class GroupComponent implements OnInit {
   openedInfoCategory: Subject<void> = new Subject<void>()
   closedInfoCategory: Subject<void> = new Subject<void>()
 
+  selectedIncomeCategory: { category: IncomeOperationCategory, amount: number } = {
+    category: {id: 0, title: '', purseId: 0},
+    amount: 0
+  }
+
+  selectedOutComeCategory: { category: OutComeOperationCategory, amount: number } = {
+    category: {id: 0, title: '', purseId: 0},
+    amount: 0
+  }
+
   incomeOutcome: IncomeOutcome = {incoming: [], outComing: []}
   purse: Purse = {
     id: 0,
@@ -48,7 +60,7 @@ export class GroupComponent implements OnInit {
     totalOutCome: number,
     totalAmount: number
     incomeCategories: { category: IncomeOperationCategory, amount: number }[],
-    outcomeCategories: { category: OutСomeOperationCategory, amount: number }[],
+    outcomeCategories: { category: OutComeOperationCategory, amount: number }[],
     date: string,
     incomeExpensePerMonth: { income: number, outcome: number }[]
   } = {
@@ -62,16 +74,18 @@ export class GroupComponent implements OnInit {
   }
 
   allIncomeCategories: IncomeOperationCategory[] = []
-  allOutComeCategories: OutСomeOperationCategory[] = []
+  allOutComeCategories: OutComeOperationCategory[] = []
 
-  dataForInfoCategory: { title: string, letters: string, moneyAmountStr: string } = {
+  dataForInfoCategory: { title: string, letters: string, money: number } = {
     title: '',
     letters: '',
-    moneyAmountStr: ''
+    money: 0
   }
 
   constructor(
     private _groupsService: GroupService,
+    readonly matSnackBar: MatSnackBar,
+    private _userService: UserService,
     private _purseService: PurseService,
     private _moneyOperationService: MoneyOperationService,
     private _calendarService: CalendarService,
@@ -353,33 +367,27 @@ export class GroupComponent implements OnInit {
     return nDate
   }
 
-  showInfoCategoryIncome(selectedCategory: any) {
+  showInfoCategoryIncome(selectedIncomeCategory: { category: IncomeOperationCategory, amount: number }) {
+    this.selectedIncomeCategory = selectedIncomeCategory
 
     this.isHiddenInfoCategory = false
 
-    this.dataForInfoCategory = {
-      title: selectedCategory.category.title,
-      letters: selectedCategory.category.title.substring(0, 2),
-      moneyAmountStr: this._moneyPipe.transform(selectedCategory.category.amount)
-    }
+    console.log(this.selectedIncomeCategory)
 
-    this._categoryService.openedCategoryId = selectedCategory.id
+    this._categoryService.openedCategoryId = selectedIncomeCategory.category.id
     this._categoryService.openedCategoryType = OperationCategories.IncomeOperation
 
     this.openedInfoCategory.next()
   }
 
-  showInfoCategoryOutcome(selectedCategory: any) {
+  showInfoCategoryOutcome(selectedOutComeCategory: { category: OutComeOperationCategory, amount: number }) {
 
+    this.selectedOutComeCategory = selectedOutComeCategory
     this.isHiddenInfoCategory = false
 
-    this.dataForInfoCategory = {
-      title: selectedCategory.category.title,
-      letters: selectedCategory.category.title.substring(0, 2),
-      moneyAmountStr: this._moneyPipe.transform(selectedCategory.category.amount)
-    }
+    console.log(this.selectedOutComeCategory)
 
-    this._categoryService.openedCategoryId = selectedCategory.id
+    this._categoryService.openedCategoryId = selectedOutComeCategory.category.id
     this._categoryService.openedCategoryType = OperationCategories.OutcomeOperation
 
     this.openedInfoCategory.next()
@@ -387,6 +395,14 @@ export class GroupComponent implements OnInit {
 
   closeInfoCategory() {
     this.isHiddenInfoCategory = true
+  }
+
+  membersClicked() {
+    this.matSnackBar.open(`В группе '${this.group.title}' с вами ${this.getMembersString()}: ${this.group.users.map(u => u.username).join("\n")}`, '',
+      {
+        duration: 3000
+      }
+    )
   }
 
   openCreateOperationPage(): void {

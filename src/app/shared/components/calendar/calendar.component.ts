@@ -84,7 +84,7 @@ export class CalendarComponent implements OnInit {
   }
 
   processTd(elem: HTMLTableDataCellElement): void {
-    let value = +elem.innerHTML
+    let value = +(elem.innerText)
 
     if (!isNaN(value) && value !== 0) {
       this.selectNewActiveDate(elem)
