@@ -85,6 +85,8 @@ export class CalendarService {
 
   daysOfInterest: number[] = []
 
+  private count = 1;
+
   constructor() {
   }
 
@@ -106,19 +108,55 @@ export class CalendarService {
 
   /**
    * This function will return calendar detail.
-   *
-   *                          the current year.
-   *                          if not set will consider the current month.
-   * @return boolean    if error return false, else true
-   * @param year
-   * @param month
-   * @param date
+   * @return false if error, otherwise true.
+   * @param year the current year.
+   * @param month if not set will consider the current month.
+   * @param date the current date.
    */
   loadCalendar(year: number, month: number, date: number): boolean {
     let dateObj: Date;
     dateObj = new Date(date);
 
 
+    if (!this.isDataValid(year, month, date)) {
+      return false;
+    }
+
+
+    this._calendar.year = year
+    this._calendar.month = month
+    this._calendar.date = date
+
+    //today
+    let dateString = dateObj.toString().split(" ");
+
+    this.setUpToday(dateObj, dateString);
+
+    //get month-year first day
+    dateObj.setDate(1);
+    dateObj.setMonth(month);
+    dateObj.setFullYear(year);
+    dateString = dateObj.toString().split(" ");
+
+    this.setMonthFirstDay(dateString);
+
+    //get total days for the month-year
+    dateObj.setFullYear(year);
+    dateObj.setMonth(month + 1);
+    dateObj.setDate(0);
+    this.setTotalDays(dateObj);
+
+    //get month-year targeted date
+    dateObj.setFullYear(year);
+    dateObj.setMonth(month);
+    dateObj.setDate(date);
+    dateString = dateObj.toString().split(" ");
+    this.setTargetedDay(dateString);
+
+    return true;
+  }
+
+  private isDataValid(year: number, month: number, date: number): boolean {
     if (year < this.START_YEAR || year > this.END_YEAR) {
       console.error("Invalid Year");
       return false;
@@ -131,60 +169,6 @@ export class CalendarService {
       console.error("Invalid Date");
       return false;
     }
-
-    this._calendar.year = year
-    this._calendar.month = month
-    this._calendar.date = date
-
-    //today
-    let dateString = dateObj.toString().split(" ");
-
-    let idx = this.dayNameEn.ddd.indexOf(dateString[0]);
-    this._calendar.today.dayIndex = idx;
-    this._calendar.today.dayName = this.dayNameRu.ddd[idx];
-    this._calendar.today.dayFullName = this.dayNameRu.full[idx];
-
-    idx = this.monthNameEn.mmm.indexOf(dateString[1]);
-    this._calendar.today.monthIndex = idx;
-    this._calendar.today.monthName = this.monthNameRu.mmm[idx];
-    this._calendar.today.monthFullName = this.monthNameRu.full[idx];
-
-    this._calendar.today.date = dateObj.getDate();
-
-    this._calendar.today.year = +dateString[3];
-
-    //get month-year first day
-    dateObj.setDate(1);
-    dateObj.setMonth(month);
-    dateObj.setFullYear(year);
-    dateString = dateObj.toString().split(" ");
-
-    idx = this.dayNameEn.ddd.indexOf(dateString[0]);
-    this._calendar.firstDayIndex = idx;
-    this._calendar.firstDayName = dateString[0];
-    this._calendar.firstDayFullName = this.dayNameRu.full[idx];
-
-    idx = this.monthNameEn.mmm.indexOf(dateString[1]);
-    this._calendar.monthIndex = idx;
-    this._calendar.monthName = dateString[1];
-    this._calendar.monthFullName = this.monthNameRu.full[idx];
-
-    //get total days for the month-year
-    dateObj.setFullYear(year);
-    dateObj.setMonth(month + 1);
-    dateObj.setDate(0);
-    this._calendar.totalDays = dateObj.getDate();
-
-    //get month-year targeted date
-    dateObj.setFullYear(year);
-    dateObj.setMonth(month);
-    dateObj.setDate(date);
-    dateString = dateObj.toString().split(" ");
-
-    idx = this.dayNameEn.ddd.indexOf(dateString[0]);
-    this._calendar.targetedDayIndex = idx;
-    this._calendar.targetedDayName = dateString[0];
-    this._calendar.targetedDayFullName = this.dayNameRu.full[idx];
 
     return true;
   }
@@ -346,6 +330,7 @@ export class CalendarService {
    */
   drawCalendarMonth(): HTMLDivElement {
 
+    //TODO remove log
     console.log(`drawCalendarMonth(): daysOfInterest: ${this.daysOfInterest}`)
 
     //get table
@@ -425,7 +410,28 @@ export class CalendarService {
    * @param this.options
    */
   createMonthTable(): HTMLTableElement {
+    // TODO: Fill with stars
+
     let table = document.createElement("table");
+
+    //create 1st row for the day letters
+    table.appendChild(this.getDayLettersRow());
+
+
+    //create 2nd row for the first date
+    table.appendChild(this.getFirstLine());
+
+
+    //create remaining rows
+    let trs = this.getRemainingRows();
+    trs.forEach(tr => {
+      table.appendChild(tr);
+    });
+
+    return table;
+  }
+
+  private getDayLettersRow(): HTMLTableRowElement {
     let tr = document.createElement("tr");
 
     let td: HTMLTableDataCellElement;
@@ -435,12 +441,13 @@ export class CalendarService {
       td.innerHTML = this.dayNameRu.d[c];
       tr.appendChild(td);
     }
-    table.appendChild(tr);
 
-    //create 2nd row for dates
-    tr = document.createElement("tr");
+    return tr;
+  }
 
-    // TODO: Fill with stars
+  private getFirstLine(): HTMLTableRowElement {
+    let tr = document.createElement("tr");
+    let td = document.createElement("td");
 
     //blank td
     let c: number;
@@ -448,26 +455,26 @@ export class CalendarService {
       if (c === this._calendar.firstDayIndex) {
         break;
       }
-      td = document.createElement("td");
       tr.appendChild(td);
     }
 
+
     //remaing td of dates for the 2nd row
-    let count = 1;
+    this.count = 1;
     while (c <= 6) {
-      td = document.createElement("td");
-      td.innerHTML = count + '';
-      if (this._calendar.today.date === count && this._calendar.today.monthIndex === this._calendar.monthIndex && this.options.highlightToday) {
+      // td = document.createElement("td");
+      td.innerHTML = this.count + '';
+      if (this._calendar.today.date === this.count && this._calendar.today.monthIndex === this._calendar.monthIndex && this.options.highlightToday) {
         td.setAttribute("class", "calendar-today-date");
       }
-      if (this.options.date === count && this.options.month === this._calendar.monthIndex && this.options.highlightTargetDate) {
+      if (this.options.date === this.count && this.options.month === this._calendar.monthIndex && this.options.highlightTargetDate) {
         td.setAttribute("class", "calendar-target-date");
       }
-      if (this.daysOfInterest.includes(count)) {
+      if (this.daysOfInterest.includes(this.count)) {
         td.setAttribute("class", !td.hasAttribute("class") ? "starred" : td.getAttribute("class") + " starred");
         let starElement = document.createElement("span");
         td.appendChild(starElement)
-        if (this.options.date === count && this.options.month === this._calendar.monthIndex && this.options.highlightTargetDate) {
+        if (this.options.date === this.count && this.options.month === this._calendar.monthIndex && this.options.highlightTargetDate) {
           starElement.setAttribute("class", "star inverted");
         } else {
 
@@ -475,100 +482,96 @@ export class CalendarService {
         }
       }
       tr.appendChild(td);
-      count = count + 1;
+      this.count++;
       c++;
     }
-    table.appendChild(tr);
+
+    return tr;
+  }
+
+  private getRemainingRows(): HTMLTableRowElement[] {
+    let trs: HTMLTableRowElement[] = [];
+    let tr = document.createElement("tr");
+    let td: HTMLTableDataCellElement;
+
 
     //create remaining rows
     for (let r = 3; r <= 7; r = r + 1) {
-      tr = document.createElement("tr");
-      for (c = 0; c <= 6; c = c + 1) {
-        if (count > this._calendar.totalDays) {
-          table.appendChild(tr);
-          return table;
+      for (let c = 0; c <= 6; c = c + 1) {
+
+        if (this.count > this._calendar.totalDays) {
+          trs.push(tr);
+          return trs;
         }
         td = document.createElement('td');
-        td.innerHTML = count + '';
-        if (this._calendar.today.date === count && this._calendar.today.monthIndex === this._calendar.monthIndex && this.options.highlightToday) {
+        td.innerHTML = this.count + '';
+        if (this._calendar.today.date === this.count && this._calendar.today.monthIndex === this._calendar.monthIndex && this.options.highlightToday) {
           td.setAttribute("class", "calendar-today-date");
         }
-        if (this.options.date === count && this.options.month === this._calendar.monthIndex && this.options.highlightTargetDate) {
+        if (this.options.date === this.count && this.options.month === this._calendar.monthIndex && this.options.highlightTargetDate) {
           td.setAttribute("class", "calendar-target-date");
         }
-        if (this.daysOfInterest.includes(count)) {
-          td.setAttribute("class", !td.hasAttribute("class")?" starred" : td.getAttribute("class") + " starred");
+        if (this.daysOfInterest.includes(this.count)) {
+          td.setAttribute("class", !td.hasAttribute("class") ? " starred" : td.getAttribute("class") + " starred");
           let starElement = document.createElement("span");
           td.appendChild(starElement)
 
-          if (this.options.date === count && this.options.month === this._calendar.monthIndex && this.options.highlightTargetDate) {
+          if (this.options.date === this.count && this.options.month === this._calendar.monthIndex && this.options.highlightTargetDate) {
             starElement.setAttribute("class", "star inverted");
           } else {
 
             starElement.setAttribute('class', 'star');
           }
         }
-        count = count + 1;
+        this.count++;
         tr.appendChild(td);
       }
-      table.appendChild(tr);
+      trs.push(tr);
+      tr = document.createElement("tr");
     }
 
-    return table;
+    return trs;
   }
 
 
-  // onClick() {
-  //   var
-  //     //get target dom object reference
-  //     targetDomObject = document.querySelector(''),
-  //
-  //     //other variables
-  //     date, month, year, btn, option, dateObj;
-  //
-  //   //prev-next button click
-  //   //extra checks to make sure object exists and contains the class of interest
-  //   if ((targetDomObject) && (targetDomObject.classList) && (targetDomObject.classList.contains("calendar-prev-next-btn"))) {
-  //     date = parseInt(targetDomObject.getAttribute("data-date"));
-  //     month = parseInt(targetDomObject.getAttribute("data-month"));
-  //     year = parseInt(targetDomObject.getAttribute("data-year"));
-  //     btn = targetDomObject.getAttribute("data-btn");
-  //     option = JSON.parse(targetDomObject.parentElement.getAttribute("data-option"));
-  //
-  //     if (btn === "prev") {
-  //       month = month - 1;
-  //       if (month < 0) {
-  //         year = year - 1;
-  //         month = 11;
-  //       }
-  //     } else if (btn === "next") {
-  //       month = month + 1;
-  //       if (month > 11) {
-  //         year = year + 1;
-  //         month = 0;
-  //       }
-  //     }
-  //
-  //     option.date = date;
-  //     option.month = month;
-  //     option.year = year;
-  //
-  //     // this(option);
-  //   }
-  //
-  //   //month click
-  //   //extra checks to make sure object exists and contains the class of interest
-  //   if ((targetDomObject) && (targetDomObject.classList) && (targetDomObject.classList.contains("calendar-span-month-year"))) {
-  //     option = JSON.parse(targetDomObject.parentElement.getAttribute("data-option"));
-  //     dateObj = new Date();
-  //
-  //     option.date = dateObj.getDate();
-  //     option.month = dateObj.getMonth();
-  //     option.year = dateObj.getFullYear();
-  //
-  //
-  //   }
-  // }
+  private setUpToday(dateObj: Date, dateString: string[]): void {
+    let idx = this.dayNameEn.ddd.indexOf(dateString[0]);
+    this._calendar.today.dayIndex = idx;
+    this._calendar.today.dayName = this.dayNameRu.ddd[idx];
+    this._calendar.today.dayFullName = this.dayNameRu.full[idx];
+
+    idx = this.monthNameEn.mmm.indexOf(dateString[1]);
+    this._calendar.today.monthIndex = idx;
+    this._calendar.today.monthName = this.monthNameRu.mmm[idx];
+    this._calendar.today.monthFullName = this.monthNameRu.full[idx];
+
+    this._calendar.today.date = dateObj.getDate();
+
+    this._calendar.today.year = +dateString[3];
+  }
+
+  private setMonthFirstDay(dateString: string[]): void {
+    let idx = this.dayNameEn.ddd.indexOf(dateString[0]);
+    this._calendar.firstDayIndex = idx;
+    this._calendar.firstDayName = dateString[0];
+    this._calendar.firstDayFullName = this.dayNameRu.full[idx];
+
+    idx = this.monthNameEn.mmm.indexOf(dateString[1]);
+    this._calendar.monthIndex = idx;
+    this._calendar.monthName = dateString[1];
+    this._calendar.monthFullName = this.monthNameRu.full[idx];
+  }
+
+  private setTotalDays(dateObj: Date): void {
+    this._calendar.totalDays = dateObj.getDate();
+  }
+
+  private setTargetedDay(dateString: string[]): void {
+    let idx = this.dayNameEn.ddd.indexOf(dateString[0]);
+    this._calendar.targetedDayIndex = idx;
+    this._calendar.targetedDayName = dateString[0];
+    this._calendar.targetedDayFullName = this.dayNameRu.full[idx];
+  }
 
   nextMonth(target: HTMLSpanElement): string {
     let dateStr = target.getAttribute('data-date')

@@ -5,18 +5,15 @@ import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {environment} from 'src/environments/environment';
 import {loginDTO} from "../interfaces/dto/login-dto.interface";
-import {IService} from "../interfaces/service.interface";
 import {APIControllers} from "../enums/APIControllers";
 import {IUser} from "../interfaces/user.interface";
-import {Purse} from "../interfaces/purse.interface";
+import {BasicCRUD} from "./basic-crud.service";
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserService implements IService {
-
-  postfix = APIControllers.User;
-
+export class UserService extends BasicCRUD<any> {
+  postfix: string;
   private _token = '';
   private _id = 0;
 
@@ -24,17 +21,18 @@ export class UserService implements IService {
     private _httpClient: HttpClient,
     private router: Router
   ) {
+    super(APIControllers.User, _httpClient);
+    this.postfix = APIControllers.User;
   }
 
   set token(token: string) {
     this._token = token;
-    localStorage.setItem('token', this.token);
+    localStorage.setItem('token', this._token);
   }
 
   get token(): string {
     if (!this._token) {
       this._token = localStorage.getItem('token') + '';
-
     }
     return this._token;
   }
@@ -85,15 +83,10 @@ export class UserService implements IService {
     })
   }
 
-  killToken(): void {
-    this.token = '';
-    this.id = 0;
-  }
-
   logout(): void {
     this._httpClient.get(`${environment.apiUrl}/${this.postfix}/logout`)
       .subscribe(() => {
-        this.killToken();
+        this.killLocalStorage();
         this.router.navigate(['/auth']);
       });
   }
@@ -101,5 +94,30 @@ export class UserService implements IService {
   isLoggedIn(): boolean {
     // return (!!this.token || localStorage.getItem('token') !== null) && (!!this.id || localStorage.getItem('id') === null);
     return !!this.token && !!this.id
+  }
+
+  private killLocalStorage() {
+    this.killToken();
+    this.killCategory();
+    this.tasks();
+    this.killOpenedGroupId();
+  }
+
+  killToken(): void {
+    this.token = '';
+    this.id = 0;
+  }
+
+  private killCategory() {
+    localStorage.removeItem('openedCategoryId');
+    localStorage.removeItem('openedCategoryType');
+  }
+
+  private tasks() {
+    localStorage.removeItem('tasks');
+  }
+
+  private killOpenedGroupId() {
+    localStorage.setItem('openedGroupId', '0');
   }
 }

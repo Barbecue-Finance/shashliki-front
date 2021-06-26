@@ -15,5 +15,6 @@
         обязательное поле</small>
     </div>
     <button class="light-blue-button" type="submit" [disabled]="authFormGroup.invalid || isFormSent">Войти</button>
+    <button class="light-blue-button" type="submit" (click)="register()">Регистрация</button>
   </form>
 </div>

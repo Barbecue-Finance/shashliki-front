@@ -1,11 +1,9 @@
-import {HttpClient} from '@angular/common/http';
 import {Component, Input, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {Router} from '@angular/router';
 import {UserService} from "../../../../shared/services/user.service";
 import {GroupService} from "../../services/group.service";
-import {MoneyOperation} from "../../../../shared/interfaces/money-operations/money-operation.interface";
 import {MoneyOperationService} from "../../../../shared/services/money-operation.service";
 import {PurseService} from "../../../../shared/services/purse.service";
 import {OutComeMoneyOperation} from "../../../../shared/interfaces/money-operations/outcome-money-operation.interface";

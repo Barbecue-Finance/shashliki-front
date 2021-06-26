@@ -1,10 +1,11 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
-import { UserService } from 'src/app/shared/services/user.service';
-import { Md5 } from 'ts-md5/dist/md5';
+import {HttpClient} from '@angular/common/http';
+import {Component, OnInit} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {Router} from '@angular/router';
+import {UserService} from 'src/app/shared/services/user.service';
+import {Md5} from 'ts-md5/dist/md5';
+import {Paths} from "../../shared/enums/Paths";
 
 @Component({
   selector: 'app-auth',
@@ -42,25 +43,36 @@ export class AuthComponent implements OnInit {
       return
     }
 
-    const values = { ...this.authFormGroup.value }
-    values.password = new Md5().appendStr(values.password).end()
-    this.isFormSent = true
+
+    const values = this.extrudeValues();
+
 
     this._userService.login(values)
       .subscribe(() => {
-        this.isFormSent = false
+          this.isFormSent = false
+          this._router.navigateByUrl(Paths.groups)
+        },
 
-        this._router.navigate(['/groups'])
+        error => {
+          this.isFormSent = false
 
-      }, error => {
-        this.isFormSent = false
-        if (error.error?.error) {
-          this.matSnackBar.open(error.error?.error, '', { duration: 3000 })
-        } else {
-          this.matSnackBar.open('Ошибка на сервере', '', { duration: 3000 })
-          console.log('Error:', error)
-        }
-      })
+          if (error.error?.error) {
+            this.matSnackBar.open(error.error?.error, '', {duration: 3000})
+          } else {
+            this.matSnackBar.open('Ошибка на сервере', '', {duration: 3000})
+            console.log('Error:', error)
+          }
+        })
   }
 
+  private extrudeValues(): any {
+    const values = {...this.authFormGroup.value}
+    values.password = new Md5().appendStr(values.password).end()
+    this.isFormSent = true
+    return values;
+  }
+
+  register(): void {
+    this._router.navigateByUrl(Paths.register);
+  }
 }

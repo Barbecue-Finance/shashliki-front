@@ -12,6 +12,8 @@ import {PasswordInputComponent} from './shared/components/inputs/password-input/
 import {SharedModule} from './shared/modules/shared.module';
 import {AuthInterceptor} from './shared/interceptors/auth.interceptor';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {RegisterComponent} from './components/register/register.component';
+import {UsernameInputComponent} from './shared/components/inputs/username-input/username-input.component';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -26,6 +28,8 @@ const INTERCEPTOR_PROVIDER: Provider = {
     AuthComponent,
     LoginInputComponent,
     PasswordInputComponent,
+    UsernameInputComponent,
+    RegisterComponent,
   ],
   imports: [
     HttpClientModule,

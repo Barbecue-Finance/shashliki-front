@@ -16,6 +16,7 @@ import {CategoryService} from "./services/category.service";
 import {MoneyPipe} from "../../shared/pipes/money.pipe";
 import {CreateOperationComponent} from "./components/create-operation/create-operation.component";
 import {MaterialSharedModule} from "../../shared/modules/material-shared.module";
+import { EventComponent } from './components/event/event.component';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import {MaterialSharedModule} from "../../shared/modules/material-shared.module"
     ReportComponent,
     CreateGroupComponent,
     InfoCategoryComponent,
-    CreateOperationComponent
+    CreateOperationComponent,
+    EventComponent
   ],
   imports: [
     CommonModule,

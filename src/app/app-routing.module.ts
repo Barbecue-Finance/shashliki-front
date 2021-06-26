@@ -2,19 +2,22 @@ import {NgModule} from '@angular/core';
 import {PreloadAllModules, RouterModule, Routes} from '@angular/router';
 import {AuthGuard} from './shared/guards/auth.guard';
 import {AuthComponent} from "./components/auth/auth.component";
+import {RegisterComponent} from "./components/register/register.component";
 
 const routes: Routes = [
   {path: '', component: AuthComponent, canActivate: [AuthGuard]},
   {path: 'auth', component: AuthComponent},
+  {path: 'register', component: RegisterComponent},
+  //TODO Return AuthGuards
   {
     path: 'groups',
     loadChildren: () => import('./modules/categories/group.module').then(cs => cs.GroupModule),
-    canActivate: [AuthGuard]
+    // canActivate: [AuthGuard]
   },
   {
     path: 'profile',
     loadChildren: () => import('./modules/profile/profile.module').then(p => p.ProfileModule),
-    canActivate: [AuthGuard]
+    // canActivate: [AuthGuard]
   }
 ];
 
