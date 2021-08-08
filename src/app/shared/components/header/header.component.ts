@@ -1,6 +1,6 @@
 import {Component, OnInit, Output, EventEmitter} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {GroupService} from "../../../modules/categories/services/group.service";
+import {GroupService} from "../../../modules/groups/services/group.service";
 
 @Component({
   selector: 'app-header',

@@ -5,19 +5,33 @@ import {AuthComponent} from "./components/auth/auth.component";
 import {RegisterComponent} from "./components/register/register.component";
 
 const routes: Routes = [
-  {path: '', component: AuthComponent, canActivate: [AuthGuard]},
-  {path: 'auth', component: AuthComponent},
-  {path: 'register', component: RegisterComponent},
-  //TODO Return AuthGuards
+  {
+    path: '',
+    loadChildren: () => import('./modules/groups/group.module').then(cs => cs.GroupModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'auth',
+    component: AuthComponent
+  },
+  {
+    path: 'register',
+    component: RegisterComponent
+  },
   {
     path: 'groups',
-    loadChildren: () => import('./modules/categories/group.module').then(cs => cs.GroupModule),
-    // canActivate: [AuthGuard]
+    loadChildren: () => import('./modules/groups/group.module').then(cs => cs.GroupModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'profile',
     loadChildren: () => import('./modules/profile/profile.module').then(p => p.ProfileModule),
-    // canActivate: [AuthGuard]
+    canActivate: [AuthGuard]
+  },
+  {
+    path: '**',
+    loadChildren: () => import('./modules/groups/group.module').then(cs => cs.GroupModule),
+    canActivate: [AuthGuard]
   }
 ];
 
