@@ -1,22 +1,20 @@
-import {AfterViewChecked, Component, forwardRef, Input, OnInit} from '@angular/core';
+import {Component, forwardRef, Input, OnInit} from '@angular/core';
 import {ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR, ValidatorFn} from '@angular/forms';
 
 @Component({
-  selector: 'app-data-edit',
-  templateUrl: './data-edit.component.html',
-  styleUrls: ['./data-edit.component.sass'],
+  selector: 'app-username-input',
+  templateUrl: './username-input.component.html',
+  styleUrls: ['./username-input.component.sass'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => DataEditComponent),
+      useExisting: forwardRef(() => UsernameInputComponent),
       multi: true
     }
   ]
 })
-export class DataEditComponent implements OnInit, ControlValueAccessor {
+export class UsernameInputComponent implements OnInit, ControlValueAccessor {
 
-  @Input('valueData') valueData: string = ''
-  @Input('placeholder') placeholder: string = ''
   @Input('phone') isShowingPhone: boolean = false
   @Input('validators') validators: ValidatorFn[] = []
   value: string = ''
@@ -46,7 +44,7 @@ export class DataEditComponent implements OnInit, ControlValueAccessor {
 
   ngOnInit(): void {
     this.inputForm = new FormGroup({
-      'input': new FormControl(this.valueData, this.validators)
+      'input': new FormControl('', this.validators)
     })
   }
 
