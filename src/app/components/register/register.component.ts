@@ -4,7 +4,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import {UserService} from 'src/app/shared/services/user.service';
 import {Md5} from 'ts-md5/dist/md5';
 import {Paths} from "../../shared/enums/Paths";
-import {RouterService} from "../../shared/services/router.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'register',
@@ -18,7 +18,7 @@ export class RegisterComponent implements OnInit {
   isFormSent: boolean = false
 
   constructor(
-    private _router: RouterService,
+    private _router: Router,
     readonly matSnackBar: MatSnackBar,
     private _userService: UserService
   ) {
@@ -50,7 +50,7 @@ export class RegisterComponent implements OnInit {
 
   private processCreation(values: any) {
     this._userService.create(values)
-      .subscribe(() => this._router.navigateToAuthPage(),
+      .subscribe(() => this._router.navigateByUrl(Paths.groups),
         error => {
           this.handleError(error);
         })
@@ -78,6 +78,6 @@ export class RegisterComponent implements OnInit {
   }
 
   goBackToAuth() {
-    this._router.navigateToAuthPage();
+    this._router.navigateByUrl(Paths.auth);
   }
 }
