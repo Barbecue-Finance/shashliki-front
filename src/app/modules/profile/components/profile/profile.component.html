@@ -1,30 +1,45 @@
 <app-header></app-header>
 <div class="profile-container">
   <form [formGroup]="formGroup" (submit)="save()" (keyup.enter)="save()" *ngIf="isLoaded">
+
+
     <div class="control-row">
       <h1 class="title">Имя пользователя</h1>
-      <app-data-edit [valueData]="username" [placeholder]="'Имя пользователя'" [phone]="true" formControlName="username"
-                     [validators]="validators"></app-data-edit>
+      <app-data-edit [valueData]="username"
+                     [placeholder]="'Имя пользователя'"
+                     formControlName="username"
+                     [validators]="validators">
+      </app-data-edit>
     </div>
     <small class="error"
-           *ngIf="formGroup.get('username')?.errors?.required && formGroup.get('username')?.touched">Это
+           *ngIf="formGroup.get('username')?.errors !== null && formGroup.get('username')?.touched">Это
       обязательное поле</small>
+
+
     <div class="control-row">
       <h1 class="title">Логин</h1>
-      <app-data-edit [valueData]="login" [placeholder]="'Логин'" [phone]="true" formControlName="login"
-                     [validators]="validators"></app-data-edit>
+      <app-login-input [value]="login"
+                       formControlName="login"
+                       [validators]="validators">
+      </app-login-input>
     </div>
     <small class="error"
-           *ngIf="formGroup.get('login')?.errors?.required && formGroup.get('login')?.touched">Это
+           *ngIf="formGroup.get('login')?.errors !== null && formGroup.get('login')?.touched">Это
       обязательное поле</small>
+
+
     <div class="control-row">
       <h1 class="title">Пароль</h1>
-      <app-data-edit [valueData]="password" [placeholder]="'Пароль'" [phone]="true" formControlName="password"
-                     [validators]="validators"></app-data-edit>
+      <app-password-input [phone]="true"
+                          formControlName="password"
+                          [validators]="validators">
+      </app-password-input>
       <small class="error"
              *ngIf="formGroup.get('password')?.errors?.required && formGroup.get('password')?.touched">Это
         обязательное поле</small>
     </div>
+
+
     <button class="save-changes-btn" type="submit" [disabled]="formGroup.invalid || isFormSent">Сохранить</button>
   </form>
   <h1 *ngIf="!isLoaded" style="color:white; font-weight: 500">Loading</h1>
