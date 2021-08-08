@@ -1,10 +1,10 @@
-import {HttpClient} from '@angular/common/http';
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {Router} from '@angular/router';
 import {UserService} from 'src/app/shared/services/user.service';
 import {Md5} from "ts-md5";
+import {UpdateProfileDto} from "../../../../shared/interfaces/dto/update-profile-dto";
 
 @Component({
   selector: 'app-profile',
@@ -33,18 +33,17 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this._userService.getById(this._userService.id).subscribe(u => {
-      // TODO: Fill form with 'u.' data
+
       // Note: '.password' is never present, unless entered in UI
       this.username = u.username
       this.login = u.login
       this.password = ''
 
       this.formGroup = new FormGroup({
-        'username': new FormControl('', this.validators),
-        'login': new FormControl('', this.validators),
-        'password': new FormControl('', this.validators),
+        'username': new FormControl(this.username, this.validators),
+        'login': new FormControl(this.login, this.validators),
+        'password': new FormControl(this.password, this.validators),
       })
-
 
       this.isLoaded = true
     });
@@ -52,16 +51,33 @@ export class ProfileComponent implements OnInit {
 
   save(): void {
     if (this.formGroup.invalid) {
+      console.log('form is: ', this.formGroup.valid ? 'valid' : 'invalid');
+      console.table(this.formGroup.errors);
+      const updatingProfile: UpdateProfileDto = {
+        id: this._userService.id,
+        username: this.formGroup.get('username')?.value,
+        login: this.formGroup.get('login')?.value,
+        password: new Md5().appendStr(this.formGroup.get('password')?.value).end().toString()
+      }
+      console.table(updatingProfile);
+
       return
     }
 
-    const values = {...this.formGroup.value}
-    values.id = this._userService.id
+    // const values = {...this.formGroup.value}
+    // values.id = this._userService.id
+    // values.password = new Md5().appendStr(values.password).end()
 
-    values.password = new Md5().appendStr(values.password).end()
+    const updatingProfile: UpdateProfileDto = {
+      id: this._userService.id,
+      username: this.formGroup.get('username')?.value,
+      login: this.formGroup.get('login')?.value,
+      password: new Md5().appendStr(this.formGroup.get('password')?.value).end().toString()
+    }
+
     this.isFormSent = true
 
-    this._userService.update(values)
+    this._userService.update(updatingProfile)
       .subscribe(() => {
         this.isFormSent = false
         this._router.navigate(['/groups'])
