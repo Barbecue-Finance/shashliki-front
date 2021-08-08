@@ -5,6 +5,8 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import {Router} from '@angular/router';
 import {UserService} from "../../../../shared/services/user.service";
 import {GroupService} from "../../services/group.service";
+import {Title} from "@angular/platform-browser";
+import {CreateGroupDtoInterface} from "../../../../shared/interfaces/dto/create-group-dto.interface";
 
 @Component({
   selector: 'app-create-group',
@@ -37,11 +39,19 @@ export class CreateGroupComponent implements OnInit {
       return
     }
 
-    const values = {...this.formGroup.value}
-    values.creatorId = this._userService.id
+    // const values = {...this.formGroup.value}
+    // values.creatorId = this._userService.id
+    // values.
+
+    const creatingGroup: CreateGroupDtoInterface = {
+      title: this.formGroup.get('title')?.value,
+      creatorId: this._userService.id,
+      type: 1
+    }
+
     this.isFormSent = true
 
-    this._groupService.create(values).subscribe(() => {
+    this._groupService.create(creatingGroup).subscribe(() => {
       this.isFormSent = false
       this.matSnackBar.open('Успешно', '', {duration: 3000})
       this._router.navigate(['/groups'])
