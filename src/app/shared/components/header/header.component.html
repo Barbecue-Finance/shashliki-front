@@ -1,6 +1,6 @@
-<div class="container">
-  <div class="back-wrapper">
-    <div class="back" (click)="back()" *ngIf="showBackBtn"></div>
+<div class="container" [ngStyle]="!showBackBtn ? {'justify-content': 'center'} : null">
+  <div class="back-wrapper" *ngIf="showBackBtn">
+    <div class="back" (click)="back()"></div>
   </div>
   <div class="right">
     <div class="categories" (click)="goToGroups()">

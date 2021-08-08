@@ -1,12 +1,15 @@
 <div class="all-groups-container">
   <app-header></app-header>
+<!--  TODO: Set up scrolling many groups.-->
   <div class="group-container">
-    <div class="add-group" (click)="createGroupMenu()"></div>
+    <div class="add-group-wrapper">
+      <div class="add-group" (click)="createGroupMenu()"></div>
+    </div>
     <div class="group-wrapper">
       <div class="group" *ngFor="let group of this.groups" (click)="openGroup(group.id)">
         <div class="wrapper">
           <p>{{ group.title }}</p>
-          <div class="select-btn"></div>
+          <!--          <div class="select-btn"></div>-->
         </div>
       </div>
     </div>

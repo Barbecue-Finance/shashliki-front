@@ -120,4 +120,8 @@ export class UserService extends BasicCRUD<any> {
   private killOpenedGroupId() {
     localStorage.setItem('openedGroupId', '0');
   }
+
+  authPageEntered() {
+    if (this.isLoggedIn()) this.killLocalStorage();
+  }
 }

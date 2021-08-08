@@ -8,7 +8,8 @@ const routes: Routes = [
   {
     path: '',
     loadChildren: () => import('./modules/groups/group.module').then(cs => cs.GroupModule),
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    pathMatch: 'full'
   },
   {
     path: 'auth',
@@ -28,11 +29,13 @@ const routes: Routes = [
     loadChildren: () => import('./modules/profile/profile.module').then(p => p.ProfileModule),
     canActivate: [AuthGuard]
   },
-  {
-    path: '**',
-    loadChildren: () => import('./modules/groups/group.module').then(cs => cs.GroupModule),
-    canActivate: [AuthGuard]
-  }
+
+
+  // {
+  //   path: '**',
+  //   loadChildren: () => import('./modules/groups/group.module').then(cs => cs.GroupModule),
+  //   // canActivate: [AuthGuard]
+  // }
 ];
 
 @NgModule({

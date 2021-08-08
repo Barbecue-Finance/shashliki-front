@@ -26,10 +26,8 @@ export class AuthComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this._userService.authPageEntered();
 
-    if (this._userService.isLoggedIn()) {
-      this._userService.logout()
-    }
 
     this.authFormGroup = new FormGroup({
       'login': new FormControl('', this.validators),
@@ -50,7 +48,7 @@ export class AuthComponent implements OnInit {
     this._userService.login(values)
       .subscribe(() => {
           this.isFormSent = false
-          this._router.navigateByUrl(Paths.groups)
+          this._router.navigate(['/groups'])
         },
 
         error => {
@@ -73,6 +71,6 @@ export class AuthComponent implements OnInit {
   }
 
   register(): void {
-    this._router.navigateByUrl(Paths.register);
+    this._router.navigate(['/register']);
   }
 }
