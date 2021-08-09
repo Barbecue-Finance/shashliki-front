@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {IGroup} from "../../../../shared/interfaces/group.interface";
+import GroupDto from "../../../../shared/interfaces/group.interface";
 import {GroupService} from "../../services/group.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {PurseService} from 'src/app/shared/services/purse.service';
@@ -29,7 +29,7 @@ export class GroupComponent implements OnInit {
   isHiddenReport = true
   isHiddenInfoCategory = true
 
-  group: IGroup
+  group?: GroupDto
 
   openedReport: Subject<void> = new Subject<void>()
   closedReport: Subject<void> = new Subject<void>()
@@ -109,17 +109,17 @@ export class GroupComponent implements OnInit {
     this._route.params.subscribe(params => {
       isValid = !isNaN(+params['id'])
       if (!isValid) {
-        this._router.navigate(['/groups'])
+        this._router.navigate(['groups'])
       }
     })
 
 
     if (!this._groupsService.isAnyGroupOpened()) {
-      this._router.navigate(['/groups'])
+      this._router.navigate(['groups'])
     }
 
     this._groupsService.getById(this._groupsService.openedGroupId)
-      .subscribe((group: IGroup) => {
+      .subscribe((group: GroupDto) => {
         this.group = group
         this._purseService.getByGroup(this.group.id).subscribe(p => {
 
@@ -263,7 +263,7 @@ export class GroupComponent implements OnInit {
   }
 
   getMembersString(): string {
-    let endSym = this.group.users.length % 10
+    let endSym = this.group?.users.length ?? 0 % 10
 
     let word: string;
 
@@ -283,7 +283,7 @@ export class GroupComponent implements OnInit {
         break
     }
 
-    return `${this.group.users.length} ${word}`
+    return `${this.group?.users.length} ${word}`
   }
 
   // return total income for IncomeCategoryId and time range
@@ -398,7 +398,8 @@ export class GroupComponent implements OnInit {
   }
 
   membersClicked() {
-    this.matSnackBar.open(`В группе '${this.group.title}' с вами ${this.getMembersString()}: ${this.group.users.map(u => u.username).join("\n")}`, '',
+    this.matSnackBar.open(
+      `В группе '${this.group?.title}' с вами ${this.getMembersString()}: ${this.group?.users.map(u => u.username).join("\n")}`, '',
       {
         duration: 3000
       }
@@ -406,6 +407,6 @@ export class GroupComponent implements OnInit {
   }
 
   openCreateOperationPage(): void {
-    this._router.navigate(['/groups', 'create-operation'])
+    this._router.navigate(['groups', 'create-operation'])
   }
 }

@@ -4,10 +4,11 @@ import {Router} from '@angular/router';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {environment} from 'src/environments/environment';
-import {loginDTO} from "../interfaces/dto/login-dto.interface";
+import {LoginDTO} from "../interfaces/dto/login-dto.interface";
 import {APIControllers} from "../enums/APIControllers";
-import {IUser} from "../interfaces/user.interface";
+import UserDto from "../interfaces/dto/user-dto.interface";
 import {BasicCRUD} from "./basic-crud.service";
+import LoginResultDto from "../interfaces/dto/login-result-dto.interface";
 
 @Injectable({
   providedIn: 'root'
@@ -50,53 +51,50 @@ export class UserService extends BasicCRUD<any> {
   }
 
 
-  login(loginData: loginDTO): Observable<any> {
-    return this._httpClient.post(`${environment.apiUrl}/${this.postfix}/login`, loginData, {withCredentials: true})
+  login(loginData: LoginDTO): Observable<LoginResultDto> {
+    return this._httpClient.post<LoginResultDto>(`${environment.apiUrl}/${this.postfix}/login`, loginData, {withCredentials: true})
       .pipe(
-        map((response: any) => {
-          if (response?.token) {
-            this.token = response.token;
-            this.id = response.id
-          }
+        map((result: LoginResultDto) => {
+          this.id = result.id
+          this.token = result.token;
+          return result;
         })
       );
   }
 
-  update(element: IUser): Observable<any> {
-    return this._httpClient.post(`${environment.apiUrl}/${this.postfix}/Update`, element)
+  update(element: UserDto): Observable<void> {
+    return this._httpClient.post<void>(`${environment.apiUrl}/${this.postfix}/Update`, element)
   }
 
 
-  getById(id: number): Observable<IUser> {
-    return this._httpClient.get<IUser>(`${environment.apiUrl}/${this.postfix}/GetById`, {
+  getById(id: number): Observable<UserDto> {
+    return this._httpClient.get<UserDto>(`${environment.apiUrl}/${this.postfix}/GetById`, {
       params: {
         id: id.toString()
       }
     })
   }
 
-  getByGroup(id: number): Observable<IUser[]> {
-    return this._httpClient.get<IUser[]>(`${environment.apiUrl}/${this.postfix}/GetByGroup`, {
+  getByGroup(id: number): Observable<UserDto[]> {
+    return this._httpClient.get<UserDto[]>(`${environment.apiUrl}/${this.postfix}/GetByGroup`, {
       params: {
         id: id.toString()
       }
     })
   }
 
-  logout(): void {
-    this._httpClient.get(`${environment.apiUrl}/${this.postfix}/logout`)
-      .subscribe(() => {
-        this.killLocalStorage();
-        this.router.navigate(['/auth']);
-      });
+  logoutAndNavigateToAuth(): void {
+    this.killLocalStorage();
+    this._httpClient.get(`${environment.apiUrl}/${this.postfix}/logout`);
+    this.router.navigate(['start', 'auth']);
   }
 
   isLoggedIn(): boolean {
-    // return (!!this.token || localStorage.getItem('token') !== null) && (!!this.id || localStorage.getItem('id') === null);
-    return !!this.token && !!this.id
+    return (!!this.token || localStorage.getItem('token') !== null) && (!!this.id || localStorage.getItem('id') === null);
+    // return !!this.token && !!this.id
   }
 
-  private killLocalStorage() {
+  killLocalStorage() {
     this.killToken();
     this.killCategory();
     this.tasks();

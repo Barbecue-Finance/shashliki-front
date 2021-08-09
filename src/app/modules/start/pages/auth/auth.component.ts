@@ -4,6 +4,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import {Router} from '@angular/router';
 import {UserService} from 'src/app/shared/services/user.service';
 import {Md5} from 'ts-md5/dist/md5';
+import {LoginDTO} from "../../../../shared/interfaces/dto/login-dto.interface";
 
 @Component({
   selector: 'app-auth',
@@ -12,36 +13,31 @@ import {Md5} from 'ts-md5/dist/md5';
 })
 export class AuthComponent implements OnInit {
 
-  authFormGroup: FormGroup = new FormGroup({})
   validators = [Validators.required]
+  authFormGroup: FormGroup = new FormGroup({
+    'login': new FormControl('', this.validators),
+    'password': new FormControl('', this.validators),
+    'rememberMe': new FormControl(''),
+  })
   isFormSent: boolean = false
 
   constructor(
     private _router: Router,
-    readonly matSnackBar: MatSnackBar,
     private _userService: UserService
   ) {
   }
 
   ngOnInit(): void {
     this._userService.authPageEntered();
-
-
-    this.authFormGroup = new FormGroup({
-      'login': new FormControl('', this.validators),
-      'password': new FormControl('', this.validators),
-      'rememberMe': new FormControl(''),
-    })
   }
 
   auth(): void {
     if (this.authFormGroup.invalid) {
       return
     }
-
-
     const values = this.extrudeValues();
 
+    this.isFormSent = true
 
     this._userService.login(values)
       .subscribe(() => {
@@ -51,20 +47,12 @@ export class AuthComponent implements OnInit {
 
         error => {
           this.isFormSent = false
-
-          if (error.error?.error) {
-            this.matSnackBar.open(error.error?.error, '', {duration: 3000})
-          } else {
-            this.matSnackBar.open('Ошибка на сервере', '', {duration: 3000})
-            console.log('Error:', error)
-          }
         })
   }
 
   private extrudeValues(): any {
-    const values = {...this.authFormGroup.value}
-    values.password = new Md5().appendStr(values.password).end()
-    this.isFormSent = true
+    const values = {...this.authFormGroup.value} as LoginDTO
+    values.password = new Md5().appendStr(values.password).end().toString()
     return values;
   }
 

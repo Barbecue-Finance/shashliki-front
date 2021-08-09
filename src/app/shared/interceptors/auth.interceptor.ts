@@ -4,6 +4,7 @@ import {Router} from "@angular/router";
 import {Observable, throwError} from "rxjs";
 import {catchError} from "rxjs/operators";
 import {UserService} from "../services/user.service";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,8 @@ export class AuthInterceptor implements HttpInterceptor {
 
   constructor(
     private _userService: UserService,
-    private _router: Router
+    private _router: Router,
+    readonly matSnackBar: MatSnackBar,
   ) {
   }
 
@@ -29,9 +31,14 @@ export class AuthInterceptor implements HttpInterceptor {
         catchError((error: HttpErrorResponse) => {
           console.log(error)
           if (error.status == 401) {
-            // this._userService.logout()
-            this._userService.killToken()
-            this._router.navigate(['/auth'])
+            this._userService.logoutAndNavigateToAuth()
+          }
+
+          if (error.error?.error) {
+            this.matSnackBar.open(error.error?.error, '', {duration: 3000})
+          } else {
+            this.matSnackBar.open('Ошибка на сервере', '', {duration: 3000})
+            console.log('Error:', error)
           }
           return throwError(error)
         })

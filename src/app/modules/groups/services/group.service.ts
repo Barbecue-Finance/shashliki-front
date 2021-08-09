@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {IGroup} from "../../../shared/interfaces/group.interface";
+import GroupDto from "../../../shared/interfaces/group.interface";
 import {Observable} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../../environments/environment";
@@ -9,7 +9,7 @@ import {BasicCRUD} from "../../../shared/services/basic-crud.service";
 @Injectable({
   providedIn: 'root'
 })
-export class GroupService extends BasicCRUD<IGroup> {
+export class GroupService extends BasicCRUD<GroupDto> {
   private _openedGroupId: number;
 
   private readonly key = 'openedGroupId'
@@ -24,14 +24,13 @@ export class GroupService extends BasicCRUD<IGroup> {
 
   get openedGroupId(): number {
     if (!this._openedGroupId) {
-      // @ts-ignore
-      this._openedGroupId = +localStorage.getItem(this.key)
+      this._openedGroupId = +(localStorage.getItem(this.key) ?? 0)
     }
 
     return this._openedGroupId
   }
 
-  set openedGroupId(newGroup) {
+  set openedGroupId(newGroup: number) {
     this._openedGroupId = newGroup
     localStorage.setItem(this.key, newGroup + '')
   }
@@ -40,8 +39,8 @@ export class GroupService extends BasicCRUD<IGroup> {
     return !!this.openedGroupId && !!localStorage.getItem(this.key)
   }
 
-  getByUser(id: number): Observable<any> {
-    return this._httpClient.get(`${environment.apiUrl}/${this.postfix}/getbyuser`, {
+  getByUser(id: number): Observable<GroupDto[]> {
+    return this._httpClient.get<GroupDto[]>(`${environment.apiUrl}/${this.postfix}/getbyuser`, {
       withCredentials: true,
       params: {
         id: id.toString()

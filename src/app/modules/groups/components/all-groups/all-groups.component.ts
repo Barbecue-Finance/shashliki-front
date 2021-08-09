@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {IGroup} from "../../../../shared/interfaces/group.interface";
+import GroupDto from "../../../../shared/interfaces/group.interface";
 import {GroupService} from "../../services/group.service";
 import {UserService} from "../../../../shared/services/user.service";
 import {Router} from "@angular/router";
@@ -11,7 +11,7 @@ import {Router} from "@angular/router";
 })
 export class AllGroupsComponent implements OnInit {
 
-  groups: IGroup[];
+  groups: GroupDto[];
 
   constructor(
     private _router: Router,
@@ -27,17 +27,17 @@ export class AllGroupsComponent implements OnInit {
 
   loadGroups(): void {
     this._groupsService.getByUser(this._userService.id)
-      .subscribe((groups: IGroup[]) => {
+      .subscribe((groups: GroupDto[]) => {
         this.groups = groups
       })
   }
 
   openGroup(groupId: number): void {
     this._groupsService.openedGroupId = groupId
-    this._router.navigate(['/groups', groupId + ''])
+    this._router.navigate(['groups', groupId.toString()])
   }
 
   createGroupMenu() {
-    this._router.navigate(['/groups', 'create'])
+    this._router.navigate(['groups', 'create'])
   }
 }
