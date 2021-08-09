@@ -2,7 +2,7 @@ import {Component, OnInit, Output, EventEmitter} from '@angular/core';
 import {CalendarService} from "../../../services/calendar.service";
 
 @Component({
-  selector: 'app-calendar',
+  selector: 'calendar',
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.sass']
 })

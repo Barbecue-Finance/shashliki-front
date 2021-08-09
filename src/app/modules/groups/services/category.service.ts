@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
+import {GroupModule} from "../group.module";
 
 //TODO: Make all services more local. (Get rid of providedIn: 'root')
 @Injectable({
-  providedIn: 'root'
+  providedIn: GroupModule
 })
 export class CategoryService {
 

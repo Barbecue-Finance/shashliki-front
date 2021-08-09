@@ -18,11 +18,11 @@ import {UserService} from "../../../../shared/services/user.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
-  selector: 'app-category',
-  templateUrl: './group.component.html',
-  styleUrls: ['./group.component.sass']
+  selector: 'single-group',
+  templateUrl: './single-group.component.html',
+  styleUrls: ['./single-group.component.sass']
 })
-export class GroupComponent implements OnInit {
+export class SingleGroupComponent implements OnInit {
 
   private calendarString: string
 
@@ -53,24 +53,6 @@ export class GroupComponent implements OnInit {
     amount: 0,
     incomeOperationCategories: [],
     outComeOperationCategories: []
-  }
-
-  displayData: {
-    totalIncome: number,
-    totalOutCome: number,
-    totalAmount: number
-    incomeCategories: { category: IncomeOperationCategory, amount: number }[],
-    outcomeCategories: { category: OutComeOperationCategory, amount: number }[],
-    date: string,
-    incomeExpensePerMonth: { income: number, outcome: number }[]
-  } = {
-    totalIncome: 0,
-    totalOutCome: 0,
-    totalAmount: 0,
-    incomeCategories: [],
-    outcomeCategories: [],
-    date: '',
-    incomeExpensePerMonth: []
   }
 
   allIncomeCategories: IncomeOperationCategory[] = []

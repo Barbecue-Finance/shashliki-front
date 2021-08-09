@@ -3,7 +3,7 @@ import {CalendarService} from "../../../../shared/services/calendar.service";
 import {Observable, Subscription} from "rxjs";
 
 @Component({
-  selector: 'app-report',
+  selector: 'group-report',
   templateUrl: './report.component.html',
   styleUrls: ['./report.component.sass']
 })

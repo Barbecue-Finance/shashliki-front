@@ -13,11 +13,11 @@ import {OutComeMoneyOperation} from "../../../../shared/interfaces/money-operati
 import {IncomeMoneyOperation} from "../../../../shared/interfaces/money-operations/income-money-operation.interface";
 
 @Component({
-  selector: 'app-info-category',
-  templateUrl: './info.category.component.html',
+  selector: 'detailed-operation',
+  templateUrl: './detailed-operation.component.html',
   styleUrls: ['./info.category.component.sass']
 })
-export class InfoCategoryComponent implements OnInit {
+export class DetailedOperationComponent implements OnInit {
 
   // @ts-ignore
   @Input() openedInfoCategory: Observable<any>
