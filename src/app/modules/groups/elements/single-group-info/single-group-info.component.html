@@ -11,7 +11,7 @@
   </div>
 
 
-  <div class="members">
+  <div class="members" *ngIf="isLoaded">
     <p (click)="membersClicked()">{{ getMembersString() }}</p>
   </div>
 
@@ -20,15 +20,15 @@
     <div class="info-container">
       <div class="icon-plus" (click)="openCreateOperationPage()"></div>
       <p class="word">Расходы</p>
-      <p class="number">{{ totalOutCome | money}}</p>
+      <p class="number">{{ totalOutcome | money}}</p>
     </div>
     <div class="icons-container">
-      <div class="icon" *ngFor="let outcome of outcomeOperations"
+      <div class="icon" *ngFor="let outcome of outcomeCategories"
            (click)="showInfoCategoryOutcome(outcome)">
         <div class="circle">
-          <p class="letters">{{ outcome.operation.title.substring(0, 2) }}</p>
+          <p class="letters">{{ outcome.category.title.substring(0, 2) }}</p>
         </div>
-        <p class="category">{{ outcome.operation.title }}</p>
+        <p class="category">{{ outcome.category.title }}</p>
         <p class="money-amount">{{ outcome.amount | money}}</p>
       </div>
     </div>
@@ -42,12 +42,12 @@
       <p class="number">{{ totalIncome | money }}</p>
     </div>
     <div class="icons-container">
-      <div class="icon" *ngFor="let income of incomeOperations"
+      <div class="icon" *ngFor="let income of incomeCategories"
            (click)="showInfoCategoryIncome(income)">
         <div class="circle">
-          <p class="letters">{{ income.operation.title.substring(0, 2) }}</p>
+          <p class="letters">{{ income.category.title.substring(0, 2) }}</p>
         </div>
-        <p class="category">{{ income.operation.title }}</p>
+        <p class="category">{{ income.category.title }}</p>
         <p class="money-amount">{{ income.amount | money }}</p>
       </div>
     </div>
@@ -56,7 +56,7 @@
 
   <div class="sum">
     <p class="so">Итого:</p>
-    <p class="money-amount">{{totalAmount | money}}</p>
+    <p class="money-amount">{{totalAmount| money }}</p>
   </div>
 
 

@@ -1,15 +1,14 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {IncomeOperationCategory} from "../../../../shared/interfaces/operation-categories/income-operation-category.interface";
-import {OutComeOperationCategory} from "../../../../shared/interfaces/operation-categories/outcome-operation-category.interface";
+import {OutcomeOperationCategory} from "../../../../shared/interfaces/operation-categories/outcome-operation-category.interface";
 import {Router} from "@angular/router";
-import {CategoryService} from "../../services/category.service";
 import {OperationCategories} from "../../../../shared/enums/OperationCategory.enum";
-import {IncomeOperationCategoryService} from "../../../../shared/services/income-operation-category.service";
-import {OutComeOperationCategoryService} from "../../../../shared/services/outcome-operation-category.service";
-import {MoneyOperationService} from "../../../../shared/services/money-operation.service";
-import {IncomeOutcome} from "../../../../shared/interfaces/income-outcome.interface";
+import {IncomeOperationCategoryService} from "../../services/income-operation-category.service";
+import {OutcomeOperationCategoryService} from "../../services/outcome-operation-category.service";
+import {MoneyOperationService} from "../../services/money-operation.service";
+import {IncomeOutcomeDto} from "../../../../shared/interfaces/dto/income-outcome-dto.interface";
 import {Observable} from "rxjs";
-import {OutComeMoneyOperation} from "../../../../shared/interfaces/money-operations/outcome-money-operation.interface";
+import {OutcomeMoneyOperation} from "../../../../shared/interfaces/money-operations/outcome-money-operation.interface";
 import {IncomeMoneyOperation} from "../../../../shared/interfaces/money-operations/income-money-operation.interface";
 
 @Component({
@@ -34,21 +33,20 @@ export class DetailedOperationComponent implements OnInit {
     amount: 0
   }
 
-  @Input() activeOutComeCategory: { category: OutComeOperationCategory, amount: number } = {
+  @Input() activeOutComeCategory: { category: OutcomeOperationCategory, amount: number } = {
     category: {id: 0, purseId: 0, title: ''},
     amount: 0
   }
 
   incomeOperations: IncomeMoneyOperation[] = []
-  outcomeOperations: OutComeMoneyOperation[] = []
+  outcomeOperations: OutcomeMoneyOperation[] = []
 
-  incomeOutcome: IncomeOutcome = {incoming: [], outComing: []}
+  incomeOutcome: IncomeOutcomeDto = {incoming: [], outcoming: []}
 
   constructor(
     private _router: Router,
-    private _categoryService: CategoryService,
     private _incomeService: IncomeOperationCategoryService,
-    private _outcomeService: OutComeOperationCategoryService,
+    private _outcomeService: OutcomeOperationCategoryService,
     private _moneyService: MoneyOperationService
   ) {
   }
@@ -64,49 +62,49 @@ export class DetailedOperationComponent implements OnInit {
 
   filterMoneyOperations(): void {
     this.incomeOperations = this.incomeOutcome.incoming.filter(i => i.incomeOperationCategoryId == this.activeIncomeCategory.category.id)
-    this.outcomeOperations = this.incomeOutcome.outComing.filter(i => i.outComeOperationCategoryId == this.activeOutComeCategory.category.id)
+    this.outcomeOperations = this.incomeOutcome.outcoming.filter(i => i.outComeOperationCategoryId == this.activeOutComeCategory.category.id)
 
     console.table(this.incomeOperations)
     console.table(this.outcomeOperations)
   }
 
   hideInfoCategory() {
-    this._categoryService.killActiveCategory()
-
     this.InfoCategoryHidden.emit()
   }
 
   isExpense(): boolean {
     // console.log(this._categoryService.openedCategoryType == OperationCategories.OutcomeOperation)
-    return this._categoryService.openedCategoryType == OperationCategories.OutcomeOperation
+    // return this._categoryService.openedCategoryType == OperationCategories.OutcomeOperation
+    return false;
   }
 
   isIncome(): boolean {
     // console.log(this._categoryService.openedCategoryType == OperationCategories.IncomeOperation)
-    return this._categoryService.openedCategoryType == OperationCategories.IncomeOperation
+    // return this._categoryService.openedCategoryType == OperationCategories.IncomeOperation
+    return false;
   }
 
   private load() {
-    if (this._categoryService.isAnyCategoryOpened()) {
-      if (this.isIncome()) {
-        console.log('Income category')
-        console.log(this.activeIncomeCategory)
-        this._moneyService
-          .getByPurse(this.activeIncomeCategory.category.purseId)
-          .subscribe(io => {
-            this.incomeOutcome = io
-            this.filterMoneyOperations()
-          });
-      } else {
-        console.log('Expense category')
-        console.log(this.activeOutComeCategory)
-        this._moneyService
-          .getByPurse(this.activeOutComeCategory.category.purseId)
-          .subscribe(io => {
-            this.incomeOutcome = io
-            this.filterMoneyOperations()
-          });
-      }
-    }
+    // if (this._categoryService.isAnyCategoryOpened()) {
+    //   if (this.isIncome()) {
+    //     console.log('Income category')
+    //     console.log(this.activeIncomeCategory)
+    //     this._moneyService
+    //       .getByPurse(this.activeIncomeCategory.category.purseId)
+    //       .subscribe(io => {
+    //         this.incomeOutcome = io
+    //         this.filterMoneyOperations()
+    //       });
+    //   } else {
+    //     console.log('Expense category')
+    //     console.log(this.activeOutComeCategory)
+    //     this._moneyService
+    //       .getByPurse(this.activeOutComeCategory.category.purseId)
+    //       .subscribe(io => {
+    //         this.incomeOutcome = io
+    //         this.filterMoneyOperations()
+    //       });
+    //   }
+    // }
   }
 }

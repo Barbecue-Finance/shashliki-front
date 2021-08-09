@@ -1,4 +1,4 @@
-export interface OverallOperationsInterface {
+export interface OverallCategoriesTotals {
   incomeAmount: number,
   outcomeAmount: number
 }

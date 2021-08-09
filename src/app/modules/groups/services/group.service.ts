@@ -5,12 +5,16 @@ import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../../environments/environment";
 import {APIControllers} from "../../../shared/enums/APIControllers";
 import {BasicCRUD} from "../../../shared/services/basic-crud.service";
+import {map} from "rxjs/operators";
+import {GroupModule} from "../group.module";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: null
 })
 export class GroupService extends BasicCRUD<GroupDto> {
   private _openedGroupId: number;
+
+  private _group!: GroupDto;
 
   private readonly key = 'openedGroupId'
 
@@ -20,6 +24,14 @@ export class GroupService extends BasicCRUD<GroupDto> {
     super(APIControllers.Group, _httpClient)
 
     this._openedGroupId = 0
+  }
+
+  get group(): GroupDto {
+    return this._group;
+  }
+
+  set group(value: GroupDto) {
+    this._group = value;
   }
 
   get openedGroupId(): number {
@@ -48,4 +60,12 @@ export class GroupService extends BasicCRUD<GroupDto> {
     })
   }
 
+  loadOpenedGroup(): Observable<void> {
+    return this.getById(this.openedGroupId)
+      .pipe(
+        map((group) => {
+          this._group = group;
+        })
+      );
+  }
 }

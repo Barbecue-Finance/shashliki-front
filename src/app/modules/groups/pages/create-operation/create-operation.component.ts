@@ -4,12 +4,12 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import {Router} from '@angular/router';
 import {UserService} from "../../../../shared/services/user.service";
 import {GroupService} from "../../services/group.service";
-import {MoneyOperationService} from "../../../../shared/services/money-operation.service";
-import {PurseService} from "../../../../shared/services/purse.service";
-import {OutComeMoneyOperation} from "../../../../shared/interfaces/money-operations/outcome-money-operation.interface";
+import {MoneyOperationService} from "../../services/money-operation.service";
+import {PurseService} from "../../services/purse.service";
+import {OutcomeMoneyOperation} from "../../../../shared/interfaces/money-operations/outcome-money-operation.interface";
 import {IncomeMoneyOperation} from "../../../../shared/interfaces/money-operations/income-money-operation.interface";
 import {MatSlideToggleChange} from "@angular/material/slide-toggle";
-import {Purse} from "../../../../shared/interfaces/purse.interface";
+import {PurseDto} from "../../../../shared/interfaces/purse.interface";
 
 
 @Component({
@@ -29,7 +29,7 @@ export class CreateOperationComponent implements OnInit {
   // TODO
   @Input() isOutcome = false
 
-  private purse?: Purse
+  private purse?: PurseDto
 
   constructor(
     private _router: Router,
@@ -94,7 +94,7 @@ export class CreateOperationComponent implements OnInit {
 
   createOutcome(values: { title: string, sum: number }): void {
     console.log("sending outcome")
-    let myOperation: OutComeMoneyOperation = {
+    let myOperation: OutcomeMoneyOperation = {
       amount: +values.sum,
       comment: '',
       dateTime: '',

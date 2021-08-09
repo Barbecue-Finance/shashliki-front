@@ -3,7 +3,7 @@ export enum APIControllers {
   IncomeOperationCategory = 'IncomeOperationCategory',
   Invite = 'Invite',
   MoneyOperation = 'MoneyOperation',
-  OutComeOperationCategory = 'OutComeOperationCategory',
+  OutcomeOperationCategory = 'OutcomeOperationCategory',
   Purse = 'Purse',
   User = 'User',
 }

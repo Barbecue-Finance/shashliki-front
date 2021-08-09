@@ -1,27 +1,26 @@
-import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
 import {AllGroupsComponent} from './pages/all-groups/all-groups.component';
-import {RouterModule, Routes} from "@angular/router";
-import {GroupService} from "./services/group.service";
-import {SingleGroupComponent} from './pages/single-group/single-group.component';
-import {ReportComponent} from './components/report/report.component';
-import {PurseService} from 'src/app/shared/services/purse.service';
-import {MoneyOperationService} from 'src/app/shared/services/money-operation.service';
-import {IncomeOperationCategoryService} from 'src/app/shared/services/income-operation-category.service';
-import {OutComeOperationCategoryService} from 'src/app/shared/services/outcome-operation-category.service';
+import {CalendarModule} from "../../shared/elements/calendar/calendar.module";
+import {CommonModule} from '@angular/common';
 import {CreateGroupComponent} from "./pages/create-group/create-group.component";
-import {DetailedOperationComponent} from "./components/detailed-operation/detailed-operation.component";
-import {CategoryService} from "./services/category.service";
-import {MoneyPipe} from "../../shared/pipes/money.pipe";
 import {CreateOperationComponent} from "./pages/create-operation/create-operation.component";
-import {MaterialSharedModule} from "../../shared/modules/material-shared.module";
+import {DataEditModule} from "../../shared/elements/data-edit/data-edit.module";
+import {DetailedOperationComponent} from "./components/detailed-operation/detailed-operation.component";
 import {EventComponent} from './components/event/event.component';
 import {HeaderModule} from "../../shared/elements/header/header.module";
-import {CalendarModule} from "../../shared/elements/calendar/calendar.module";
-import {PipesModule} from "../../shared/pipes/pipes.module";
-import {DataEditModule} from "../../shared/elements/data-edit/data-edit.module";
+import {MaterialSharedModule} from "../../shared/modules/material-shared.module";
+import {NgModule} from '@angular/core';
 import {ReactiveFormsModule} from "@angular/forms";
-import { SingleGroupInfoComponent } from './elements/single-group-info/single-group-info.component';
+import {ReportComponent} from './components/report/report.component';
+import {RouterModule, Routes} from "@angular/router";
+import {SingleGroupComponent} from './pages/single-group/single-group.component';
+import {SingleGroupInfoComponent} from './elements/single-group-info/single-group-info.component';
+import {GroupService} from "./services/group.service";
+import {IncomeOperationCategoryService} from "./services/income-operation-category.service";
+import {MoneyOperationService} from "./services/money-operation.service";
+import {OutcomeOperationCategoryService} from "./services/outcome-operation-category.service";
+import {PurseService} from "./services/purse.service";
+import {MoneyPipe} from "../../shared/pipes/money.pipe";
+import {PipesModule} from "../../shared/pipes/pipes.module";
 
 
 const routes: Routes = [
@@ -47,31 +46,30 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     AllGroupsComponent,
-    SingleGroupComponent,
-    ReportComponent,
     CreateGroupComponent,
-    DetailedOperationComponent,
     CreateOperationComponent,
+    DetailedOperationComponent,
     EventComponent,
+    ReportComponent,
+    SingleGroupComponent,
     SingleGroupInfoComponent
   ],
   imports: [
-    CommonModule,
-    RouterModule.forChild(routes),
-    HeaderModule,
     CalendarModule,
-    PipesModule,
-    MaterialSharedModule,
+    CommonModule,
     DataEditModule,
-    ReactiveFormsModule
+    HeaderModule,
+    MaterialSharedModule,
+    ReactiveFormsModule,
+    RouterModule.forChild(routes),
+    PipesModule,
   ],
   providers: [
     GroupService,
-    CategoryService,
-    PurseService,
-    MoneyOperationService,
     IncomeOperationCategoryService,
-    OutComeOperationCategoryService,
+    MoneyOperationService,
+    OutcomeOperationCategoryService,
+    PurseService,
     MoneyPipe
   ]
 })

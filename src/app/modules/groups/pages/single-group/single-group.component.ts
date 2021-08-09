@@ -1,17 +1,16 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import GroupDto from "../../../../shared/interfaces/group.interface";
 import {GroupService} from "../../services/group.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {PurseService} from 'src/app/shared/services/purse.service';
-import {IncomeOutcome} from 'src/app/shared/interfaces/income-outcome.interface';
-import {MoneyOperationService} from 'src/app/shared/services/money-operation.service';
-import {IncomeOperationCategoryService} from 'src/app/shared/services/income-operation-category.service';
-import {Purse} from 'src/app/shared/interfaces/purse.interface';
-import {OutComeOperationCategory} from 'src/app/shared/interfaces/operation-categories/outcome-operation-category.interface';
+import {PurseService} from 'src/app/modules/groups/services/purse.service';
+import {IncomeOutcomeDto} from 'src/app/shared/interfaces/dto/income-outcome-dto.interface';
+import {MoneyOperationService} from 'src/app/modules/groups/services/money-operation.service';
+import {IncomeOperationCategoryService} from 'src/app/modules/groups/services/income-operation-category.service';
+import {PurseDto} from 'src/app/shared/interfaces/purse.interface';
+import {OutcomeOperationCategory} from 'src/app/shared/interfaces/operation-categories/outcome-operation-category.interface';
 import {IncomeOperationCategory} from 'src/app/shared/interfaces/operation-categories/income-operation-category.interface';
 import {CalendarService} from 'src/app/shared/services/calendar.service';
 import {Subject} from 'rxjs';
-import {CategoryService} from "../../services/category.service";
 import {MoneyPipe} from "../../../../shared/pipes/money.pipe";
 import {OperationCategories} from "../../../../shared/enums/OperationCategory.enum";
 import {UserService} from "../../../../shared/services/user.service";
@@ -42,13 +41,13 @@ export class SingleGroupComponent implements OnInit {
     amount: 0
   }
 
-  selectedOutComeCategory: { category: OutComeOperationCategory, amount: number } = {
+  selectedOutComeCategory: { category: OutcomeOperationCategory, amount: number } = {
     category: {id: 0, title: '', purseId: 0},
     amount: 0
   }
 
-  incomeOutcome: IncomeOutcome = {incoming: [], outComing: []}
-  purse: Purse = {
+  incomeOutcome: IncomeOutcomeDto = {incoming: [], outcoming: []}
+  purse: PurseDto = {
     id: 0,
     amount: 0,
     incomeOperationCategories: [],
@@ -56,7 +55,7 @@ export class SingleGroupComponent implements OnInit {
   }
 
   allIncomeCategories: IncomeOperationCategory[] = []
-  allOutComeCategories: OutComeOperationCategory[] = []
+  allOutComeCategories: OutcomeOperationCategory[] = []
 
   dataForInfoCategory: { title: string, letters: string, money: number } = {
     title: '',
@@ -71,17 +70,17 @@ export class SingleGroupComponent implements OnInit {
     private _purseService: PurseService,
     private _moneyOperationService: MoneyOperationService,
     private _calendarService: CalendarService,
-    private _categoryService: CategoryService,
+    // private _categoryService: CategoryService,
     private _operationCategoryService: IncomeOperationCategoryService,
     private _router: Router,
     private _route: ActivatedRoute,
     private _moneyPipe: MoneyPipe
   ) {
-    this.group = {
-      id: 0,
-      title: '',
-      users: []
-    }
+    // this.group = {
+    //   id: 0,
+    //   title: '',
+    //   users: []
+    // }
     this.calendarString = ''
   }
 
@@ -100,65 +99,64 @@ export class SingleGroupComponent implements OnInit {
       this._router.navigate(['groups'])
     }
 
-    this._groupsService.getById(this._groupsService.openedGroupId)
-      .subscribe((group: GroupDto) => {
-        this.group = group
-        this._purseService.getByGroup(this.group.id).subscribe(p => {
-
-          this.purse = p
-          this.allIncomeCategories = p.incomeOperationCategories
-          this.allOutComeCategories = p.outComeOperationCategories
-
-          this._moneyOperationService.getByPurse(p.id).subscribe(io => {
-            this.incomeOutcome = io
-            this.fillForDay(new Date())
-
-            this.fillDaysOfInterest(new Date());
-            this._calendarService.loadCalendar(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
-            this._calendarService.dateChanged.subscribe(date => this.fillForDay(date));
-          })
-        })
-      })
+    // this._groupsService.getById(this._groupsService.openedGroupId)
+    //   .subscribe((group: GroupDto) => {
+    //     this.group = group
+    //     this._purseService.getByGroup(this.group.id).subscribe(p => {
+    //
+    //       this.purse = p
+    //       this.allIncomeCategories = p.incomeOperationCategories
+    //       this.allOutComeCategories = p.outComeOperationCategories
+    //
+    //       this._moneyOperationService.getByPurse(p.id).subscribe(io => {
+    //         this.incomeOutcome = io
+    //         this.fillForDay(new Date())
+    //
+    //         this.fillDaysOfInterest(new Date());
+    //         this._calendarService.loadCalendar(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
+    //         this._calendarService.dateChanged.subscribe(date => this.fillForDay(date));
+    //       })
+    //     })
+    //   })
     this.loadCalendarString()
   }
 
-  getMonthDays(year: number, month: number): number {
-    let isLeapYear = ((year % 4 === 0 && year % 100 !== 0) || year % 400 === 0);
-
-    return [31, (isLeapYear ? 29 : 28), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month];
-  }
-
-  fillDaysOfInterest(date: Date): void {
-    let daysOfInterest: number[] = []
-
-    let monthDays = this.getMonthDays(date.getFullYear(), date.getMonth());
-    for (let i = 0; i < monthDays; i++) {
-      let start = new Date(new Date().getFullYear(), date.getMonth(), i);
-      let end = new Date(new Date().getFullYear(), date.getMonth(), i + 1);
-      let totalIncomesInADay = this.allIncomeCategories
-        .map(c => this.getTotalIncomeByCategory(c.id, start, end))
-        .reduce((total, current) => total + current, 0);
-      let totalOutComesInADay = this.allOutComeCategories
-        .map(c => this.getTotalExpenseByCategory(c.id, start, end))
-        .reduce((total, current) => total + current, 0);
-
-      if (totalIncomesInADay + totalOutComesInADay !== 0) {
-        daysOfInterest.push(i)
-      }
-    }
-    console.log(`fillDaysOfInterest(): daysOfInterest: ${daysOfInterest}`)
-    this._calendarService.daysOfInterest = daysOfInterest
-    this._calendarService.redraw();
-  }
-
-  fillForMonth(date: Date) {
-    this.fillForRange(this.truncateTime(date), this.truncateTime(this.addMonth(date)))
-
-  }
-
-  fillForDay(day: Date) {
-    this.fillForRange(this.truncateTime(day), this.truncateTime(this.addDay(day)))
-  }
+  // getMonthDays(year: number, month: number): number {
+  //   let isLeapYear = ((year % 4 === 0 && year % 100 !== 0) || year % 400 === 0);
+  //
+  //   return [31, (isLeapYear ? 29 : 28), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month];
+  // }
+  //
+  // fillDaysOfInterest(date: Date): void {
+  //   let daysOfInterest: number[] = []
+  //
+  //   let monthDays = this.getMonthDays(date.getFullYear(), date.getMonth());
+  //   for (let i = 0; i < monthDays; i++) {
+  //     let start = new Date(new Date().getFullYear(), date.getMonth(), i);
+  //     let end = new Date(new Date().getFullYear(), date.getMonth(), i + 1);
+  //     let totalIncomesInADay = this.allIncomeCategories
+  //       .map(c => this.getTotalIncomeByCategory(c.id, start, end))
+  //       .reduce((total, current) => total + current, 0);
+  //     let totalOutComesInADay = this.allOutComeCategories
+  //       .map(c => this.getTotalExpenseByCategory(c.id, start, end))
+  //       .reduce((total, current) => total + current, 0);
+  //
+  //     if (totalIncomesInADay + totalOutComesInADay !== 0) {
+  //       daysOfInterest.push(i)
+  //     }
+  //   }
+  //   console.log(`fillDaysOfInterest(): daysOfInterest: ${daysOfInterest}`)
+  //   this._calendarService.daysOfInterest = daysOfInterest
+  //   this._calendarService.redraw();
+  // }
+  //
+  // fillForMonth(date: Date) {
+  //   this.fillForRange(this.truncateTime(date), this.truncateTime(this.addMonth(date)))
+  // }
+  //
+  // fillForDay(day: Date) {
+  //   this.fillForRange(this.truncateTime(day), this.truncateTime(this.addDay(day)))
+  // }
 
   // This is some weird function to convert C# DateTime format into JS Date
   parseNetDate(cSDate: string): Date {
@@ -186,7 +184,7 @@ export class SingleGroupComponent implements OnInit {
       .filter(o => this.parseNetDate(o.dateTime) >= startDate && this.parseNetDate(o.dateTime) <= endDate)
 
     // select only suitable outcomes
-    let usefulOutcomes = this.incomeOutcome.outComing
+    let usefulOutcomes = this.incomeOutcome.outcoming
       .filter(o => this.parseNetDate(o.dateTime) >= startDate && this.parseNetDate(o.dateTime) <= endDate)
 
     // calculate total income
@@ -204,89 +202,49 @@ export class SingleGroupComponent implements OnInit {
     let incomeExpensePerMonth: { income: number, outcome: number }[] = []
 
     // fill incomes and comes grouped by monthes (passed to report)
-    for (let i = 0; i < 12; i++) {
-      let start = new Date(new Date().getFullYear(), i, 0);
-      let end = new Date(new Date().getFullYear(), i + 1, 0);
-      incomeExpensePerMonth.push({
-        income: this.allIncomeCategories
-          .map(c => this.getTotalIncomeByCategory(c.id, start, end))
-          .reduce((total, current) => total + current, 0),
-        outcome: this.allOutComeCategories
-          .map(c => this.getTotalExpenseByCategory(c.id, start, end))
-          .reduce((total, current) => total + current, 0)
-      });
-    }
+    // for (let i = 0; i < 12; i++) {
+    //   let start = new Date(new Date().getFullYear(), i, 0);
+    //   let end = new Date(new Date().getFullYear(), i + 1, 0);
+    //   incomeExpensePerMonth.push({
+    //     income: this.allIncomeCategories
+    //       .map(c => this.getTotalIncomeByCategory(c.id, start, end))
+    //       .reduce((total, current) => total + current, 0),
+    //     outcome: this.allOutComeCategories
+    //       .map(c => this.getTotalExpenseByCategory(c.id, start, end))
+    //       .reduce((total, current) => total + current, 0)
+    //   });
+    // }
 
-    this.displayData = {
-      date: `${this.dateToString(this.addMonth(startDate))} - ${this.dateToString(this.addMonth(endDate))}`,
-      totalIncome: totalIncome,
-      totalOutCome: totalOutCome,
-      totalAmount: totalIncome - totalOutCome,
-      incomeCategories: this.allIncomeCategories
-        .filter(c => usefulIncomes
-          .findIndex(i => i.incomeOperationCategoryId === c.id) != -1)
-        .map(c =>
-          ({
-            category: c,
-            amount: this.getTotalIncomeByCategory(c.id, startDate, endDate)
-          })
-        ),
-      outcomeCategories: this.allOutComeCategories
-        .filter(c => usefulOutcomes
-          .findIndex(i => i.outComeOperationCategoryId === c.id) != -1)
-        .map(c =>
-          ({
-            category: c,
-            amount: this.getTotalExpenseByCategory(c.id, startDate, endDate)
-          })
-        ),
-      incomeExpensePerMonth: incomeExpensePerMonth
-    }
+    // this.displayData = {
+    //   date: `${this.dateToString(this.addMonth(startDate))} - ${this.dateToString(this.addMonth(endDate))}`,
+    //   totalIncome: totalIncome,
+    //   totalOutCome: totalOutCome,
+    //   totalAmount: totalIncome - totalOutCome,
+    //   incomeCategories: this.allIncomeCategories
+    //     .filter(c => usefulIncomes
+    //       .findIndex(i => i.incomeOperationCategoryId === c.id) != -1)
+    //     .map(c =>
+    //       ({
+    //         category: c,
+    //         amount: this.getTotalIncomeByCategory(c.id, startDate, endDate)
+    //       })
+    //     ),
+    //   outcomeCategories: this.allOutComeCategories
+    //     .filter(c => usefulOutcomes
+    //       .findIndex(i => i.outComeOperationCategoryId === c.id) != -1)
+    //     .map(c =>
+    //       ({
+    //         category: c,
+    //         amount: this.getTotalExpenseByCategory(c.id, startDate, endDate)
+    //       })
+    //     ),
+    //   incomeExpensePerMonth: incomeExpensePerMonth
+    // }
   }
 
-  getMembersString(): string {
-    let endSym = this.group?.users.length ?? 0 % 10
-
-    let word: string;
-
-    switch (endSym) {
-      case 1:
-        word = 'участник'
-        break
-
-      case 2:
-      case 3:
-      case 4:
-        word = 'участника'
-        break
-
-      default:
-        word = 'участников'
-        break
-    }
-
-    return `${this.group?.users.length} ${word}`
-  }
 
   // return total income for IncomeCategoryId and time range
-  getTotalIncomeByCategory(id: number, startDate: Date, endDate: Date): number {
-    return this.incomeOutcome.incoming.length > 0 ?
-      this.incomeOutcome.incoming
-        .filter(i => i.incomeOperationCategoryId == id && this.parseNetDate(i.dateTime) >= startDate && this.parseNetDate(i.dateTime) <= endDate)
-        .map(c => c.amount)
-        .reduce((total, current) => total + current, 0)
-      : 0
-  }
 
-  // return total income for OutComeCategoryId and time range
-  getTotalExpenseByCategory(id: number, startDate: Date, endDate: Date): number {
-    return this.incomeOutcome.outComing.length > 0 ?
-      this.incomeOutcome.outComing
-        .filter(i => i.outComeOperationCategoryId == id && this.parseNetDate(i.dateTime) >= startDate && this.parseNetDate(i.dateTime) <= endDate)
-        .map(c => c.amount)
-        .reduce((total, current) => total + current, 0)
-      : 0
-  }
 
   openReport(): void {
     this.isHiddenReport = false
@@ -317,7 +275,7 @@ export class SingleGroupComponent implements OnInit {
       this.parseNetDate(o.dateTime) > date &&
       this.parseNetDate(o.dateTime) < this.addDay(date)
       ) != -1) ||
-      (this.incomeOutcome.outComing.findIndex(o =>
+      (this.incomeOutcome.outcoming.findIndex(o =>
         this.parseNetDate(o.dateTime) > date &&
         this.parseNetDate(o.dateTime) < this.addDay(date)
       ) != -1)
@@ -350,45 +308,33 @@ export class SingleGroupComponent implements OnInit {
   }
 
   showInfoCategoryIncome(selectedIncomeCategory: { category: IncomeOperationCategory, amount: number }) {
-    this.selectedIncomeCategory = selectedIncomeCategory
-
-    this.isHiddenInfoCategory = false
-
-    console.log(this.selectedIncomeCategory)
-
-    this._categoryService.openedCategoryId = selectedIncomeCategory.category.id
-    this._categoryService.openedCategoryType = OperationCategories.IncomeOperation
-
-    this.openedInfoCategory.next()
+    // this.selectedIncomeCategory = selectedIncomeCategory
+    //
+    // this.isHiddenInfoCategory = false
+    //
+    // console.log(this.selectedIncomeCategory)
+    //
+    // this._categoryService.openedCategoryId = selectedIncomeCategory.category.id
+    // this._categoryService.openedCategoryType = OperationCategories.IncomeOperation
+    //
+    // this.openedInfoCategory.next()
   }
 
-  showInfoCategoryOutcome(selectedOutComeCategory: { category: OutComeOperationCategory, amount: number }) {
-
-    this.selectedOutComeCategory = selectedOutComeCategory
-    this.isHiddenInfoCategory = false
-
-    console.log(this.selectedOutComeCategory)
-
-    this._categoryService.openedCategoryId = selectedOutComeCategory.category.id
-    this._categoryService.openedCategoryType = OperationCategories.OutcomeOperation
-
-    this.openedInfoCategory.next()
+  showInfoCategoryOutcome(selectedOutComeCategory: { category: OutcomeOperationCategory, amount: number }) {
+    //
+    // this.selectedOutComeCategory = selectedOutComeCategory
+    // this.isHiddenInfoCategory = false
+    //
+    // console.log(this.selectedOutComeCategory)
+    //
+    // this._categoryService.openedCategoryId = selectedOutComeCategory.category.id
+    // this._categoryService.openedCategoryType = OperationCategories.OutcomeOperation
+    //
+    // this.openedInfoCategory.next()
   }
 
   closeInfoCategory() {
     this.isHiddenInfoCategory = true
   }
 
-  membersClicked() {
-    this.matSnackBar.open(
-      `В группе '${this.group?.title}' с вами ${this.getMembersString()}: ${this.group?.users.map(u => u.username).join("\n")}`, '',
-      {
-        duration: 3000
-      }
-    )
-  }
-
-  openCreateOperationPage(): void {
-    this._router.navigate(['groups', 'create-operation'])
-  }
 }

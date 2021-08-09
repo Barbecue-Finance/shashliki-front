@@ -19,11 +19,15 @@
 
 
     <div class="report-container not-done"> <!-- report-layer [class.hide-top]="isHiddenReport"-->
+<!--      <group-report-->
+<!--        [openReport]="openedReport.asObservable()"-->
+<!--        (activeMonthChanged)="fillForMonth($event)"-->
+<!--        [closeReport]="closedReport.asObservable()"-->
+<!--        [incomeExpenses]="displayData.incomeExpensePerMonth">-->
+<!--      </group-report>-->
       <group-report
         [openReport]="openedReport.asObservable()"
-        (activeMonthChanged)="fillForMonth($event)"
-        [closeReport]="closedReport.asObservable()"
-        [incomeExpenses]="displayData.incomeExpensePerMonth">
+        [closeReport]="closedReport.asObservable()">
       </group-report>
     </div>
 
