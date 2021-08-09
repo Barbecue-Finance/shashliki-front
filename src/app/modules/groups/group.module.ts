@@ -10,7 +10,7 @@ import {MoneyOperationService} from 'src/app/shared/services/money-operation.ser
 import {IncomeOperationCategoryService} from 'src/app/shared/services/income-operation-category.service';
 import {OutComeOperationCategoryService} from 'src/app/shared/services/outcome-operation-category.service';
 import {CreateGroupComponent} from "./pages/create-group/create-group.component";
-import {DetailedOperationComponent} from "./components/info-category/detailed-operation.component";
+import {DetailedOperationComponent} from "./components/detailed-operation/detailed-operation.component";
 import {CategoryService} from "./services/category.service";
 import {MoneyPipe} from "../../shared/pipes/money.pipe";
 import {CreateOperationComponent} from "./pages/create-operation/create-operation.component";

@@ -28,7 +28,7 @@ export class HeaderComponent implements OnInit {
     if (this._router.url.includes('/profile')) {
       this.showBackBtn = true
     }
-    if (this._router.url.includes('/info-category')) {
+    if (this._router.url.includes('/detailed-operation')) {
       this.showBackBtn = true
     }
 

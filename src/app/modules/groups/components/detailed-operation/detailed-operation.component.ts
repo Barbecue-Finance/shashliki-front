@@ -15,7 +15,7 @@ import {IncomeMoneyOperation} from "../../../../shared/interfaces/money-operatio
 @Component({
   selector: 'detailed-operation',
   templateUrl: './detailed-operation.component.html',
-  styleUrls: ['./info.category.component.sass']
+  styleUrls: ['./detailed-operation.component.sass']
 })
 export class DetailedOperationComponent implements OnInit {
 

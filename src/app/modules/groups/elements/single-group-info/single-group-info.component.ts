@@ -31,16 +31,14 @@ export class SingleGroupInfoComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this._groupInfoService.loadFields();
     this.loadDisplayItems();
   }
 
   private loadDisplayItems(): void {
     this.date = this._groupInfoService.date;
 
-    this._groupService.getById(this._groupService.openedGroupId)
-      .subscribe((group: GroupDto) => {
-        this.title = group.title;
-      });
+    this.title = this._groupInfoService.title;
 
     this.totalOutCome = this._groupInfoService.totalOutcome;
 

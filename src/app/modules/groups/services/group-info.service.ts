@@ -17,6 +17,7 @@ export class GroupInfoService implements OnInit{
   private _totalIncome = 0;
   private _totalOutcome = 0;
   private _totalAmount = 0;
+  private _title = '';
   private _incomeOperations: IncomeOperationInterface[] = [];
   private _outcomeOperations: OutcomeOperationInterface[] = [];
   private _date = '';
@@ -43,6 +44,14 @@ export class GroupInfoService implements OnInit{
 
   set totalOutcome(value) {
     this._totalOutcome = value;
+  }
+
+  get title(): string {
+    return this._title;
+  }
+
+  set title(value) {
+    this._title = value;
   }
 
   get totalAmount(): number {
@@ -92,5 +101,7 @@ export class GroupInfoService implements OnInit{
 
   ngOnInit(): void {
   }
+
+  loadFields():void {}
 
 }
