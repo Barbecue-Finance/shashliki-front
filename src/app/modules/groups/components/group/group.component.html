@@ -16,7 +16,7 @@
           <p>{{ displayData.date }}</p>
         </div>
         <div class="title">
-          <p>{{ group.title }}</p>
+          <p>{{ group?.title }}</p>
         </div>
         <div class="members">
           <p (click)="membersClicked()">{{ getMembersString() }}</p>

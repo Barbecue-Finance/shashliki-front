@@ -1,15 +1,13 @@
-import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {IncomeOperationCategory} from "../../../../shared/interfaces/operation-categories/income-operation-category.interface";
 import {OutComeOperationCategory} from "../../../../shared/interfaces/operation-categories/outcome-operation-category.interface";
 import {Router} from "@angular/router";
 import {CategoryService} from "../../services/category.service";
-import {OperationCategory} from "../../../../shared/interfaces/operation-categories/operation-category.interface";
 import {OperationCategories} from "../../../../shared/enums/OperationCategory.enum";
 import {IncomeOperationCategoryService} from "../../../../shared/services/income-operation-category.service";
 import {OutComeOperationCategoryService} from "../../../../shared/services/outcome-operation-category.service";
 import {MoneyOperationService} from "../../../../shared/services/money-operation.service";
 import {IncomeOutcome} from "../../../../shared/interfaces/income-outcome.interface";
-import {MoneyOperation} from "../../../../shared/interfaces/money-operations/money-operation.interface";
 import {Observable} from "rxjs";
 import {OutComeMoneyOperation} from "../../../../shared/interfaces/money-operations/outcome-money-operation.interface";
 import {IncomeMoneyOperation} from "../../../../shared/interfaces/money-operations/income-money-operation.interface";
@@ -57,10 +55,11 @@ export class InfoCategoryComponent implements OnInit {
 
   ngOnInit(): void {
     this.openedInfoCategory.subscribe(() => {
-        this.load()
-      }
-    )
-    this.closedInfoCategory.subscribe(() => this.hideInfoCategory())
+      this.load()
+    })
+    this.closedInfoCategory.subscribe(() => {
+      this.hideInfoCategory()
+    })
   }
 
   filterMoneyOperations(): void {

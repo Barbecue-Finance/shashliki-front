@@ -9,6 +9,7 @@ import {PurseService} from "../../../../shared/services/purse.service";
 import {OutComeMoneyOperation} from "../../../../shared/interfaces/money-operations/outcome-money-operation.interface";
 import {IncomeMoneyOperation} from "../../../../shared/interfaces/money-operations/income-money-operation.interface";
 import {MatSlideToggleChange} from "@angular/material/slide-toggle";
+import {Purse} from "../../../../shared/interfaces/purse.interface";
 
 
 @Component({
@@ -18,12 +19,17 @@ import {MatSlideToggleChange} from "@angular/material/slide-toggle";
 })
 export class CreateOperationComponent implements OnInit {
 
-  formGroup: FormGroup = new FormGroup({})
   validators = [Validators.required]
+  formGroup: FormGroup = new FormGroup({
+    'title': new FormControl('', this.validators),
+    'sum': new FormControl('', this.validators)
+  })
   isFormSent: boolean = false
 
   // TODO
-  @Input() isChecked = false
+  @Input() isOutcome = false
+
+  private purse?: Purse
 
   constructor(
     private _router: Router,
@@ -36,10 +42,11 @@ export class CreateOperationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.formGroup = new FormGroup({
-      'title': new FormControl('', this.validators),
-      'sum': new FormControl('', this.validators)
-    })
+    this._purseService
+      .getByGroup(this._groupService.openedGroupId)
+      .subscribe((purse) => {
+        this.purse = purse;
+      });
   }
 
   send(): void {
@@ -47,72 +54,67 @@ export class CreateOperationComponent implements OnInit {
       return
     }
 
-    const values = {...this.formGroup.value}
-    values.creatorId = this._userService.id
+    if (this.purse === undefined) {
+      this.matSnackBar.open('Возникла проблема! Попробуйте обновить страницу.', '', {duration: 3000})
+      return;
+    }
+
+    const values = {...this.formGroup.value} as { title: string, sum: number }
     this.isFormSent = true
 
-    this._purseService.getByGroup(this._groupService.openedGroupId)
-      .subscribe((purse) => {
+    if (this.isOutcome) {
+      this.createOutcome(values);
+    } else {
+      this.createIncome(values);
+    }
+  }
 
-        if (this.isChecked) {
-          console.log("sending outcome")
-          let myOperation: OutComeMoneyOperation = {
-            amount: +values.sum,
-            comment: '',
-            dateTime: '',
-            userId: this._userService.id,
-            purseId: purse.id,
-            id: 0,
-            userUsername: '',
-            outComeOperationCategoryId: 0,
-            operationCategoryTitle: values.title
-          }
-          this._moneyOperation.createOutCome(myOperation).subscribe(() => {
-            this.isFormSent = false
-            this.matSnackBar.open('Успешно', '', {duration: 3000})
-            this._router.navigate(['/groups'])
-          }, error => {
-            this.isFormSent = false
-            if (error.error?.error) {
-              this.matSnackBar.open(error.error?.error, '', {duration: 3000})
-            } else {
-              this.matSnackBar.open('Ошибка на сервере', '', {duration: 3000})
-              console.log('Error:', error)
-            }
-          });
+  private createIncome(values: { title: string, sum: number }) {
+    console.log("sending income")
+    let myOperation: IncomeMoneyOperation = {
+      amount: +values.sum,
+      comment: '',
+      dateTime: '',
+      userId: this._userService.id,
+      purseId: this.purse!.id,
+      id: 0,
+      userUsername: '',
+      incomeOperationCategoryId: 0,
+      operationCategoryTitle: values.title
+    }
 
-        } else {
-          console.log("sending income")
-          let myOperation: IncomeMoneyOperation = {
-            amount: +values.sum,
-            comment: '',
-            dateTime: '',
-            userId: this._userService.id,
-            purseId: purse.id,
-            id: 0,
-            userUsername: '',
-            incomeOperationCategoryId: 0,
-            operationCategoryTitle: values.title
-          }
+    this._moneyOperation.createIncome(myOperation).subscribe(() => {
+      this.isFormSent = false
+      this.matSnackBar.open('Успешно', '', {duration: 3000})
+      this._router.navigate(['groups'])
+    }, error => {
+      this.isFormSent = false
+    });
+  }
 
-          this._moneyOperation.createIncome(myOperation).subscribe(() => {
-            this.isFormSent = false
-            this.matSnackBar.open('Успешно', '', {duration: 3000})
-            this._router.navigate(['/groups'])
-          }, error => {
-            this.isFormSent = false
-            if (error.error?.error) {
-              this.matSnackBar.open(error.error?.error, '', {duration: 3000})
-            } else {
-              this.matSnackBar.open('Ошибка на сервере', '', {duration: 3000})
-              console.log('Error:', error)
-            }
-          });
-        }
-      })
+  createOutcome(values: { title: string, sum: number }): void {
+    console.log("sending outcome")
+    let myOperation: OutComeMoneyOperation = {
+      amount: +values.sum,
+      comment: '',
+      dateTime: '',
+      userId: this._userService.id,
+      purseId: this.purse!.id,
+      id: 0,
+      userUsername: '',
+      outComeOperationCategoryId: 0,
+      operationCategoryTitle: values.title
+    }
+    this._moneyOperation.createOutCome(myOperation).subscribe(() => {
+      this.isFormSent = false
+      this.matSnackBar.open('Успешно', '', {duration: 3000})
+      this._router.navigate(['groups'])
+    }, error => {
+      this.isFormSent = false
+    });
   }
 
   handleToggle($event: MatSlideToggleChange) {
-    this.isChecked = $event.checked
+    this.isOutcome = $event.checked
   }
 }

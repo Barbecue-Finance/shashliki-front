@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router} from '@angular/router';
+import {CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot} from '@angular/router';
 import {Observable} from 'rxjs';
 import {UserService} from '../services/user.service';
 
@@ -10,7 +10,6 @@ export class AuthGuard implements CanActivate {
 
   constructor(
     private userService: UserService,
-    private router: Router
   ) {
   }
 
@@ -21,8 +20,7 @@ export class AuthGuard implements CanActivate {
     if (this.userService.isLoggedIn()) {
       return true;
     } else {
-      this.userService.logout();
-      this.router.navigate(['start', 'auth']);
+      this.userService.logoutAndNavigateToAuth();
       return false;
     }
   }

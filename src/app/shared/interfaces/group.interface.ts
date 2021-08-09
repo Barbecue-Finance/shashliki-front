@@ -1,7 +1,7 @@
-import {IUser} from "./user.interface";
+import UserDto from "./dto/user-dto.interface";
 
-export interface IGroup {
+export default interface GroupDto {
   id: number,
   title: string,
-  users: IUser[]
+  users: UserDto[]
 }

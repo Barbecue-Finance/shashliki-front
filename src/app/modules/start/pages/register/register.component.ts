@@ -1,10 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {MatSnackBar} from '@angular/material/snack-bar';
 import {UserService} from 'src/app/shared/services/user.service';
 import {Md5} from 'ts-md5/dist/md5';
-import {Paths} from "../../../../shared/enums/Paths";
 import {Router} from "@angular/router";
+import UserDto from "../../../../shared/interfaces/dto/user-dto.interface";
 
 @Component({
   selector: 'register',
@@ -13,28 +12,24 @@ import {Router} from "@angular/router";
 })
 export class RegisterComponent implements OnInit {
 
-  regFormGroup: FormGroup = new FormGroup({})
   validators = [Validators.required]
+  regFormGroup: FormGroup = new FormGroup({
+    'username': new FormControl('', this.validators),
+    'login': new FormControl('', this.validators),
+    'password': new FormControl('', this.validators),
+  })
   isFormSent: boolean = false
 
   constructor(
     private _router: Router,
-    readonly matSnackBar: MatSnackBar,
     private _userService: UserService
   ) {
   }
 
   ngOnInit(): void {
-
     if (this._userService.isLoggedIn()) {
-      this._userService.logout()
+      this._userService.logoutAndNavigateToAuth()
     }
-
-    this.regFormGroup = new FormGroup({
-      'username': new FormControl('', this.validators),
-      'login': new FormControl('', this.validators),
-      'password': new FormControl('', this.validators),
-    })
   }
 
   register(): void {
@@ -49,35 +44,25 @@ export class RegisterComponent implements OnInit {
 
 
   private processCreation(values: any) {
+    this.isFormSent = true
+
     this._userService.create(values)
-      .subscribe(() => this._router.navigateByUrl(Paths.groups),
+      .subscribe(() => {
+          this.isFormSent = false;
+          this._router.navigate(['groups'])
+        },
         error => {
-          this.handleError(error);
+          this.isFormSent = false
         })
   }
 
-
-  private handleError(error: any): void {
-    this.isFormSent = false
-
-    if (error.error?.error) {
-      this.matSnackBar.open(error.error?.error, '', {duration: 3000})
-    } else {
-      this.matSnackBar.open('Ошибка на сервере', '', {duration: 3000})
-      console.log('Error:', error)
-    }
-
-  }
-
-
-  private extrudeValues(): any {
-    const values = {...this.regFormGroup.value}
-    values.password = new Md5().appendStr(values.password).end()
-    this.isFormSent = true
+  private extrudeValues(): UserDto {
+    const values = {...this.regFormGroup.value} as UserDto
+    values.password = new Md5().appendStr(values.password).end().toString()
     return values;
   }
 
   goBackToAuth() {
-    this._router.navigateByUrl(Paths.auth);
+    this._router.navigate(['start', 'auth']);
   }
 }
