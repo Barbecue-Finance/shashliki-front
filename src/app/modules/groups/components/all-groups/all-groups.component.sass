@@ -1,17 +1,15 @@
 @import "variables"
 
 @mixin screen-width
-  @media (min-width: 654px)
+  @media (max-width: 654px)
     @content
 
 .all-groups-container
   box-sizing: border-box
   width: 100%
   display: flex
-  //height: calc(100% - #{$header-height})
   justify-content: center
   align-items: center
-  //overflow-y: scroll
 
   .group-container
     width: 100%
@@ -21,7 +19,6 @@
     justify-content: center
     align-items: center
     flex-direction: column
-
 
     //@include screen-width
 
@@ -74,23 +71,32 @@
 
 
           p
-            overflow-x: scroll
             font-size: 36px
             font-weight: lighter
             color: $unhovered-white
             transition: 0.5s
             margin: 0 .3rem 0 0
 
+            white-space: nowrap
+            text-overflow: ellipsis
+            flex-shrink: 1
+            overflow: hidden
+
+            width: auto
+            //display: inline
+
           .select-btn
             cursor: pointer
             min-width: 50px
-            //min-height: 40px
             height: 8vh
             background-image: url('~src/assets/icons/back-icon.svg')
             transform: rotateZ(90deg)
             background-repeat: no-repeat
             background-size: contain
             transition: 400ms
+
+            @include screen-width
+              display: none
 
           &:hover
             .select-btn
