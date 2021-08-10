@@ -1,4 +1,7 @@
 import {Component, OnInit} from '@angular/core';
+import {CalendarService} from "../../services/calendar.service";
+import {Subject} from "rxjs";
+import {takeUntil} from "rxjs/operators";
 
 @Component({
   selector: 'app-calendar-header-title',
@@ -8,11 +11,40 @@ import {Component, OnInit} from '@angular/core';
 export class CalendarHeaderTitleComponent implements OnInit {
   title: string = 'This is some test title';
 
-  constructor() {
+  private _finalize = new Subject();
+  readonly months: string[] = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December'
+  ]
+
+  constructor(
+    private _calendarService: CalendarService
+  ) {
   }
 
   ngOnInit(): void {
-    // TODO: load this.title from service (name of the month)
+    this.fillFromService();
+    this._calendarService.onUpdate
+      .pipe(takeUntil(this._finalize))
+      .subscribe(() => this.onCalendarUpdated())
+  }
+
+  private fillFromService(): void {
+    this.title = this.months[this._calendarService.monthIndex];
+  }
+
+  private onCalendarUpdated(): void {
+    this.fillFromService();
   }
 
 }

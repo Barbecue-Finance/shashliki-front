@@ -1,4 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {CalendarService} from "../../services/calendar.service";
 
 @Component({
   selector: 'app-calendar-header',
@@ -7,17 +8,19 @@ import {Component, Input, OnInit} from '@angular/core';
 })
 export class CalendarHeaderComponent implements OnInit {
 
-  constructor() {
+  constructor(
+    private _calendarService: CalendarService
+  ) {
   }
 
   ngOnInit(): void {
   }
 
   handlePreviousMonthClick() {
-    // TODO: Call service to switch to previous month
+    this._calendarService.moveToPreviousMonth();
   }
 
   handleNextMonthClick() {
-    // TODO: Call service to switch to next month
+    this._calendarService.moveToNextMonth();
   }
 }
