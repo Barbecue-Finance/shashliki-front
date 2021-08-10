@@ -1,5 +1,5 @@
 import {Component, Input, OnInit, EventEmitter, Output} from '@angular/core';
-import {CalendarService} from "../../../../shared/services/calendar.service";
+import {CalendarService} from "../../../../shared/elements/calendar/services/calendar.service";
 import {Observable, Subscription} from "rxjs";
 
 @Component({
@@ -40,7 +40,7 @@ export class ReportComponent implements OnInit {
   }
 
   selectActiveMonth(): void {
-    this._activeMonthId = this._calendarService.todayMonth
+    // TODO: this._activeMonthId = this._calendarService.todayMonth
     this.highlightSelectedMonth()
   }
 
@@ -76,6 +76,6 @@ export class ReportComponent implements OnInit {
     // console.log(`changeMonth(${month})`)
     this._activeMonthId = month - 1
     this.highlightSelectedMonth()
-    this.activeMonthChanged.emit(new Date(this._calendarService.todayYear, month - 1, 1))
+    // TODO: this.activeMonthChanged.emit(new Date(this._calendarService.todayYear, month - 1, 1))
   }
 }

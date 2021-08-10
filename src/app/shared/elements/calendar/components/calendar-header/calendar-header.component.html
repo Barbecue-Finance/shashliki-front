@@ -1,0 +1,11 @@
+<div class="calendar-header">
+  <app-calendar-button
+    [displaySymbol]="'<'"
+    (clicked)="handlePreviousMonthClick()">
+  </app-calendar-button>
+  <app-calendar-header-title></app-calendar-header-title>
+  <app-calendar-button
+    [displaySymbol]="'>'"
+    (clicked)="handleNextMonthClick()">
+  </app-calendar-button>
+</div>

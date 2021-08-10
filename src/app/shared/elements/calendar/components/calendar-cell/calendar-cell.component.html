@@ -1,0 +1,10 @@
+<!-- If day is not present, display empty td ! -->
+<td (click)="handleClick()">
+  <div class="container"
+       [ngClass]="{'selected': this.isSelected}">
+    {{value}}
+    <app-calendar-cell-star *ngIf="isDayOfInterest"
+                            [isInverted]="this.isSelected">
+    </app-calendar-cell-star>
+  </div>
+</td>
