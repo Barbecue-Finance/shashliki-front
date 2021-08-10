@@ -9,7 +9,7 @@ import {map} from "rxjs/operators";
 import {GroupModule} from "../group.module";
 
 @Injectable({
-  providedIn: null
+  providedIn: 'root'
 })
 export class GroupService extends BasicCRUD<GroupDto> {
   private _openedGroupId: number;
@@ -63,7 +63,7 @@ export class GroupService extends BasicCRUD<GroupDto> {
   loadOpenedGroup(): Observable<void> {
     return this.getById(this.openedGroupId)
       .pipe(
-        map((group) => {
+        map((group: any) => {
           this._group = group;
         })
       );

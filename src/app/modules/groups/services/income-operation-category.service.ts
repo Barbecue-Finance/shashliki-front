@@ -9,7 +9,7 @@ import {GroupService} from "./group.service";
 import {map} from "rxjs/operators";
 
 @Injectable({
-  providedIn: null
+  providedIn: 'root'
 })
 export class IncomeOperationCategoryService extends BasicCRUD<IncomeOperationCategory> {
   private _currentIncomeOperationCategories: IncomeOperationCategory[] = []

@@ -1,48 +1,21 @@
 import {EventEmitter, Injectable, Output} from '@angular/core';
-import {ICalendar} from "../interfaces/calendar.interface";
+import {ICalendar} from "../elements/calendar/shared/interfaces/calendar.interface";
 import {CalendarOptions} from "../interfaces/calendar-options";
-import {IToday} from "../interfaces/today.interface";
+import {MonthNameRu} from "../elements/calendar/shared/Types/MonthNames";
+import {MonthNameEn} from "../elements/calendar/shared/Types/MonthNames";
+import {DayNamesRu} from "../elements/calendar/shared/Types/DayNames";
+import {DayNamesEn} from "../elements/calendar/shared/Types/DayNames";
+import {START_YEAR} from "../elements/calendar/shared/constants/year-start-end.const";
+import {END_YEAR} from "../elements/calendar/shared/constants/year-start-end.const";
 
 @Injectable({
   providedIn: 'root'
 })
 export class CalendarService {
 
-  private _calendar: ICalendar = {
-    type: 'month',
+  //#region Private fields
 
-    year: 0,
-    month: 0,
-    date: 0,
-
-    today: {
-      dayIndex: 0,
-      dayName: '',
-      dayFullName: '',
-
-      monthIndex: 0,
-      monthName: '',
-      monthFullName: '',
-
-      date: 0,
-
-      year: 0
-    },
-
-    firstDayIndex: 0,
-    firstDayName: '',
-    firstDayFullName: '',
-
-    monthIndex: 0,
-    monthName: '',
-    monthFullName: '',
-
-    totalDays: 0,
-
-    targetedDayIndex: 0,
-    targetedDayName: '',
-    targetedDayFullName: ''
-  };
+  private _calendar!: ICalendar;
 
   private options: CalendarOptions = {
     type: '',
@@ -57,38 +30,19 @@ export class CalendarService {
     prevNextButton: ''
   }
 
-  readonly START_YEAR = 1900
-  readonly END_YEAR = 9999
+  private count = 1;
 
-  readonly monthNameRu = {
-    full: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
-    mmm: ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек']
-  }
-  readonly monthNameEn = {
-    full: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-    mmm: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-  }
-  readonly dayNameRu = {
-    full: ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'],
-    d: ['П', 'В', 'С', 'Ч', 'П', 'С', 'В'],
-    dd: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'],
-    ddd: ['Пон', 'Вто', 'Сре', 'Чет', 'Пят', 'Суб', 'Вос']
-  }
-  readonly dayNameEn = {
-    full: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-    d: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
-    dd: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
-    ddd: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-  }
+  //#endregion
 
   dateChanged = new EventEmitter<Date>()
 
   daysOfInterest: number[] = []
 
-  private count = 1;
 
   constructor() {
   }
+
+  //#region Getters & Setters
 
   get calendar(): ICalendar {
     return this._calendar
@@ -106,9 +60,11 @@ export class CalendarService {
     return this._calendar.year
   }
 
+  //#endregionm
+
   /**
-   * This function will return calendar detail.
-   * @return false if error, otherwise true.
+   * Sets up calendar local properties and returns the status result, whether the calender can be created with passed arguments.
+   * @return false if the passed date is invalid. With successful initialization of the calendar returns true.
    * @param year the current year.
    * @param month if not set will consider the current month.
    * @param date the current date.

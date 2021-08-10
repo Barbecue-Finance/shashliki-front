@@ -9,7 +9,7 @@ import {GroupService} from "./group.service";
 import {map} from "rxjs/operators";
 
 @Injectable({
-  providedIn: null
+  providedIn: 'root'
 })
 export class PurseService {
   postfix: string = APIControllers.Purse
@@ -48,6 +48,7 @@ export class PurseService {
       }
     })
   }
+
 
   loadCurrentPurse(): Observable<void> {
     return this.getByGroup(this._groupService.openedGroupId)

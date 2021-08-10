@@ -1,5 +1,5 @@
 import {HttpClient} from '@angular/common/http';
-import {Injectable} from '@angular/core';
+import {Injectable, SkipSelf} from '@angular/core';
 import {Observable} from 'rxjs';
 import {environment} from 'src/environments/environment';
 import {IncomeOutcomeDto} from '../../../shared/interfaces/dto/income-outcome-dto.interface';
@@ -11,7 +11,7 @@ import {GroupService} from "./group.service";
 import {map} from "rxjs/operators";
 
 @Injectable({
-  providedIn: null
+  providedIn: 'root'
 })
 export class MoneyOperationService {
   postfix: string = APIControllers.MoneyOperation
@@ -72,6 +72,7 @@ export class MoneyOperationService {
   }
 
   loadCurrentPurseOperations(): Observable<void> {
+
     return this.getByPurse(this._groupService.group.purseId).pipe(
       map((result) => {
         this._currentPurseOperations = result;

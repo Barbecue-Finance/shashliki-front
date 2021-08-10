@@ -6,58 +6,58 @@
   </div>
 
 
-  <div class="title">
-    <p>{{ title }}</p>
-  </div>
+<!--  <div class="title">-->
+<!--    <p>{{ title }}</p>-->
+<!--  </div>-->
 
 
-  <div class="members" *ngIf="isLoaded">
-    <p (click)="membersClicked()">{{ getMembersString() }}</p>
-  </div>
+<!--  <div class="members" *ngIf="isLoaded">-->
+<!--    <p (click)="membersClicked()">{{ getMembersString() }}</p>-->
+<!--  </div>-->
 
 
-  <div class="expenses">
-    <div class="info-container">
-      <div class="icon-plus" (click)="openCreateOperationPage()"></div>
-      <p class="word">Расходы</p>
-      <p class="number">{{ totalOutcome | money}}</p>
-    </div>
-    <div class="icons-container">
-      <div class="icon" *ngFor="let outcome of outcomeCategories"
-           (click)="showInfoCategoryOutcome(outcome)">
-        <div class="circle">
-          <p class="letters">{{ outcome.category.title.substring(0, 2) }}</p>
-        </div>
-        <p class="category">{{ outcome.category.title }}</p>
-        <p class="money-amount">{{ outcome.amount | money}}</p>
-      </div>
-    </div>
-  </div>
+<!--  <div class="expenses">-->
+<!--    <div class="info-container">-->
+<!--      <div class="icon-plus" (click)="openCreateOperationPage()"></div>-->
+<!--      <p class="word">Расходы</p>-->
+<!--      <p class="number">{{ totalOutcome | money}}</p>-->
+<!--    </div>-->
+<!--    <div class="icons-container">-->
+<!--      <div class="icon" *ngFor="let outcome of outcomeCategories"-->
+<!--           (click)="showInfoCategoryOutcome(outcome)">-->
+<!--        <div class="circle">-->
+<!--          <p class="letters">{{ outcome.category.title.substring(0, 2) }}</p>-->
+<!--        </div>-->
+<!--        <p class="category">{{ outcome.category.title }}</p>-->
+<!--        <p class="money-amount">{{ outcome.amount | money}}</p>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
 
 
-  <div class="incomes">
-    <div class="info-container">
-      <div class="icon-plus" (click)="openCreateOperationPage()"></div>
-      <p class="word">Доходы</p>
-      <p class="number">{{ totalIncome | money }}</p>
-    </div>
-    <div class="icons-container">
-      <div class="icon" *ngFor="let income of incomeCategories"
-           (click)="showInfoCategoryIncome(income)">
-        <div class="circle">
-          <p class="letters">{{ income.category.title.substring(0, 2) }}</p>
-        </div>
-        <p class="category">{{ income.category.title }}</p>
-        <p class="money-amount">{{ income.amount | money }}</p>
-      </div>
-    </div>
-  </div>
+<!--  <div class="incomes">-->
+<!--    <div class="info-container">-->
+<!--      <div class="icon-plus" (click)="openCreateOperationPage()"></div>-->
+<!--      <p class="word">Доходы</p>-->
+<!--      <p class="number">{{ totalIncome | money }}</p>-->
+<!--    </div>-->
+<!--    <div class="icons-container">-->
+<!--      <div class="icon" *ngFor="let income of incomeCategories"-->
+<!--           (click)="showInfoCategoryIncome(income)">-->
+<!--        <div class="circle">-->
+<!--          <p class="letters">{{ income.category.title.substring(0, 2) }}</p>-->
+<!--        </div>-->
+<!--        <p class="category">{{ income.category.title }}</p>-->
+<!--        <p class="money-amount">{{ income.amount | money }}</p>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
 
 
-  <div class="sum">
-    <p class="so">Итого:</p>
-    <p class="money-amount">{{totalAmount| money }}</p>
-  </div>
+<!--  <div class="sum">-->
+<!--    <p class="so">Итого:</p>-->
+<!--    <p class="money-amount">{{totalAmount | money }}</p>-->
+<!--  </div>-->
 
 
 </div>

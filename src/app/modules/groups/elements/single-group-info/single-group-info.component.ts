@@ -33,6 +33,8 @@ export class SingleGroupInfoComponent implements OnInit {
 
   //#endregion
 
+  //#region constructor
+
   constructor(
     private _groupService: GroupService,
     private _purseService: PurseService,
@@ -43,6 +45,8 @@ export class SingleGroupInfoComponent implements OnInit {
     private _router: Router
   ) {
   }
+
+  //#endregion
 
   ngOnInit(): void {
     this._groupService.loadOpenedGroup().subscribe(() => {
@@ -62,6 +66,8 @@ export class SingleGroupInfoComponent implements OnInit {
 
   private loadDisplayItems(): void {
     this.group = this._groupService.group;
+
+    this.date =
 
     this.title = this._groupService.group.title;
 
