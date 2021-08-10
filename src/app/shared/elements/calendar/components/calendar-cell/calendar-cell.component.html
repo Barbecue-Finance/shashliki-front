@@ -1,0 +1,5 @@
+<!-- If day is not present, display empty td ! -->
+<td (click)="handleClick()">
+  {{value}}
+  <app-calendar-cell-star *ngIf="isDayOfInterest"></app-calendar-cell-star>
+</td>

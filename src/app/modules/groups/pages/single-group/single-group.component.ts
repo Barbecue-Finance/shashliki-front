@@ -9,12 +9,11 @@ import {IncomeOperationCategoryService} from 'src/app/modules/groups/services/in
 import {PurseDto} from 'src/app/shared/interfaces/purse.interface';
 import {OutcomeOperationCategory} from 'src/app/shared/interfaces/operation-categories/outcome-operation-category.interface';
 import {IncomeOperationCategory} from 'src/app/shared/interfaces/operation-categories/income-operation-category.interface';
-import {CalendarService} from 'src/app/shared/services/calendar.service';
-import {Observable, Subject} from 'rxjs';
+import {Subject} from 'rxjs';
 import {MoneyPipe} from "../../../../shared/pipes/money.pipe";
-import {OperationCategories} from "../../../../shared/enums/OperationCategory.enum";
 import {UserService} from "../../../../shared/services/user.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {CalendarService} from 'src/app/shared/elements/calendar/services/calendar.service';
 
 @Component({
   selector: 'single-group',
@@ -247,7 +246,7 @@ export class SingleGroupComponent implements OnInit {
   }
 
   loadCalendarString(): void {
-    this.calendarString = this._calendarService.generatePointDate()
+    // TODO: this.calendarString = this._calendarService.generatePointDate()
     console.log(this.calendarString)
   }
 

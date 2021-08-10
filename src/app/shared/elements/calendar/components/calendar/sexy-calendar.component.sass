@@ -1,0 +1,317 @@
+.egop-calendar-container
+  width: 400px
+  min-height: 400px
+  display: flex
+  justify-content: center
+  align-items: center
+
+  #calendar
+    width: 100%
+    padding: 20px
+    font-family: 'Poppins', sans-serif
+
+  /*!
+   * dyCalendar is a JavaScript library for creating Calendar.
+   *
+   * Author: Yusuf Shakeel
+   * https://github.com/yusufshakeel
+   *
+   * GitHub Link: https://github.com/yusufshakeel/dyCalendarJS
+   *
+   * MIT license
+   * Copyright (c) 2016 Yusuf Shakeel
+   *
+   * Date: 2014-08-17 sunday
+
+  .dycalendar-container
+    display: inline-block
+    border: 1px solid #eee
+
+    &.round-edge
+      border-radius: 5%
+      -o-border-radius: 5%
+      -moz-border-radius: 5%
+      -webkit-border-radius: 5%
+
+  /*================================== DAY CALENDAR ========================
+  /*
+   * day calendar style
+   *-------------------------------------------------
+
+  .dycalendar-day-container
+    padding: 10px
+    text-align: center
+    font-family: Arial, serif
+
+    div
+      padding: 0
+      margin-bottom: 10px
+
+    .dycalendar-span-day
+      font-size: 110%
+
+    .dycalendar-span-date
+      font-size: 250%
+
+    .dycalendar-span-month-year
+      font-size: 90%
+
+  /*================================== DAY CALENDAR ENDS HERE ===============
+
+  /*================================== MONTH CALENDAR DEFAULT ========================
+
+  /*
+   * month calendar style
+   *-------------------------------------------------
+
+  .dycalendar-month-container
+    padding: 10px
+    text-align: center
+    font-family: Arial, serif
+
+    div
+      padding: 0
+      margin-bottom: 10px
+
+    .dycalendar-header
+      position: relative
+
+      .dycalendar-prev-next-btn
+        position: absolute
+        top: 0
+        cursor: pointer
+
+        &.prev-btn
+          left: 0
+
+        &.next-btn
+          right: 0
+
+    .dycalendar-span-month-year
+      margin: 5px
+      cursor: pointer
+
+    .dycalendar-body table tr td
+      padding: 5px
+
+    .dycalendar-today-date, .dycalendar-target-date
+      background-color: #111
+      color: #fff
+      border-radius: 2px
+
+  /*================================== MONTH CALENDAR ENS HERE ===============
+
+  /*================================== DYCALENDAR SKIN =======================
+
+  /*
+   * calendar skin  (default skin)
+   *-------------------------------------------------
+
+  .dycalendar-container
+    &.gradient
+      background: #fff
+      background: linear-gradient(#fff, #d3d3d3)
+      background: -o-linear-gradient(#fff, #d3d3d3)
+      background: -moz-linear-gradient(#fff, #d3d3d3)
+      background: -webkit-linear-gradient(#fff, #d3d3d3)
+
+    &.skin-black
+      color: #fff
+      background-color: #111
+      border: 0
+
+      &.gradient
+        background: #111
+        background: linear-gradient(#555, #111)
+        background: -o-linear-gradient(#555, #111)
+        background: -moz-linear-gradient(#555, #111)
+        background: -webkit-linear-gradient(#555, #111)
+
+      .dycalendar-today-date, .dycalendar-target-date
+        background-color: #fff
+        color: #111
+        border-radius: 2px
+
+    &.skin-blue
+      color: #fff
+      background-color: #3c99d3
+      border: 0
+
+      &.gradient
+        background: #3c99d3
+        background: linear-gradient(#5ebbf5, #3c99d3)
+        background: -o-linear-gradient(#5ebbf5, #3c99d3)
+        background: -moz-linear-gradient(#5ebbf5, #3c99d3)
+        background: -webkit-linear-gradient(#5ebbf5, #3c99d3)
+
+      .dycalendar-today-date, .dycalendar-target-date
+        background-color: #fff
+        color: #3c99d3
+        border-radius: 2px
+
+    &.skin-green
+      color: #fff
+      background-color: #2bb063
+      border: 0
+
+      &.gradient
+        background: #2bb063
+        background: linear-gradient(#3dd175, #2bb063)
+        background: -o-linear-gradient(#3dd175, #2bb063)
+        background: -moz-linear-gradient(#3dd175, #2bb063)
+        background: -webkit-linear-gradient(#3dd175, #2bb063)
+
+      .dycalendar-today-date, .dycalendar-target-date
+        background-color: #fff
+        color: #2bb063
+        border-radius: 2px
+
+    &.skin-purple
+      color: #fff
+      background-color: #975ea4
+      border: 0
+
+      &.gradient
+        background: #975ea4
+        background: linear-gradient(#ca82d7, #975ea4)
+        background: -o-linear-gradient(#ca82d7, #975ea4)
+        background: -moz-linear-gradient(#ca82d7, #975ea4)
+        background: -webkit-linear-gradient(#ca82d7, #975ea4)
+
+      .dycalendar-today-date, .dycalendar-target-date
+        background-color: #fff
+        color: #975ea4
+        border-radius: 2px
+
+    &.skin-red
+      color: #fff
+      background-color: #e94d40
+      border: 0
+
+      &.gradient
+        background: #e94d40
+        background: linear-gradient(#fb6f62, #e94d40)
+        background: -o-linear-gradient(#fb6f62, #e94d40)
+        background: -moz-linear-gradient(#fb6f62, #e94d40)
+        background: -webkit-linear-gradient(#fb6f62, #e94d40)
+
+      .dycalendar-today-date, .dycalendar-target-date
+        background-color: #fff
+        color: #e94d40
+        border-radius: 2px
+
+    &.skin-spacegray
+      color: #fff
+      background-color: #343d46
+      border: 0
+
+      &.gradient
+        background: #343d46
+        background: linear-gradient(#454e57, #343d46)
+        background: -o-linear-gradient(#454e57, #343d46)
+        background: -moz-linear-gradient(#454e57, #343d46)
+        background: -webkit-linear-gradient(#454e57, #343d46)
+
+      .dycalendar-today-date, .dycalendar-target-date
+        background-color: #fff
+        color: #343d46
+        border-radius: 2px
+
+    &.shadow-default
+      -o-box-shadow: 0 4px 4px 0 rgba(50, 50, 50, 0.4)
+      -moz-box-shadow: 0 4px 4px 0 rgba(50, 50, 50, 0.4)
+      -webkit-box-shadow: 0 4px 4px 0 rgba(50, 50, 50, 0.4)
+      box-shadow: 0 4px 4px 0 rgba(50, 50, 50, 0.4)
+
+    &.shadow-black
+      -o-box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.4)
+      -moz-box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.4)
+      -webkit-box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.4)
+      box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.4)
+
+    &.shadow-blue
+      -o-box-shadow: 0 4px 4px 0 rgba(60, 153, 211, 0.4)
+      -moz-box-shadow: 0 4px 4px 0 rgba(60, 153, 211, 0.4)
+      -webkit-box-shadow: 0 4px 4px 0 rgba(60, 153, 211, 0.4)
+      box-shadow: 0 4px 4px 0 rgba(60, 153, 211, 0.4)
+
+    &.shadow-green
+      -o-box-shadow: 0 4px 4px 0 rgba(43, 176, 99, 0.4)
+      -moz-box-shadow: 0 4px 4px 0 rgba(43, 176, 99, 0.4)
+      -webkit-box-shadow: 0 4px 4px 0 rgba(43, 176, 99, 0.4)
+      box-shadow: 0 4px 4px 0 rgba(43, 176, 99, 0.4)
+
+    &.shadow-purple
+      -o-box-shadow: 0 4px 4px 0 rgba(151, 94, 164, 0.4)
+      -moz-box-shadow: 0 4px 4px 0 rgba(151, 94, 164, 0.4)
+      -webkit-box-shadow: 0 4px 4px 0 rgba(151, 94, 164, 0.4)
+      box-shadow: 0 4px 4px 0 rgba(151, 94, 164, 0.4)
+
+    &.shadow-red
+      -o-box-shadow: 0 4px 4px 0 rgba(233, 77, 64, 0.4)
+      -moz-box-shadow: 0 4px 4px 0 rgba(233, 77, 64, 0.4)
+      -webkit-box-shadow: 0 4px 4px 0 rgba(233, 77, 64, 0.4)
+      box-shadow: 0 4px 4px 0 rgba(233, 77, 64, 0.4)
+
+    &.shadow-spacegray
+      -o-box-shadow: 0 4px 4px 0 rgba(52, 61, 70, 1)
+      -moz-box-shadow: 0 4px 4px 0 rgba(52, 61, 70, 1)
+      -webkit-box-shadow: 0 4px 4px 0 rgba(52, 61, 70, 1)
+      box-shadow: 0 4px 4px 0 rgba(52, 61, 70, 1)
+
+  /*
+   * calendar skin  (skin-black)
+   *-------------------------------------------------
+
+  /*
+   * calendar skin  (skin-blue)
+   *-------------------------------------------------
+
+  /*
+   * calendar skin  (skin-green)
+   *-------------------------------------------------
+
+  /*
+   * calendar skin  (skin-purple)
+   *-------------------------------------------------
+
+  /*
+   * calendar skin  (skin-red)
+   *-------------------------------------------------
+
+  /*
+   * calendar skin  (skin-spacegray)
+   *-------------------------------------------------
+
+  /*================================== DYCALENDAR SKIN ENDS HERE =============
+
+  /*================================== DYCALENDAR SHADOW =====================
+  /*
+   * calendar shadow  (shadow-default)
+   *-------------------------------------------------
+
+  /*
+   * calendar shadow  (shadow-black)
+   *-------------------------------------------------
+
+  /*
+   * calendar shadow  (shadow-blue)
+   *-------------------------------------------------
+
+  /*
+   * calendar shadow  (shadow-green)
+   *-------------------------------------------------
+
+  /*
+   * calendar shadow  (shadow-purple)
+   *-------------------------------------------------
+
+  /*
+   * calendar shadow  (shadow-red)
+   *-------------------------------------------------
+
+  /*
+   * calendar shadow  (shadow-spacegray)
+   *-------------------------------------------------
+
+  /*================================== DYCALENDAR SHADOW ENDS HERE ===========
