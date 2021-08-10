@@ -6,7 +6,7 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./calendar-header-title.component.sass']
 })
 export class CalendarHeaderTitleComponent implements OnInit {
-  title: string = '';
+  title: string = 'This is some test title';
 
   constructor() {
   }

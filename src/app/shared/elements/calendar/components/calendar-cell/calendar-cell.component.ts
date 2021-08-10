@@ -12,14 +12,18 @@ export class CalendarCellComponent implements OnInit {
   @Input() columnIndex: number = 0;
 
   isDayOfInterest: boolean = true;
+  isSelected: boolean = false;
 
   constructor() {
   }
 
   ngOnInit(): void {
+    // TODO: fill isSelected so the star can be properly inverted
+    this.value = '' + (this.rowIndex * 7 + this.columnIndex);
   }
 
   handleClick() {
     // TODO: Call service with rowIndex and columnIndex
+    this.isSelected = !this.isSelected;
   }
 }

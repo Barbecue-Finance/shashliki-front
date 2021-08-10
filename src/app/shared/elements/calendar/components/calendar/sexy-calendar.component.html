@@ -1,13 +1,17 @@
 <div class="egop-calendar-container">
-  <div class="calendar-month-container">
-    <app-calendar-header></app-calendar-header>
-    <div class="calendar-body">
-      <table>
-        <app-calendar-row-day-of-week></app-calendar-row-day-of-week>
-        <app-calendar-row *ngFor="let i of [0, 1, 2, 3, 4, 5]"
-                          [rowIndex]="i">
-        </app-calendar-row>
-      </table>
+  <div id="calendar">
+    <div class="calendar-month-container">
+      <app-calendar-header></app-calendar-header>
+      <div class="calendar-body">
+        <table>
+          <tr>
+            <app-calendar-row-day-of-week></app-calendar-row-day-of-week>
+          </tr>
+          <tr *ngFor="let i of [0, 1, 2, 3, 4, 5]">
+            <app-calendar-row [rowIndex]="i"></app-calendar-row>
+          </tr>
+        </table>
+      </div>
     </div>
   </div>
 </div>
