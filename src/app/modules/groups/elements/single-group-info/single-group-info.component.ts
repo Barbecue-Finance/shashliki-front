@@ -67,6 +67,7 @@ export class SingleGroupInfoComponent implements OnInit {
   private loadDisplayItems(): void {
     this.group = this._groupService.group;
 
+    //TODO: pass date string here:
     this.date =
 
     this.title = this._groupService.group.title;

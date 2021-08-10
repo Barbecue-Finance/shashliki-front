@@ -1,6 +1,6 @@
-import {EventEmitter, Injectable, Output} from '@angular/core';
+import {EventEmitter, Injectable} from '@angular/core';
 import {ICalendar} from "../elements/calendar/shared/interfaces/calendar.interface";
-import {CalendarOptions} from "../interfaces/calendar-options";
+import {CalendarOptions} from "../elements/calendar/shared/interfaces/calendar-options";
 import {MonthNameRu} from "../elements/calendar/shared/Types/MonthNames";
 import {MonthNameEn} from "../elements/calendar/shared/Types/MonthNames";
 import {DayNamesRu} from "../elements/calendar/shared/Types/DayNames";
@@ -113,7 +113,7 @@ export class CalendarService {
   }
 
   private isDataValid(year: number, month: number, date: number): boolean {
-    if (year < this.START_YEAR || year > this.END_YEAR) {
+    if (year < START_YEAR || year > END_YEAR) {
       console.error("Invalid Year");
       return false;
     }
@@ -133,20 +133,31 @@ export class CalendarService {
    * this function will draw the calendar based on user preferences.
    *
    * option = {
+   *
    *  target : "#id|.class"   //(mandatory) for id use #id | for class use .class
+   *
    *  type : "calendar-type"  //(optional) values: "day|month" (default "day")
+   *
    *  month : "integer"       //(optional) value 0-11, where 0 = January, ... 11 = December (default current month)
+   *
    *  year : "integer"        //(optional) example 1990. (default current year)
+   *
    *  date : "integer"        //(optional) example 1-31. (default current date)
-   *  monthformat : "full"    //(optional) values: "mmm|full" (default "full")
-   *  dayformat : "full"      //(optional) values: "ddd|full" (default "full")
-   *  highlighttoday : boolean    //(optional) (default false) if true will highlight today's date
-   *  highlighttargetdate : boolean   //(optional) (default false) if true will highlight targeted date of the month year
-   *  prevnextbutton : "hide"         //(optional) (default "hide") (values: "show|hide") if set to "show" it will show the nav button (prev|next)
+   *
+   *  monthFormat : "full"    //(optional) values: "mmm|full" (default "full")
+   *
+   *  dayFormat : "full"      //(optional) values: "ddd|full" (default "full")
+   *
+   *  highlightToday : boolean    //(optional) (default false) if true will highlight today's date
+   *
+   *  highlightTargetDate : boolean   //(optional) (default false) if true will highlight targeted date of the month year
+   *
+   *  prevNextButton : "hide"         //(optional) (default "hide") (values: "show|hide") if set to "show" it will show the nav button (prev|next)
+   *
    * }
    *
-   * @param object option     user preferences
-   * @return boolean          true if success, false otherwise
+   * @return boolean          true if success, false otherwise.
+   * @param options           calendar presets.
    */
   init(options: CalendarOptions): string {
     if (typeof (this.options) === "undefined") {

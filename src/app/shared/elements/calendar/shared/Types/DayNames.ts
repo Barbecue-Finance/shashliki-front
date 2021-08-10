@@ -1,48 +1,53 @@
 import {DayName} from "../interfaces/day-name.interface";
 
-export const DayNamesRu: Record<string, DayName> = {
-  monday: {
+enum Days {
+  monday = 0,
+
+}
+
+export const DayNamesRu: Record<Days, DayName> = {
+  [Days.monday]: {
     full: 'Понедельник',
     day1letter: 'П',
     day2letters: 'Пн',
     day3letters: 'Пон'
   },
-  tuesday: {
-    full: 'Вторник',
-    day1letter: 'В',
-    day2letters: 'Вт',
-    day3letters: 'Вто'
-  },
-  wednesday: {
-    full: 'Среда',
-    day1letter: 'С',
-    day2letters: 'Ср',
-    day3letters: 'Сре'
-  },
-  thursday: {
-    full: 'Четверг',
-    day1letter: 'Ч',
-    day2letters: 'Чт',
-    day3letters: 'Thu'
-  },
-  friday: {
-    full: 'Пятница',
-    day1letter: 'П',
-    day2letters: 'Пт',
-    day3letters: 'Пят'
-  },
-  saturday: {
-    full: 'Суббота',
-    day1letter: 'С',
-    day2letters: 'Сб',
-    day3letters: 'Суб'
-  },
-  Sunday: {
-    full: 'Воскресенье',
-    day1letter: 'В',
-    day2letters: 'Вс',
-    day3letters: 'Вос'
-  },
+  // tuesday: {
+  //   full: 'Вторник',
+  //   day1letter: 'В',
+  //   day2letters: 'Вт',
+  //   day3letters: 'Вто'
+  // },
+  // wednesday: {
+  //   full: 'Среда',
+  //   day1letter: 'С',
+  //   day2letters: 'Ср',
+  //   day3letters: 'Сре'
+  // },
+  // thursday: {
+  //   full: 'Четверг',
+  //   day1letter: 'Ч',
+  //   day2letters: 'Чт',
+  //   day3letters: 'Thu'
+  // },
+  // friday: {
+  //   full: 'Пятница',
+  //   day1letter: 'П',
+  //   day2letters: 'Пт',
+  //   day3letters: 'Пят'
+  // },
+  // saturday: {
+  //   full: 'Суббота',
+  //   day1letter: 'С',
+  //   day2letters: 'Сб',
+  //   day3letters: 'Суб'
+  // },
+  // Sunday: {
+  //   full: 'Воскресенье',
+  //   day1letter: 'В',
+  //   day2letters: 'Вс',
+  //   day3letters: 'Вос'
+  // },
 
 }
 
