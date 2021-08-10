@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, SkipSelf} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {Router} from '@angular/router';
@@ -34,7 +34,7 @@ export class CreateOperationComponent implements OnInit {
   constructor(
     private _router: Router,
     readonly matSnackBar: MatSnackBar,
-    private _groupService: GroupService,
+    @SkipSelf()  private _groupService: GroupService,
     private _userService: UserService,
     private _moneyOperation: MoneyOperationService,
     private _purseService: PurseService
@@ -86,13 +86,13 @@ export class CreateOperationComponent implements OnInit {
     this._moneyOperation.createIncome(myOperation).subscribe(() => {
       this.isFormSent = false
       this.matSnackBar.open('Успешно', '', {duration: 3000})
-      this._router.navigate(['groups'])
+      this._router.navigate(['groups', this._groupService.openedGroupId.toString()])
     }, error => {
       this.isFormSent = false
     });
   }
 
-  createOutcome(values: { title: string, sum: number }): void {
+  private createOutcome(values: { title: string, sum: number }): void {
     console.log("sending outcome")
     let myOperation: OutcomeMoneyOperation = {
       amount: +values.sum,
@@ -108,7 +108,7 @@ export class CreateOperationComponent implements OnInit {
     this._moneyOperation.createOutCome(myOperation).subscribe(() => {
       this.isFormSent = false
       this.matSnackBar.open('Успешно', '', {duration: 3000})
-      this._router.navigate(['groups'])
+      this._router.navigate(['groups', this._groupService.openedGroupId.toString()])
     }, error => {
       this.isFormSent = false
     });

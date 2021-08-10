@@ -35,7 +35,8 @@
 
       <div class="categories-container">
 
-        <div class="icon" *ngFor="let outcome of outcomeCategories"
+        <div class="icon"
+             *ngFor="let outcome of outcomeCategories"
              (click)="showInfoCategoryOutcome(outcome)">
 
           <div class="circle">
@@ -96,13 +97,8 @@
     </div>
 
 
-    <div class="sum-container">
-
-      <p class="total-text">Итого:</p>
-
-
-      <p class="money-amount">{{totalAmount | money }}</p>
-
+    <div class="sum-component-wrapper">
+      <sum-component [totalTextColor]="getTotalTextColor()" [totalAmount]="totalAmount"></sum-component>
     </div>
 
 

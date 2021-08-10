@@ -10,7 +10,7 @@ import {PurseDto} from 'src/app/shared/interfaces/purse.interface';
 import {OutcomeOperationCategory} from 'src/app/shared/interfaces/operation-categories/outcome-operation-category.interface';
 import {IncomeOperationCategory} from 'src/app/shared/interfaces/operation-categories/income-operation-category.interface';
 import {CalendarService} from 'src/app/shared/services/calendar.service';
-import {Subject} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {MoneyPipe} from "../../../../shared/pipes/money.pipe";
 import {OperationCategories} from "../../../../shared/enums/OperationCategory.enum";
 import {UserService} from "../../../../shared/services/user.service";
@@ -26,25 +26,14 @@ export class SingleGroupComponent implements OnInit {
   private calendarString: string
 
   isHiddenReport = true
-  isHiddenInfoCategory = true
+
+  isShownInfoCategory = false
+  showInfoCategory: Subject<void> = new Subject<void>();
 
   group?: GroupDto
 
   openedReport: Subject<void> = new Subject<void>()
   closedReport: Subject<void> = new Subject<void>()
-
-  openedInfoCategory: Subject<void> = new Subject<void>()
-  closedInfoCategory: Subject<void> = new Subject<void>()
-
-  selectedIncomeCategory: { category: IncomeOperationCategory, amount: number } = {
-    category: {id: 0, title: '', purseId: 0},
-    amount: 0
-  }
-
-  selectedOutComeCategory: { category: OutcomeOperationCategory, amount: number } = {
-    category: {id: 0, title: '', purseId: 0},
-    amount: 0
-  }
 
   incomeOutcome: IncomeOutcomeDto = {incoming: [], outcoming: []}
   purse: PurseDto = {
@@ -57,12 +46,6 @@ export class SingleGroupComponent implements OnInit {
   allIncomeCategories: IncomeOperationCategory[] = []
   allOutComeCategories: OutcomeOperationCategory[] = []
 
-  dataForInfoCategory: { title: string, letters: string, money: number } = {
-    title: '',
-    letters: '',
-    money: 0
-  }
-
   constructor(
     private _groupsService: GroupService,
     readonly matSnackBar: MatSnackBar,
@@ -70,7 +53,6 @@ export class SingleGroupComponent implements OnInit {
     private _purseService: PurseService,
     private _moneyOperationService: MoneyOperationService,
     private _calendarService: CalendarService,
-    // private _categoryService: CategoryService,
     private _operationCategoryService: IncomeOperationCategoryService,
     private _router: Router,
     private _route: ActivatedRoute,
@@ -334,7 +316,12 @@ export class SingleGroupComponent implements OnInit {
   }
 
   closeInfoCategory() {
-    this.isHiddenInfoCategory = true
+    this.isShownInfoCategory = false
   }
 
+  showDetailedCategory() {
+    this.isShownInfoCategory = true;
+
+    this.showInfoCategory.next();
+  }
 }

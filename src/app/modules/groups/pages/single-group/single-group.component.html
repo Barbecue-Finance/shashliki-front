@@ -7,7 +7,7 @@
 
     <div class="group-container">
 
-      <single-group-info></single-group-info>
+      <single-group-info (categoryClickedEvent)="showDetailedCategory()"></single-group-info>
 
 
       <div class="calendar-container not-done"> <!-- calendar-layer-->
@@ -34,15 +34,12 @@
       </div>
 
 
-      <div class="detailed-operation-container not-done">
-        <!-- detailed-operation-layer [class.hide-right]="isHiddenInfoCategory" -->
-        <detailed-operation
-          [openedInfoCategory]="openedInfoCategory.asObservable()"
-          [closedInfoCategory]="closedInfoCategory.asObservable()"
-          (InfoCategoryHidden)="closeInfoCategory()"
-          [activeIncomeCategory]="selectedIncomeCategory"
-          [activeOutComeCategory]="selectedOutComeCategory">
-        </detailed-operation>
+      <div class="detailed-category-container"
+           [ngClass]="!this.isShownInfoCategory ? 'detailed-category-container-hidden' : ''"
+      >
+        <detailed-category (InfoCategoryHiddenEvent)="isShownInfoCategory = false"
+                           [InfoCategoryOpenedEvent]="showInfoCategory.asObservable()">
+        </detailed-category>
       </div>
 
     </div>

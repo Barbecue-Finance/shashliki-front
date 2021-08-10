@@ -4,7 +4,7 @@ import {CommonModule} from '@angular/common';
 import {CreateGroupComponent} from "./pages/create-group/create-group.component";
 import {CreateOperationComponent} from "./pages/create-operation/create-operation.component";
 import {DataEditModule} from "../../shared/elements/data-edit/data-edit.module";
-import {DetailedOperationComponent} from "./components/detailed-operation/detailed-operation.component";
+import {DetailedCategoryComponent} from "./elements/detailed-operation/detailed-category.component";
 import {EventComponent} from './components/event/event.component';
 import {HeaderModule} from "../../shared/elements/header/header.module";
 import {MaterialSharedModule} from "../../shared/modules/material-shared.module";
@@ -21,6 +21,8 @@ import {OutcomeOperationCategoryService} from "./services/outcome-operation-cate
 import {PurseService} from "./services/purse.service";
 import {MoneyPipe} from "../../shared/pipes/money.pipe";
 import {PipesModule} from "../../shared/pipes/pipes.module";
+import { SumComponent } from './elements/sum/sum.component';
+import {CategoryPassService} from "./services/category-pass.service";
 
 
 const routes: Routes = [
@@ -48,11 +50,12 @@ const routes: Routes = [
     AllGroupsComponent,
     CreateGroupComponent,
     CreateOperationComponent,
-    DetailedOperationComponent,
+    DetailedCategoryComponent,
     EventComponent,
     ReportComponent,
     SingleGroupComponent,
-    SingleGroupInfoComponent
+    SingleGroupInfoComponent,
+    SumComponent
   ],
   imports: [
     CalendarModule,
@@ -65,6 +68,7 @@ const routes: Routes = [
     PipesModule,
   ],
   providers: [
+    CategoryPassService,
     GroupService,
     IncomeOperationCategoryService,
     MoneyOperationService,

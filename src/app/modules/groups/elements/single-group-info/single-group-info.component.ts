@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output, SkipSelf} from '@angular/core';
 import {GroupService} from "../../services/group.service";
 import {OutcomeCategory} from "../../interfaces/outcome-category.interface";
 import {IncomeCategory} from "../../interfaces/income-category.interface";
@@ -10,6 +10,7 @@ import {zip} from "rxjs";
 import {MoneyOperationService} from "../../services/money-operation.service";
 import {IncomeOperationCategoryService} from "../../services/income-operation-category.service";
 import {OutcomeOperationCategoryService} from "../../services/outcome-operation-category.service";
+import {CategoryPassService} from "../../services/category-pass.service";
 
 @Component({
   selector: 'single-group-info',
@@ -36,6 +37,7 @@ export class SingleGroupInfoComponent implements OnInit {
   //#region constructor
 
   constructor(
+    @SkipSelf() private _categoryPassService: CategoryPassService,
     private _groupService: GroupService,
     private _purseService: PurseService,
     private _moneyOperationService: MoneyOperationService,
@@ -47,6 +49,8 @@ export class SingleGroupInfoComponent implements OnInit {
   }
 
   //#endregion
+
+  @Output() categoryClickedEvent: EventEmitter<void> = new EventEmitter<void>();
 
   ngOnInit(): void {
     this._groupService.loadOpenedGroup().subscribe(() => {
@@ -159,9 +163,21 @@ export class SingleGroupInfoComponent implements OnInit {
     this._router.navigate(['groups', 'create-operation'])
   }
 
-  showInfoCategoryOutcome(category: OutcomeCategory): void {
+  showInfoCategoryOutcome(outcome: OutcomeCategory): void {
+    //TODO: Save clicked category
+    this._categoryPassService.saveOpenedCategory(outcome)
+
+    this.categoryClickedEvent.emit();
   }
 
-  showInfoCategoryIncome(category: IncomeCategory): void {
+  showInfoCategoryIncome(income: IncomeCategory): void {
+    //TODO: Save clicked category
+    this._categoryPassService.saveOpenedCategory(income);
+
+    this.categoryClickedEvent.emit();
+  }
+
+  getTotalTextColor(): string {
+    return this.totalAmount < 0 ? 'incomes-color' : 'expenses-color';
   }
 }
