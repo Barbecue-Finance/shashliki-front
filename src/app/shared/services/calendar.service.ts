@@ -79,9 +79,9 @@ export class CalendarService {
     }
 
 
-    this._calendar.year = year
-    this._calendar.month = month
-    this._calendar.date = date
+    // this._calendar.year = year
+    // this._calendar.month = month
+    // this._calendar.date = date
 
     //today
     let dateString = dateObj.toString().split(" ");
@@ -224,66 +224,66 @@ export class CalendarService {
    * @return html
    */
   drawCalendarDay(): HTMLDivElement {
-    //calendar container
+    // //calendar container
     let container = document.createElement("div");
-    container.setAttribute("class", "calendar-day-container");
-
-    //-------------------------- Header ------------------
-
-    //header div
-    let div = document.createElement("div");
-    div.setAttribute("class", "calendar-header");
-
-    //day span
-    let elem = document.createElement("span");
-    elem.setAttribute("class", "calendar-span-day");
-    elem.innerHTML = this.options.dayFormat === "ddd" ?
-      this.dayNameRu.ddd[this._calendar.targetedDayIndex] :
-      elem.innerHTML = this.dayNameRu.full[this._calendar.targetedDayIndex];
-
-    //add day span to footer div
-    div.appendChild(elem);
-
-    //add header div to container
-    container.appendChild(div);
-
-    //-------------------------- Body ------------------
-
-    //body div
-    div = document.createElement("div");
-    div.setAttribute("class", "calendar-body");
-
-    //date span
-    elem = document.createElement("span");
-    elem.setAttribute("class", "calendar-span-date");
-    elem.innerHTML = this._calendar.date + '';
-
-    //add date span to body div
-    div.appendChild(elem);
-
-    //add body div to container
-    container.appendChild(div);
-
-    //-------------------------- Footer ------------------
-
-    //footer div
-    div = document.createElement("div");
-    div.setAttribute("class", "calendar-footer");
-
-    //month span
-    elem = document.createElement("span");
-    elem.setAttribute("class", "calendar-span-month-year");
-    if (this.options.monthFormat === "mmm") {
-      elem.innerHTML = this._calendar.monthName + " " + this._calendar.year;
-    } else if (this.options.monthFormat === "full") {
-      elem.innerHTML = this._calendar.monthFullName + " " + this._calendar.year;
-    }
-
-    //add month span to footer div
-    div.appendChild(elem);
-
-    //add footer div to container
-    container.appendChild(div);
+    // container.setAttribute("class", "calendar-day-container");
+    //
+    // //-------------------------- Header ------------------
+    //
+    // //header div
+    // let div = document.createElement("div");
+    // div.setAttribute("class", "calendar-header");
+    //
+    // //day span
+    // let elem = document.createElement("span");
+    // elem.setAttribute("class", "calendar-span-day");
+    // elem.innerHTML = this.options.dayFormat === "ddd" ?
+    //   this.dayNameRu.ddd[this._calendar.targetedDayIndex] :
+    //   elem.innerHTML = this.dayNameRu.full[this._calendar.targetedDayIndex];
+    //
+    // //add day span to footer div
+    // div.appendChild(elem);
+    //
+    // //add header div to container
+    // container.appendChild(div);
+    //
+    // //-------------------------- Body ------------------
+    //
+    // //body div
+    // div = document.createElement("div");
+    // div.setAttribute("class", "calendar-body");
+    //
+    // //date span
+    // elem = document.createElement("span");
+    // elem.setAttribute("class", "calendar-span-date");
+    // elem.innerHTML = this._calendar.date + '';
+    //
+    // //add date span to body div
+    // div.appendChild(elem);
+    //
+    // //add body div to container
+    // container.appendChild(div);
+    //
+    // //-------------------------- Footer ------------------
+    //
+    // //footer div
+    // div = document.createElement("div");
+    // div.setAttribute("class", "calendar-footer");
+    //
+    // //month span
+    // elem = document.createElement("span");
+    // elem.setAttribute("class", "calendar-span-month-year");
+    // if (this.options.monthFormat === "mmm") {
+    //   elem.innerHTML = this._calendar.monthName + " " + this._calendar.year;
+    // } else if (this.options.monthFormat === "full") {
+    //   elem.innerHTML = this._calendar.monthFullName + " " + this._calendar.year;
+    // }
+    //
+    // //add month span to footer div
+    // div.appendChild(elem);
+    //
+    // //add footer div to container
+    // container.appendChild(div);
 
     //return container
     return container;
@@ -296,75 +296,75 @@ export class CalendarService {
    * @param this.options
    */
   drawCalendarMonth(): HTMLDivElement {
-
-    //TODO remove log
-    console.log(`drawCalendarMonth(): daysOfInterest: ${this.daysOfInterest}`)
-
-    //get table
-    let table: HTMLTableElement = this.createMonthTable();
-
-    //calendar container
+    //
+    // //TODO remove log
+    // console.log(`drawCalendarMonth(): daysOfInterest: ${this.daysOfInterest}`)
+    //
+    // //get table
+    // let table: HTMLTableElement = this.createMonthTable();
+    //
+    // //calendar container
     let container = document.createElement("div");
-    container.setAttribute("class", "calendar-month-container");
-
-    //-------------------------- Header ------------------
-
-    //header div
-    let div = document.createElement("div");
-    div.setAttribute("class", "calendar-header");
-    div.setAttribute("data-option", JSON.stringify(this.options));
-
-    let elem: HTMLSpanElement
-    //prev button
-    if (this.options.prevNextButton === "show") {
-      elem = document.createElement("span");
-      elem.setAttribute("class", "calendar-prev-next-btn prev-btn");
-      elem.setAttribute("data-date", this.options.date + '');
-      elem.setAttribute("data-month", this.options.month + '');
-      elem.setAttribute("data-year", this.options.year + '');
-      elem.setAttribute("data-btn", "prev");
-      elem.innerHTML = "&lt;";
-      //add prev button span to header div
-      div.appendChild(elem);
-    }
-
-    //month span
-    elem = document.createElement("span");
-    elem.setAttribute("class", "calendar-span-month-year");
-    if (this.options.monthFormat === "mmm") {
-      elem.innerHTML = this._calendar.monthName.concat(' ', this._calendar.year + ' ');
-    } else if (this.options.monthFormat === "full") {
-      elem.innerHTML = this._calendar.monthFullName.concat(' ', this._calendar.year + ' ');
-    }
-
-    //add month span to header div
-    div.appendChild(elem);
-
-    //next button
-    if (this.options.prevNextButton === "show") {
-      elem = document.createElement("span");
-      elem.setAttribute("class", "calendar-prev-next-btn next-btn");
-      elem.setAttribute("data-date", this.options.date + '');
-      elem.setAttribute("data-month", this.options.month + '');
-      elem.setAttribute("data-year", this.options.year + '');
-      elem.setAttribute("data-btn", "next");
-      elem.innerHTML = "&gt;";
-      //add prev button span to header div
-      div.appendChild(elem);
-    }
-
-    //add header div to container
-    container.appendChild(div);
-
-    //-------------------------- Body ------------------
-
-    //body div
-    div = document.createElement("div");
-    div.setAttribute("class", "calendar-body");
-    div.appendChild(table);
-
-    //add body div to container div
-    container.appendChild(div);
+    // container.setAttribute("class", "calendar-month-container");
+    //
+    // //-------------------------- Header ------------------
+    //
+    // //header div
+    // let div = document.createElement("div");
+    // div.setAttribute("class", "calendar-header");
+    // div.setAttribute("data-option", JSON.stringify(this.options));
+    //
+    // let elem: HTMLSpanElement
+    // //prev button
+    // if (this.options.prevNextButton === "show") {
+    //   elem = document.createElement("span");
+    //   elem.setAttribute("class", "calendar-prev-next-btn prev-btn");
+    //   elem.setAttribute("data-date", this.options.date + '');
+    //   elem.setAttribute("data-month", this.options.month + '');
+    //   elem.setAttribute("data-year", this.options.year + '');
+    //   elem.setAttribute("data-btn", "prev");
+    //   elem.innerHTML = "&lt;";
+    //   //add prev button span to header div
+    //   div.appendChild(elem);
+    // }
+    //
+    // //month span
+    // elem = document.createElement("span");
+    // elem.setAttribute("class", "calendar-span-month-year");
+    // if (this.options.monthFormat === "mmm") {
+    //   elem.innerHTML = this._calendar.monthName.concat(' ', this._calendar.year + ' ');
+    // } else if (this.options.monthFormat === "full") {
+    //   elem.innerHTML = this._calendar.monthFullName.concat(' ', this._calendar.year + ' ');
+    // }
+    //
+    // //add month span to header div
+    // div.appendChild(elem);
+    //
+    // //next button
+    // if (this.options.prevNextButton === "show") {
+    //   elem = document.createElement("span");
+    //   elem.setAttribute("class", "calendar-prev-next-btn next-btn");
+    //   elem.setAttribute("data-date", this.options.date + '');
+    //   elem.setAttribute("data-month", this.options.month + '');
+    //   elem.setAttribute("data-year", this.options.year + '');
+    //   elem.setAttribute("data-btn", "next");
+    //   elem.innerHTML = "&gt;";
+    //   //add prev button span to header div
+    //   div.appendChild(elem);
+    // }
+    //
+    // //add header div to container
+    // container.appendChild(div);
+    //
+    // //-------------------------- Body ------------------
+    //
+    // //body div
+    // div = document.createElement("div");
+    // div.setAttribute("class", "calendar-body");
+    // div.appendChild(table);
+    //
+    // //add body div to container div
+    // container.appendChild(div);
 
     //return container
     return container;
@@ -405,7 +405,7 @@ export class CalendarService {
     //create 1st row for the day letters
     for (let c = 0; c <= 6; c++) {
       td = document.createElement("td");
-      td.innerHTML = this.dayNameRu.d[c];
+      // td.innerHTML = this.dayNameRu.d[c];
       tr.appendChild(td);
     }
 
@@ -419,9 +419,9 @@ export class CalendarService {
     //blank td
     let c: number;
     for (c = 0; c <= 6; c++) {
-      if (c === this._calendar.firstDayIndex) {
-        break;
-      }
+      // if (c === this._calendar.firstDayIndex) {
+      //   break;
+      // }
       tr.appendChild(td);
     }
 
@@ -431,22 +431,22 @@ export class CalendarService {
     while (c <= 6) {
       // td = document.createElement("td");
       td.innerHTML = this.count + '';
-      if (this._calendar.today.date === this.count && this._calendar.today.monthIndex === this._calendar.monthIndex && this.options.highlightToday) {
-        td.setAttribute("class", "calendar-today-date");
-      }
-      if (this.options.date === this.count && this.options.month === this._calendar.monthIndex && this.options.highlightTargetDate) {
-        td.setAttribute("class", "calendar-target-date");
-      }
+      // if (this._calendar.today.date === this.count && this._calendar.today.monthIndex === this._calendar.monthIndex && this.options.highlightToday) {
+      //   td.setAttribute("class", "calendar-today-date");
+      // }
+      // if (this.options.date === this.count && this.options.month === this._calendar.monthIndex && this.options.highlightTargetDate) {
+      //   td.setAttribute("class", "calendar-target-date");
+      // }
       if (this.daysOfInterest.includes(this.count)) {
         td.setAttribute("class", !td.hasAttribute("class") ? "starred" : td.getAttribute("class") + " starred");
         let starElement = document.createElement("span");
         td.appendChild(starElement)
-        if (this.options.date === this.count && this.options.month === this._calendar.monthIndex && this.options.highlightTargetDate) {
-          starElement.setAttribute("class", "star inverted");
-        } else {
-
-          starElement.setAttribute('class', 'star');
-        }
+        // if (this.options.date === this.count && this.options.month === this._calendar.monthIndex && this.options.highlightTargetDate) {
+        //   starElement.setAttribute("class", "star inverted");
+        // } else {
+        //
+        //   starElement.setAttribute('class', 'star');
+        // }
       }
       tr.appendChild(td);
       this.count++;
@@ -472,23 +472,23 @@ export class CalendarService {
         }
         td = document.createElement('td');
         td.innerHTML = this.count + '';
-        if (this._calendar.today.date === this.count && this._calendar.today.monthIndex === this._calendar.monthIndex && this.options.highlightToday) {
-          td.setAttribute("class", "calendar-today-date");
-        }
-        if (this.options.date === this.count && this.options.month === this._calendar.monthIndex && this.options.highlightTargetDate) {
-          td.setAttribute("class", "calendar-target-date");
-        }
+        // if (this._calendar.today.date === this.count && this._calendar.today.monthIndex === this._calendar.monthIndex && this.options.highlightToday) {
+        //   td.setAttribute("class", "calendar-today-date");
+        // }
+        // if (this.options.date === this.count && this.options.month === this._calendar.monthIndex && this.options.highlightTargetDate) {
+        //   td.setAttribute("class", "calendar-target-date");
+        // }
         if (this.daysOfInterest.includes(this.count)) {
           td.setAttribute("class", !td.hasAttribute("class") ? " starred" : td.getAttribute("class") + " starred");
           let starElement = document.createElement("span");
           td.appendChild(starElement)
 
-          if (this.options.date === this.count && this.options.month === this._calendar.monthIndex && this.options.highlightTargetDate) {
-            starElement.setAttribute("class", "star inverted");
-          } else {
-
-            starElement.setAttribute('class', 'star');
-          }
+          // if (this.options.date === this.count && this.options.month === this._calendar.monthIndex && this.options.highlightTargetDate) {
+          //   starElement.setAttribute("class", "star inverted");
+          // } else {
+          //
+          //   starElement.setAttribute('class', 'star');
+          // }
         }
         this.count++;
         tr.appendChild(td);
@@ -502,42 +502,42 @@ export class CalendarService {
 
 
   private setUpToday(dateObj: Date, dateString: string[]): void {
-    let idx = this.dayNameEn.ddd.indexOf(dateString[0]);
-    this._calendar.today.dayIndex = idx;
-    this._calendar.today.dayName = this.dayNameRu.ddd[idx];
-    this._calendar.today.dayFullName = this.dayNameRu.full[idx];
-
-    idx = this.monthNameEn.mmm.indexOf(dateString[1]);
-    this._calendar.today.monthIndex = idx;
-    this._calendar.today.monthName = this.monthNameRu.mmm[idx];
-    this._calendar.today.monthFullName = this.monthNameRu.full[idx];
-
-    this._calendar.today.date = dateObj.getDate();
-
-    this._calendar.today.year = +dateString[3];
+    // let idx = this.dayNameEn.ddd.indexOf(dateString[0]);
+    // this._calendar.today.dayIndex = idx;
+    // this._calendar.today.dayName = this.dayNameRu.ddd[idx];
+    // this._calendar.today.dayFullName = this.dayNameRu.full[idx];
+    //
+    // idx = this.monthNameEn.mmm.indexOf(dateString[1]);
+    // this._calendar.today.monthIndex = idx;
+    // this._calendar.today.monthName = this.monthNameRu.mmm[idx];
+    // this._calendar.today.monthFullName = this.monthNameRu.full[idx];
+    //
+    // this._calendar.today.date = dateObj.getDate();
+    //
+    // this._calendar.today.year = +dateString[3];
   }
 
   private setMonthFirstDay(dateString: string[]): void {
-    let idx = this.dayNameEn.ddd.indexOf(dateString[0]);
-    this._calendar.firstDayIndex = idx;
-    this._calendar.firstDayName = dateString[0];
-    this._calendar.firstDayFullName = this.dayNameRu.full[idx];
-
-    idx = this.monthNameEn.mmm.indexOf(dateString[1]);
-    this._calendar.monthIndex = idx;
-    this._calendar.monthName = dateString[1];
-    this._calendar.monthFullName = this.monthNameRu.full[idx];
+    // let idx = this.dayNameEn.ddd.indexOf(dateString[0]);
+    // this._calendar.firstDayIndex = idx;
+    // this._calendar.firstDayName = dateString[0];
+    // this._calendar.firstDayFullName = this.dayNameRu.full[idx];
+    //
+    // idx = this.monthNameEn.mmm.indexOf(dateString[1]);
+    // this._calendar.monthIndex = idx;
+    // this._calendar.monthName = dateString[1];
+    // this._calendar.monthFullName = this.monthNameRu.full[idx];
   }
 
   private setTotalDays(dateObj: Date): void {
-    this._calendar.totalDays = dateObj.getDate();
+    // this._calendar.totalDays = dateObj.getDate();
   }
 
   private setTargetedDay(dateString: string[]): void {
-    let idx = this.dayNameEn.ddd.indexOf(dateString[0]);
-    this._calendar.targetedDayIndex = idx;
-    this._calendar.targetedDayName = dateString[0];
-    this._calendar.targetedDayFullName = this.dayNameRu.full[idx];
+    // let idx = this.dayNameEn.ddd.indexOf(dateString[0]);
+    // this._calendar.targetedDayIndex = idx;
+    // this._calendar.targetedDayName = dateString[0];
+    // this._calendar.targetedDayFullName = this.dayNameRu.full[idx];
   }
 
   nextMonth(target: HTMLSpanElement): string {
@@ -610,9 +610,10 @@ export class CalendarService {
   generatePointDate(): string {
     let str: string
 
-    let date = new Date(this._calendar.year, this._calendar.month, this._calendar.date);
+    // let date = new Date(this._calendar.year, this._calendar.month, this._calendar.date);
 
-    return `${date.getDate() >= 10 ? date.getDate() : '0' + date.getDate()}.${date.getMonth() >= 10 ? date.getMonth() : '0' + date.getMonth()}.${date.getFullYear()}`
+    // return `${date.getDate() >= 10 ? date.getDate() : '0' + date.getDate()}.${date.getMonth() >= 10 ? date.getMonth() : '0' + date.getMonth()}.${date.getFullYear()}`
+    return ''
   }
 }
 

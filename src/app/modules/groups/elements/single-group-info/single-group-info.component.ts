@@ -68,7 +68,7 @@ export class SingleGroupInfoComponent implements OnInit {
     this.group = this._groupService.group;
 
     //TODO: pass date string here:
-    this.date =
+    this.date = '11.09.2011 - 12.09.2011';
 
     this.title = this._groupService.group.title;
 

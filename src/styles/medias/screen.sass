@@ -1,3 +1,7 @@
-@mixin screen-width
+@mixin screen-max-width
   @media (max-width: 654px)
+    @content
+
+@mixin screen-min-width
+  @media (min-width: 645px)
     @content

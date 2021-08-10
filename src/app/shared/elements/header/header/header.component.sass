@@ -2,16 +2,22 @@
 
 .container
   width: 100%
+  height: $header-height
+  min-height: 57px
+
   position: fixed
   top: 0
   left: 0
-  height: $header-height
+  z-index: 15
+
   border-bottom: 2px solid $frame-white
+
   display: flex
   justify-content: space-between
   align-items: center
+
   padding: .5rem .5rem 0
-  z-index: 15
+
   box-sizing: border-box
 
   div

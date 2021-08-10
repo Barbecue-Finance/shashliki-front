@@ -12,7 +12,7 @@
       <mat-slide-toggle [checked]="isOutcome" (change)="handleToggle($event)">Трата</mat-slide-toggle>
     </div>
     <div class="control-row">
-      <h1 class="sum" style="margin-bottom: 0">Сумма</h1>
+      <h1 class="sum-container" style="margin-bottom: 0">Сумма</h1>
       <app-data-edit [placeholder]="'Сумма'" [phone]="true" formControlName="sum"
                      [validators]="validators"></app-data-edit>
     </div>
