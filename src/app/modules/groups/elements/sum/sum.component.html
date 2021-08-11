@@ -3,6 +3,6 @@
     <p class="total-text">Итого:</p>
 
 
-    <p class="money-amount" [ngClass]="totalTextColor">{{totalAmount | money }}</p>
+    <p class="money-amount" [ngClass]="{'expenses-color': !isIncome, 'incomes-color': isIncome}">{{totalAmount | money }}</p>
 
 </div>

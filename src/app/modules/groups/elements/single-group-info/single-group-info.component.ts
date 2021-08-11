@@ -165,14 +165,14 @@ export class SingleGroupInfoComponent implements OnInit {
 
   showInfoCategoryOutcome(outcome: OutcomeCategory): void {
     //TODO: Save clicked category
-    this._categoryPassService.saveOpenedCategory(outcome)
+    this._categoryPassService.saveOpenedCategory(outcome, false)
 
     this.categoryClickedEvent.emit();
   }
 
   showInfoCategoryIncome(income: IncomeCategory): void {
     //TODO: Save clicked category
-    this._categoryPassService.saveOpenedCategory(income);
+    this._categoryPassService.saveOpenedCategory(income, true);
 
     this.categoryClickedEvent.emit();
   }

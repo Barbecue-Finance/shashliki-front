@@ -5,9 +5,9 @@ import {CategoryInterface} from "../interfaces/category.interface";
   providedIn: 'root'
 })
 export class CategoryPassService {
-
   private _openedOperationCategory!: CategoryInterface;
 
+  private _isIncomeCategory: boolean = false;
   get openedCategory(): CategoryInterface {
     return this._openedOperationCategory;
   }
@@ -16,8 +16,16 @@ export class CategoryPassService {
     this._openedOperationCategory = value;
   }
 
+  get isIncomeCategory(): boolean {
+    return this._isIncomeCategory;
+  }
 
-  saveOpenedCategory(openedCategory: CategoryInterface): void {
+  set isIncomeCategory(value: boolean) {
+    this._isIncomeCategory = value;
+  }
+
+  saveOpenedCategory(openedCategory: CategoryInterface, isIncome: boolean): void {
     this._openedOperationCategory = openedCategory;
+    this._isIncomeCategory = isIncome;
   }
 }

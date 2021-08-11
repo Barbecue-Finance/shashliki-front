@@ -98,7 +98,7 @@
 
 
     <div class="sum-component-wrapper">
-      <sum-component [totalTextColor]="getTotalTextColor()" [totalAmount]="totalAmount"></sum-component>
+      <sum-component [isIncome]="totalAmount >= 0" [totalAmount]="totalAmount"></sum-component>
     </div>
 
 

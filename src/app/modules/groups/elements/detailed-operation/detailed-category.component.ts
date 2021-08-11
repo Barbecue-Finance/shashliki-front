@@ -2,17 +2,12 @@ import {Component, EventEmitter, Input, OnInit, Output, SkipSelf} from '@angular
 import {IncomeOperationCategory} from "../../../../shared/interfaces/operation-categories/income-operation-category.interface";
 import {OutcomeOperationCategory} from "../../../../shared/interfaces/operation-categories/outcome-operation-category.interface";
 import {Router} from "@angular/router";
-import {OperationCategories} from "../../../../shared/enums/OperationCategory.enum";
 import {IncomeOperationCategoryService} from "../../services/income-operation-category.service";
 import {OutcomeOperationCategoryService} from "../../services/outcome-operation-category.service";
 import {MoneyOperationService} from "../../services/money-operation.service";
-import {IncomeOutcomeDto} from "../../../../shared/interfaces/dto/income-outcome-dto.interface";
-import {Observable, Subject} from "rxjs";
-import {OutcomeMoneyOperation} from "../../../../shared/interfaces/money-operations/outcome-money-operation.interface";
-import {IncomeMoneyOperation} from "../../../../shared/interfaces/money-operations/income-money-operation.interface";
+import {Observable} from "rxjs";
 import {MatTableDataSource} from "@angular/material/table";
 import {SelectionModel} from "@angular/cdk/collections";
-import {OperationCategory} from "../../../../shared/interfaces/operation-categories/operation-category.interface";
 import {CategoryPassService} from "../../services/category-pass.service";
 import {CategoryInterface} from "../../interfaces/category.interface";
 import {IncomeCategory} from "../../interfaces/income-category.interface";
@@ -108,6 +103,7 @@ export class DetailedCategoryComponent implements OnInit {
   }
 
   //#endregion
+  isIncomeCategory: boolean = false;
 
   ngOnInit(): void {
     this.InfoCategoryOpenedEvent.subscribe(() => this.load());
@@ -119,16 +115,6 @@ export class DetailedCategoryComponent implements OnInit {
 
   private load() {
     this.openedCategory = this._categoryPassService.openedCategory;
-  }
-
-  getTotalTextColor(): string {
-    //TODO: set correct color to text.
-    return DetailedCategoryComponent.isInstanceIncomeCategory(
-      this.openedCategory
-    ) ? 'incomes-color' : 'expenses-color';
-  }
-
-  private static isInstanceIncomeCategory(object: any): object is IncomeCategory {
-    return 'outcome' in object;
+    this.isIncomeCategory = this._categoryPassService.isIncomeCategory;
   }
 }

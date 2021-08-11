@@ -8,7 +8,7 @@ import {Component, Input, OnInit} from '@angular/core';
 export class SumComponent implements OnInit {
 
   @Input() totalAmount!: number;
-  @Input() totalTextColor!: string;
+  @Input() isIncome!: boolean;
 
   constructor() {
   }
