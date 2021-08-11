@@ -2,78 +2,85 @@
 
   <app-header></app-header>
 
+  <div class="frame-for-overflow">
+    <form [formGroup]="formGroup"
+          (submit)="send()"
+          (keyup.enter)="send()"
+    >
+      <div class="control-row">
+        <h1 class="title">Название операции</h1>
+        <app-data-edit [placeholder]="'Название'"
+                       [phone]="true"
+                       formControlName="title"
+                       [validators]="validators"
+        >
+        </app-data-edit>
+      </div>
 
-  <div class="temp"></div>
+      <div class="control-row">
+        <h1 class="title">Описание операции</h1>
 
+        <textarea id="operation-description"
+                  cols="30" rows="10"
+                  placeholder="Описание..."
+        >
+        </textarea>
+      </div>
 
-  <!--  <form [formGroup]="formGroup" (submit)="send()" (keyup.enter)="send()">-->
+      <div class="control-row operation-slider">
+        <h1 class="title">Тип операции</h1>
+        <span>Доход</span>
+        <mat-slide-toggle [checked]="isOutcome"
+                          (change)="handleToggle($event)"
+        >
+          Трата
+        </mat-slide-toggle>
+      </div>
 
-<!--    <div class="control-row">-->
-
-<!--      <h1 class="title" style="margin: 0">Название операции</h1>-->
-
-<!--      <app-data-edit [placeholder]="'Название'"-->
-<!--                     [phone]="true"-->
-<!--                     formControlName="title"-->
-<!--                     [validators]="validators"-->
-<!--      >-->
-<!--      </app-data-edit>-->
-
-<!--    </div>-->
-
-<!--    <div class="control-row">-->
-
-<!--      <h1 class="title" style="margin: 0">Название операции</h1>-->
-
-
-<!--      <textarea name=""-->
-<!--                id="operation-description"-->
-<!--                cols="30" rows="10"-->
-<!--                placeholder="Описание..."-->
-<!--      ></textarea>-->
-
-<!--    </div>-->
-
-
-<!--    <div class="operation-slider">-->
-
-<!--      <h1 class="title">Типо операции</h1>-->
-
-
-<!--      <span>Доход</span>-->
+      <div class="control-row sum-container">
+        <h1 class="title" style="margin-bottom: 0">Сумма</h1>
 
 
-<!--      <mat-slide-toggle [checked]="isOutcome"-->
-<!--                        (change)="handleToggle($event)"-->
-<!--      >-->
-<!--        Трата-->
-<!--      </mat-slide-toggle>-->
-
-<!--    </div>-->
+        <app-data-edit [placeholder]="'Сумма'"
+                       formControlName="sum"
+                       [validators]="validators"
+        >
+        </app-data-edit>
 
 
-<!--    <div class="control-row">-->
+        <div class="save-btn-wrapper">
+          <button class="save-changes-btn"
+                  type="submit"
+                  [disabled]="formGroup.invalid || isFormSent"
+          >
+            Создать
+          </button>
+        </div>
 
-<!--      <h1 class="sum-container" style="margin-bottom: 0">Сумма</h1>-->
+      </div>
+    </form>
+
+  </div>
 
 
-<!--      <app-data-edit [placeholder]="'Сумма'"-->
-<!--                     formControlName="sum"-->
-<!--                     [validators]="validators"-->
-<!--      >-->
-<!--      </app-data-edit>-->
+  <!--    </div>-->
 
-<!--    </div>-->
+  <!--    <div class="control-row">-->
 
 
-<!--    <button class="save-changes-btn"-->
-<!--            type="submit"-->
-<!--            [disabled]="formGroup.invalid || isFormSent"-->
-<!--    >-->
-<!--      Создать-->
-<!--    </button>-->
+  <!--      <textarea -->
+  <!--      ></textarea>-->
 
-<!--  </form>-->
+  <!--    </div>-->
+
+
+  <!--    <div class="operation-slider">-->
+
+
+  <!--    </div>-->
+
+
+  <!--    <div class="control-row">-->
 
 
 </div>

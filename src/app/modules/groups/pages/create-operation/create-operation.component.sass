@@ -1,37 +1,62 @@
 @import "~src/styles/variables"
 
 .create-operation-container
-  box-sizing: border-box
-  width: 100%
-  max-width: 320px
-  padding: 50px
-  display: flex
-  justify-content: center
-  align-items: center
 
-  .temp
-    width: 100%
-    height: 400vh
+  width: 100vw
+  height: 100vh
+
+  box-sizing: border-box
+  overflow: hidden
+
+  .frame-for-overflow
+    width: auto
+    height: $body-height
+
+    box-sizing: border-box
+
+    margin-top: $header-height
+
     overflow-x: hidden
     overflow-y: scroll
-    background-color: green
 
-  form
-    width: 100%
-    margin-top: $header-height
-    overflow-x: hidden
-    display: flex
-    justify-content: center
-    align-items: center
-    flex-direction: column
 
-    background-color: green
-    height: 400vh !important
-    //width: 100%
-    //height: 100%
-    //margin-top: $header-height
-    //box-sizing: border-box
-    //padding: .5rem
+    form
+      width: 100%
+      //height: 400vh !important
+
+      display: flex
+      justify-content: center
+      align-items: center
+      flex-direction: column
+
+      //background-image: url("~src/assets/images/bg.jpeg")
+      //background-repeat: repeat
+      //background-size: contain
+
+
+      .control-row
+        width: 100%
+
+        margin-bottom: 2rem
+
+        box-sizing: border-box
+
+        padding: 0 1rem
+
+        .title
+          margin: 2rem 0 1rem 0
+
+          font-family: roboto, sans-serif
+          font-weight: 100
+          font-size: 2rem
+
+          color: $frame-white
+
+        #operation-description
+          width: 100%
+          height: 30vh
+          background-color: transparent
+
 
     .control-row
       h1
@@ -50,6 +75,37 @@
         color: $var-6
 
         padding-left: .5em
+
+      .sum-container
+        display: flex
+        flex-direction: column
+        justify-content: center
+        align-items: center
+
+        h1
+          margin-bottom: .5rem !important
+
+      .save-btn-wrapper
+        width: 100%
+        height: 50px
+
+        margin-top: 2rem
+
+        display: flex
+        justify-content: center
+        align-items: center
+
+
+        button
+          cursor: pointer
+          border: $white-outline
+          //margin-top: 2rem
+          //margin-left: calc(50% - 105px)
+          width: 60%
+          height: 100%
+          text-align: center
+          background-color: transparent
+          color: $frame-white
 
 
     .operation-slider
@@ -70,20 +126,6 @@
 
 
     h1
-      font-family: roboto, sans-serif
-      font-weight: 100
-      font-size: 36px
-      color: $frame-white
-
-    button
-      cursor: pointer
-      border: $white-outline
-      margin-top: 2rem
-      margin-left: calc(50% - 105px)
-      width: 60%
-      height: 50px
-      background-color: transparent
-      color: $frame-white
 
 
 //display: flex
