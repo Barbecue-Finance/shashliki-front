@@ -90,7 +90,13 @@ export class UserService extends BasicCRUD<any> {
   }
 
   isLoggedIn(): boolean {
-    return (!!this.token || localStorage.getItem('token') !== null) && (!!this.id || localStorage.getItem('id') === null);
+    return (
+      !!this._token ||
+      localStorage.getItem('token') !== null)
+      &&
+      (!!this._id ||
+        localStorage.getItem('id') !== null
+      );
     // return !!this.token && !!this.id
   }
 

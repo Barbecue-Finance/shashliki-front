@@ -1,38 +1,102 @@
-@import "src/styles/variables"
+@import "~src/styles/variables"
 
 .create-operation-container
+  box-sizing: border-box
   width: 100%
-  max-width: 350px
-  height: 436px
-  margin: 20vh auto 0
+  max-width: 320px
+  padding: 50px
+  display: flex
+  justify-content: center
+  align-items: center
 
-  .operation-slider
-    margin-top: 2rem
+  .temp
     width: 100%
-    height: 100px
+    height: 400vh
+    overflow-x: hidden
+    overflow-y: scroll
+    background-color: green
+
+  form
+    width: 100%
+    margin-top: $header-height
+    overflow-x: hidden
     display: flex
     justify-content: center
     align-items: center
-    font-size: 16px
-    span
-      margin-right: .5rem
-      color: $incomes
-    mat-slide-toggle
-      color: $expenses
+    flex-direction: column
+
+    background-color: green
+    height: 400vh !important
+    //width: 100%
+    //height: 100%
+    //margin-top: $header-height
+    //box-sizing: border-box
+    //padding: .5rem
+
+    .control-row
+      h1
+        margin: 0
+
+      textarea
+        width: 100%
+
+        border: none
+
+        box-sizing: border-box
+
+        background: none
+
+        font-size: 20px
+        color: $var-6
+
+        padding-left: .5em
 
 
-  h1
-    font-family: roboto, sans-serif
-    font-weight: 100
-    font-size: 36px
-    color: $frame-white
+    .operation-slider
+      margin-top: 2rem
+      width: 100%
+      height: 100px
+      display: flex
+      justify-content: center
+      align-items: center
+      font-size: 16px
 
-  button
-    cursor: pointer
-    border: $white-outline
-    margin-top: 2rem
-    margin-left: calc(50% - 105px)
-    width: 60%
-    height: 50px
-    background-color: transparent
-    color: $frame-white
+      span
+        margin-right: .5rem
+        color: $incomes
+
+      mat-slide-toggle
+        color: $expenses
+
+
+    h1
+      font-family: roboto, sans-serif
+      font-weight: 100
+      font-size: 36px
+      color: $frame-white
+
+    button
+      cursor: pointer
+      border: $white-outline
+      margin-top: 2rem
+      margin-left: calc(50% - 105px)
+      width: 60%
+      height: 50px
+      background-color: transparent
+      color: $frame-white
+
+
+//display: flex
+  //justify-content: center
+  //align-items: center
+  //flex-direction: column
+
+  //.form-wrapper
+    //width: 100%
+    //margin-top: $header-height
+    //overflow-x: hidden
+    //display: flex
+    //justify-content: center
+    //align-items: center
+    //flex-direction: column
+

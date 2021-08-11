@@ -1,21 +1,79 @@
 <div class="create-operation-container">
+
   <app-header></app-header>
-  <form [formGroup]="formGroup" (submit)="send()" (keyup.enter)="send()">
-    <div class="control-row">
-      <h1 class="title" style="margin: 0">Название операции</h1>
-      <app-data-edit [placeholder]="'Название'" [phone]="true" formControlName="title"
-                     [validators]="validators"></app-data-edit>
-    </div>
-    <div class="operation-slider">
-      <h1 class="title">Типо операции</h1>
-      <span>Доход</span>
-      <mat-slide-toggle [checked]="isOutcome" (change)="handleToggle($event)">Трата</mat-slide-toggle>
-    </div>
-    <div class="control-row">
-      <h1 class="sum-container" style="margin-bottom: 0">Сумма</h1>
-      <app-data-edit [placeholder]="'Сумма'" [phone]="true" formControlName="sum"
-                     [validators]="validators"></app-data-edit>
-    </div>
-    <button class="save-changes-btn" type="submit" [disabled]="formGroup.invalid || isFormSent">Создать</button>
-  </form>
+
+
+  <div class="temp"></div>
+
+
+  <!--  <form [formGroup]="formGroup" (submit)="send()" (keyup.enter)="send()">-->
+
+<!--    <div class="control-row">-->
+
+<!--      <h1 class="title" style="margin: 0">Название операции</h1>-->
+
+<!--      <app-data-edit [placeholder]="'Название'"-->
+<!--                     [phone]="true"-->
+<!--                     formControlName="title"-->
+<!--                     [validators]="validators"-->
+<!--      >-->
+<!--      </app-data-edit>-->
+
+<!--    </div>-->
+
+<!--    <div class="control-row">-->
+
+<!--      <h1 class="title" style="margin: 0">Название операции</h1>-->
+
+
+<!--      <textarea name=""-->
+<!--                id="operation-description"-->
+<!--                cols="30" rows="10"-->
+<!--                placeholder="Описание..."-->
+<!--      ></textarea>-->
+
+<!--    </div>-->
+
+
+<!--    <div class="operation-slider">-->
+
+<!--      <h1 class="title">Типо операции</h1>-->
+
+
+<!--      <span>Доход</span>-->
+
+
+<!--      <mat-slide-toggle [checked]="isOutcome"-->
+<!--                        (change)="handleToggle($event)"-->
+<!--      >-->
+<!--        Трата-->
+<!--      </mat-slide-toggle>-->
+
+<!--    </div>-->
+
+
+<!--    <div class="control-row">-->
+
+<!--      <h1 class="sum-container" style="margin-bottom: 0">Сумма</h1>-->
+
+
+<!--      <app-data-edit [placeholder]="'Сумма'"-->
+<!--                     formControlName="sum"-->
+<!--                     [validators]="validators"-->
+<!--      >-->
+<!--      </app-data-edit>-->
+
+<!--    </div>-->
+
+
+<!--    <button class="save-changes-btn"-->
+<!--            type="submit"-->
+<!--            [disabled]="formGroup.invalid || isFormSent"-->
+<!--    >-->
+<!--      Создать-->
+<!--    </button>-->
+
+<!--  </form>-->
+
+
 </div>

@@ -122,8 +122,6 @@ export class DetailedCategoryComponent implements OnInit {
   }
 
   getTotalTextColor(): string {
-    // return this.openedCategory as IncomeCategory ? 'incomes-color' : 'expenses-color';
-    console.log('here!!!')
     //TODO: set correct color to text.
     return DetailedCategoryComponent.isInstanceIncomeCategory(
       this.openedCategory

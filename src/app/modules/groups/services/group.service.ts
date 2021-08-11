@@ -36,7 +36,7 @@ export class GroupService extends BasicCRUD<GroupDto> {
 
   get openedGroupId(): number {
     if (!this._openedGroupId) {
-      this._openedGroupId = +(localStorage.getItem(this.key) ?? 0)
+      this._openedGroupId = ~~(localStorage.getItem(this.key) ?? 0)
     }
 
     return this._openedGroupId
