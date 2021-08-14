@@ -9,7 +9,7 @@ import {LoginDTO} from "../../../../shared/interfaces/dto/login-dto.interface";
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
-  styleUrls: ['./auth.component.sass']
+  styleUrls: ['../shared/styles/auth-register.styles.sass']
 })
 export class AuthComponent implements OnInit {
 

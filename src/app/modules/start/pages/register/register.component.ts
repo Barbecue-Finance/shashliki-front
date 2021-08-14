@@ -8,7 +8,7 @@ import UserDto from "../../../../shared/interfaces/dto/user-dto.interface";
 @Component({
   selector: 'register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.sass']
+  styleUrls: ['../shared/styles/auth-register.styles.sass']
 })
 export class RegisterComponent implements OnInit {
 
@@ -27,9 +27,11 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this._userService.isLoggedIn()) {
-      this._userService.logoutAndNavigateToAuth()
-    }
+    // if (this._userService.isLoggedIn()) {
+    //   this._userService.logoutAndNavigateToAuth()
+    // }
+
+    this._userService.authPageEntered();
   }
 
   register(): void {
