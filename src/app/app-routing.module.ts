@@ -5,9 +5,8 @@ import {AuthGuard} from './shared/guards/auth.guard';
 const routes: Routes = [
   {
     path: '',
-    loadChildren: () => import('./modules/groups/group.module').then(cs => cs.GroupModule),
-    canActivate: [AuthGuard],
-    pathMatch: 'full'
+    pathMatch: 'full',
+    redirectTo: 'groups'
   },
   {
     path: 'start',

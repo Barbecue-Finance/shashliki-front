@@ -1,0 +1,62 @@
+@import '~src/styles/variables'
+
+.profile-container
+  box-sizing: border-box
+  overflow: hidden
+
+  .frame-for-overflow
+    position: fixed
+
+    width: 100%
+    height: $body-height
+
+    margin-top: $header-height
+
+    box-sizing: border-box
+
+    overflow-x: hidden
+    overflow-y: scroll
+
+    .profile-container
+      display: flex
+      justify-content: center
+      align-items: center
+      flex-direction: column
+
+      font-weight: lighter
+      color: $frame-white
+      font-family: roboto, sans-serif
+
+
+
+      .profile-avatar
+        width: 100px
+        height: 100px
+        border-radius: 50%
+        border: 2px solid $frame-white
+
+        background-image: url("~src/assets/images/profile-avatar.png")
+        background-size: contain
+        background-repeat: no-repeat
+        background-position: center
+
+        margin-top: 2rem
+
+      .profile-data-container
+        margin-top: 1rem
+        width: 100%
+        box-sizing: border-box
+        padding: 1rem
+
+        h2
+          margin-bottom: 10px !important
+
+        p
+          width: 100%
+          white-space: normal
+          word-break: break-word
+          margin-top: 0
+          margin-bottom: 1.5rem
+          font-size: 23px
+
+

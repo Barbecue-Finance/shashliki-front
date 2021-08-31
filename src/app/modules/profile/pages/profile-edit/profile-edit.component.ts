@@ -1,16 +1,16 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {Router} from '@angular/router';
-import {UserService} from 'src/app/shared/services/user.service';
-import {Md5} from "ts-md5";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {Router} from "@angular/router";
+import {UserService} from "../../../../shared/services/user.service";
 import {UpdateProfileDto} from "../../../../shared/interfaces/dto/update-profile-dto";
+import {Md5} from "ts-md5";
 
 @Component({
-  selector: 'app-profile',
-  templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.sass']
+  selector: 'app-profile-edit',
+  templateUrl: './profile-edit.component.html',
+  styleUrls: ['./profile-edit.component.sass']
 })
-export class ProfileComponent implements OnInit {
+export class ProfileEditComponent implements OnInit {
 
   username: string = ''
   login: string = ''
